@@ -8,8 +8,6 @@ public partial class Attack : Skill
     {
         base.UseSkill();
         AttackInfo attack = user.sheet.statBlock.baseAttack;
-        attack = (AttackInfo)attack.Duplicate();
-        attack.attacker = user.sheet;
-        target.sheet.HandleAttack(attack);
+        user.sheet.Attack(attack, target.sheet, true);
     }
 }

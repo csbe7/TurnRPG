@@ -9,8 +9,6 @@ public partial class Blast : Skill
     public override void UseSkill()
     {
         base.UseSkill();
-        attack = (AttackInfo)attack.Duplicate();
-        attack.attacker = user.sheet;
-        target.sheet.HandleAttack(attack);
+        user.sheet.Attack(attack, target.sheet, true);
     }
 }

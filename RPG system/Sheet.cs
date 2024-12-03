@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using System.Security.Cryptography;
+
 
 [GlobalClass]
 public partial class Sheet : Resource
@@ -19,6 +19,8 @@ public partial class Sheet : Resource
     
 	public Node skillParent;
 	public Godot.Collections.Array<Skill> skills = new Godot.Collections.Array<Skill>();
+	
+	RandomNumberGenerator rng = new RandomNumberGenerator();
 
 	public void Ready()
 	{
@@ -45,11 +47,26 @@ public partial class Sheet : Resource
     {
         EmitSignal(SignalName.Attacked, attack);
 
-        statBlock.CurrHealth.Value -= attack.maxDamage;
+		float damage = rng.RandiRange((int)attack.minDamage, (int)attack.maxDamage);
+		
+		damage = (damage/100) * (100-statBlock.Defence.ModValue);
+		
+        statBlock.CurrHealth.Value -= damage;
 		//GD.Print(this.name + " damaged by " + attack.attacker.name);
 
 		EmitSignal(SignalName.HealthChanged, -attack.maxDamage);
     }
+
+	public AttackInfo Attack(AttackInfo attack, Sheet target = null, bool dup = false)
+	{
+		if (dup) 
+		{
+			attack = (AttackInfo)attack.Duplicate();
+			attack.attacker = this;
+		}
+		if (IsInstanceValid(target)) target.HandleAttack(attack);
+		return attack;
+	} 
     
     public void ChangeHealth(float amount)
     {

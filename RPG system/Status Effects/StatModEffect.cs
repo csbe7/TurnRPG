@@ -12,7 +12,6 @@ public partial class StatModEffect : StatusEffect
         
         Stat s = (Stat)receiver.statBlock.Get(targetStat);
         s.AddModifier(mod);
-        //s.AddModifier(mod);
     }
 
     public override void EndEffect()

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 public partial class CharacterIcon : Control
 {
     [Export] public Sheet sheet;
+    [Export] PackedScene hpChangedDisplay;
 
     AnimationPlayer ap;
 
@@ -13,6 +14,8 @@ public partial class CharacterIcon : Control
 
     Label characterName;
     CounterBar healthBar, energyBar;
+
+    Control hpDisplayPos;
 
     public ColorRect effectDisplay;
     SkillEffect currEffect;
@@ -67,6 +70,7 @@ public partial class CharacterIcon : Control
         energyBar = GetNode<CounterBar>("%Energy Bar");
         effectDisplay = GetNode<ColorRect>("%Effect");
         ap = GetNode<AnimationPlayer>("AnimationPlayer");
+        hpDisplayPos = GetNode<Control>("HP Display Position");
 
         
         select = GetNode<Button>("%Button");
@@ -107,15 +111,16 @@ public partial class CharacterIcon : Control
 
     void OnHealthChanged(float oldVal, float newVal)
     {
-        GD.Print(sheet.statBlock.CurrHealth.ModValue);
         healthBar.SetValue(sheet.statBlock.CurrHealth.ModValue);
-        //healthBar.Value = sheet.statBlock.CurrHealth.ModValue;
+        var display = hpChangedDisplay.Instantiate<HealthChangeDisplay>();
+        AddChild(display);
+        display.Position = hpDisplayPos.Position;
+        display.Start(newVal - oldVal, ai);
     }
 
     void OnEnergyChanged(float oldVal, float newVal)
     {
         energyBar.SetValue(sheet.statBlock.CurrEnergy.ModValue);
-        //energyBar.Value = sheet.statBlock.CurrEnergy.ModValue;
     }
 
     public void Select()
