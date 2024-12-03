@@ -1,0 +1,139 @@
+[gd_scene load_steps=9 format=3 uid="uid://b1v15kb6yuq5o"]
+
+[ext_resource type="Script" path="res://UI/Combat/BattleInterface.cs" id="1_un732"]
+[ext_resource type="PackedScene" uid="uid://bwnm4qvqoeaie" path="res://UI/Combat/character_icon.tscn" id="2_okrib"]
+[ext_resource type="Resource" uid="uid://culxaylya3f7" path="res://Sheets/Party/TestParty.tres" id="3_ffs5c"]
+[ext_resource type="Resource" uid="uid://dfqmdnnjiesg8" path="res://Sheets/Enemies/TestEnemy.tres" id="3_navpl"]
+[ext_resource type="Resource" uid="uid://cpxm3ob1oskel" path="res://Sheets/Party/TestParty2.tres" id="4_n070j"]
+[ext_resource type="PackedScene" uid="uid://bcqcwsgrewmco" path="res://UI/Combat/action_drawer.tscn" id="5_pyk47"]
+[ext_resource type="PackedScene" uid="uid://w40wpr50376h" path="res://UI/Combat/selected_skill_display.tscn" id="6_2ir7b"]
+[ext_resource type="PackedScene" uid="uid://bp38s0bodp8ox" path="res://UI/Combat/ai_skill_display.tscn" id="8_6d83l"]
+
+[node name="Battle Interface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_un732")
+
+[node name="BackGround" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -623.0
+offset_top = -714.0
+offset_right = 1800.0
+offset_bottom = 1412.0
+color = Color(0, 0, 0, 1)
+
+[node name="Party Grid" type="GridContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(142, 188)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -292.0
+offset_top = -189.0
+offset_right = 169.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/h_separation = 146
+columns = 4
+
+[node name="Character Icon" parent="Party Grid" instance=ExtResource("2_okrib")]
+layout_mode = 2
+sheet = ExtResource("3_ffs5c")
+
+[node name="Character Icon2" parent="Party Grid" instance=ExtResource("2_okrib")]
+layout_mode = 2
+sheet = ExtResource("4_n070j")
+
+[node name="Character Icon3" parent="Party Grid" instance=ExtResource("2_okrib")]
+layout_mode = 2
+sheet = ExtResource("3_ffs5c")
+
+[node name="Character Icon4" parent="Party Grid" instance=ExtResource("2_okrib")]
+layout_mode = 2
+sheet = ExtResource("3_ffs5c")
+
+[node name="Enemy Grid" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -292.0
+offset_right = 169.0
+offset_bottom = 188.0
+grow_horizontal = 2
+theme_override_constants/h_separation = 146
+columns = 4
+
+[node name="Character Icon" parent="Enemy Grid" instance=ExtResource("2_okrib")]
+layout_mode = 2
+sheet = ExtResource("3_navpl")
+
+[node name="Character Icon2" parent="Enemy Grid" instance=ExtResource("2_okrib")]
+layout_mode = 2
+sheet = ExtResource("3_navpl")
+
+[node name="Action Drawer" parent="." instance=ExtResource("5_pyk47")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -128.0
+offset_right = -252.0
+offset_bottom = -128.0
+grow_horizontal = 0
+
+[node name="Selected Skill Display" parent="." instance=ExtResource("6_2ir7b")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.0
+offset_top = -12.0
+offset_right = -44.0
+offset_bottom = -12.0
+
+[node name="AI Skill Display" parent="." instance=ExtResource("8_6d83l")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.0
+offset_top = -17.0
+offset_right = -68.0
+offset_bottom = -17.0
+
+[node name="Battle End Screen" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 1148.0
+offset_bottom = 649.0
+
+[node name="Label" type="Label" parent="Battle End Screen"]
+layout_mode = 0
+offset_left = 536.0
+offset_top = 313.0
+offset_right = 603.0
+offset_bottom = 336.0
+mouse_filter = 0
+text = "VICTORY"

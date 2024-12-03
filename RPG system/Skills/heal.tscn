@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlknymo61bx8b"]
+
+[ext_resource type="Script" path="res://RPG system/Skills/Heal.cs" id="1_j3ywe"]
+[ext_resource type="Resource" uid="uid://bionkhwab2lcn" path="res://Visuals/Skill Effects/GreenFlash.tres" id="2_qjo0f"]
+
+[node name="Heal" type="Node"]
+script = ExtResource("1_j3ywe")
+healAmount = 10.0
+name = "Heal"
+cost = 3.0
+playerTargeting = 3
+aiTargeting = 1
+targetEffect = ExtResource("2_qjo0f")

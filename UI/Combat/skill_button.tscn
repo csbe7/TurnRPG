@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhjj3u6xrbr2h"]
+
+[ext_resource type="Script" path="res://UI/Combat/SkillButton.cs" id="1_8v6r3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cht6o"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2muj2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1422"]
+bg_color = Color(0.6, 0.6, 0.6, 0.501961)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1tmmx"]
+bg_color = Color(0.6, 0.6, 0.6, 0.729412)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_auwlg"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="Skill Button" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8v6r3")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 63.0
+offset_bottom = 35.0
+text = " Shockwave
+"
+label_settings = SubResource("LabelSettings_cht6o")
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Label"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 35.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2muj2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h1422")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1tmmx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_auwlg")

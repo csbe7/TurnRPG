@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfna2hbdvienf"]
+
+[ext_resource type="Script" path="res://RPG system/Skills/Blast.cs" id="1_7gcbv"]
+[ext_resource type="Script" path="res://RPG system/AttackInfo.cs" id="2_7dgw0"]
+[ext_resource type="Resource" uid="uid://da8lupy1orf44" path="res://Visuals/Skill Effects/WhiteFlash.tres" id="3_haask"]
+
+[sub_resource type="Resource" id="Resource_vxgel"]
+script = ExtResource("2_7dgw0")
+minDamage = 0.0
+maxDamage = 20.0
+attackType = 1
+damageType = 1
+
+[node name="Blast" type="Node"]
+script = ExtResource("1_7gcbv")
+attack = SubResource("Resource_vxgel")
+name = "Blast"
+cost = 5.0
+playerTargeting = 3
+aiTargeting = 2
+targetEffect = ExtResource("3_haask")

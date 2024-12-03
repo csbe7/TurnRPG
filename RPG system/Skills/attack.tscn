@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://do5ba325l4v3g"]
+
+[ext_resource type="Script" path="res://RPG system/Skills/Attack.cs" id="1_mwgcq"]
+[ext_resource type="Resource" uid="uid://da8lupy1orf44" path="res://Visuals/Skill Effects/WhiteFlash.tres" id="2_2vosf"]
+
+[node name="Attack" type="Node"]
+script = ExtResource("1_mwgcq")
+name = "Attack"
+hidden = true
+playerTargeting = 2
+aiTargeting = 2
+targetEffect = ExtResource("2_2vosf")

@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="Sheet" load_steps=11 format=3 uid="uid://dfqmdnnjiesg8"]
+
+[ext_resource type="Script" path="res://RPG system/Sheet.cs" id="1_3phre"]
+[ext_resource type="PackedScene" uid="uid://bfna2hbdvienf" path="res://RPG system/Skills/blast.tscn" id="2_dpdss"]
+[ext_resource type="Script" path="res://RPG system/Stat.cs" id="2_vxg15"]
+[ext_resource type="Script" path="res://RPG system/StatBlock.cs" id="3_tf068"]
+[ext_resource type="Script" path="res://RPG system/AttackInfo.cs" id="4_0mrdv"]
+
+[sub_resource type="Resource" id="Resource_6bm8l"]
+script = ExtResource("2_vxg15")
+minValue = 0.0
+maxValue = 100.0
+Value = 0.0
+
+[sub_resource type="Resource" id="Resource_35nmm"]
+script = ExtResource("2_vxg15")
+minValue = 0.0
+maxValue = 9999.0
+Value = 10.0
+
+[sub_resource type="Resource" id="Resource_eevbd"]
+script = ExtResource("2_vxg15")
+minValue = 0.0
+maxValue = 9999.0
+Value = 40.0
+
+[sub_resource type="Resource" id="Resource_xqogt"]
+script = ExtResource("4_0mrdv")
+minDamage = 3.0
+maxDamage = 7.0
+attackType = 0
+damageType = 0
+
+[sub_resource type="Resource" id="Resource_ait4c"]
+script = ExtResource("3_tf068")
+Health = SubResource("Resource_eevbd")
+Energy = SubResource("Resource_35nmm")
+Defence = SubResource("Resource_6bm8l")
+baseAttack = SubResource("Resource_xqogt")
+
+[resource]
+script = ExtResource("1_3phre")
+name = "TestEnemy"
+statBlock = SubResource("Resource_ait4c")
+packedSkills = [ExtResource("2_dpdss")]

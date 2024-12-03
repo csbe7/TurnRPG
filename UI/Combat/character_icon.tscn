@@ -1,0 +1,225 @@
+[gd_scene load_steps=16 format=3 uid="uid://bwnm4qvqoeaie"]
+
+[ext_resource type="Script" path="res://UI/Combat/CharacterIcon.cs" id="1_cdu8g"]
+[ext_resource type="Script" path="res://RPG system/Sheet.cs" id="2_pi50f"]
+[ext_resource type="Script" path="res://CounterBar.cs" id="3_mg6ff"]
+
+[sub_resource type="Resource" id="Resource_infym"]
+resource_local_to_scene = true
+script = ExtResource("2_pi50f")
+name = ""
+packedSkills = []
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yoydv"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hn0fx"]
+bg_color = Color(0.957356, 0, 0.166105, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sbv2q"]
+bg_color = Color(0, 0.639185, 0.941285, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qmqpo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_723ic"]
+bg_color = Color(0.592157, 0.592157, 0.592157, 0.317647)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2uhq"]
+bg_color = Color(0.6, 0.6, 0.6, 0.686275)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ewss5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Animation" id="Animation_tu4jx"]
+resource_name = "Down"
+length = 0.25
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Border:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.115207, -16),
+"times": PackedFloat32Array(-1.16415e-10)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Border:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.187958, -2, 20, -0.00548385, 16, 0.0926943, 6, 30, -0.00600247, -3, 0.114331, 7),
+"times": PackedFloat32Array(0, 0.15, 0.250434)
+}
+
+[sub_resource type="Animation" id="Animation_73v8e"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Border:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Border:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_7nmo4"]
+resource_name = "Up"
+length = 0.25
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Border:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Border:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.2, 0, 0.146509, -7, -20, -0.00812857, 4, 0.0930576, -8, -30, -0.00181156, -8, 0.125, 0),
+"times": PackedFloat32Array(0, 0.15, 0.25)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_de3ff"]
+_data = {
+"Down": SubResource("Animation_tu4jx"),
+"RESET": SubResource("Animation_73v8e"),
+"Up": SubResource("Animation_7nmo4")
+}
+
+[node name="Character Icon" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1010.0
+offset_bottom = -460.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cdu8g")
+sheet = SubResource("Resource_infym")
+
+[node name="Border" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 142.0
+offset_bottom = 188.0
+
+[node name="Background" type="ColorRect" parent="Border"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 139.0
+offset_bottom = 185.0
+color = Color(0, 0, 0, 1)
+
+[node name="Character Name" type="Label" parent="Border/Background"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 105.0
+offset_right = 134.0
+offset_bottom = 128.0
+text = "NAME"
+horizontal_alignment = 1
+
+[node name="Health Bar" type="ProgressBar" parent="Border/Background"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1.0
+offset_top = 130.0
+offset_right = 135.0
+offset_bottom = 153.0
+theme_override_styles/background = SubResource("StyleBoxFlat_yoydv")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hn0fx")
+step = 1.0
+value = 100.0
+rounded = true
+allow_greater = true
+allow_lesser = true
+show_percentage = false
+script = ExtResource("3_mg6ff")
+changeSpeed = 50.0
+
+[node name="Label" type="Label" parent="Border/Background/Health Bar"]
+layout_mode = 0
+offset_right = 133.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Energy Bar" type="ProgressBar" parent="Border/Background"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1.0
+offset_top = 156.0
+offset_right = 135.0
+offset_bottom = 179.0
+theme_override_styles/background = SubResource("StyleBoxFlat_yoydv")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sbv2q")
+value = 50.0
+rounded = true
+allow_greater = true
+allow_lesser = true
+show_percentage = false
+script = ExtResource("3_mg6ff")
+changeSpeed = 50.0
+
+[node name="Label" type="Label" parent="Border/Background/Energy Bar"]
+layout_mode = 0
+offset_right = 132.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Border"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 3.0
+offset_right = 142.0
+offset_bottom = 187.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qmqpo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_723ic")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_h2uhq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ewss5")
+
+[node name="Effect" type="ColorRect" parent="Border"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 139.0
+offset_bottom = 185.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_de3ff")
+}

@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://jvp1cketm5q8"]
+
+[ext_resource type="Script" path="res://CounterBar.cs" id="1_5oa4u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dsper"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ev2nv"]
+bg_color = Color(0.957356, 0, 0.166105, 1)
+
+[node name="CounterBar" type="ProgressBar"]
+offset_left = 3.0
+offset_top = 1.0
+offset_right = 137.0
+offset_bottom = 24.0
+theme_override_styles/background = SubResource("StyleBoxFlat_dsper")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ev2nv")
+step = 1.0
+value = 100.0
+rounded = true
+allow_greater = true
+allow_lesser = true
+show_percentage = false
+script = ExtResource("1_5oa4u")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 135.0
+offset_bottom = 23.0
+text = "40/40"
+horizontal_alignment = 1
+vertical_alignment = 1

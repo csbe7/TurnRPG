@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://cblvdup0wp144"]
+
+[ext_resource type="Script" path="res://RPG system/Skills/Defend.cs" id="1_tnnid"]
+[ext_resource type="PackedScene" uid="uid://dgqbkfcmecaxn" path="res://RPG system/Status Effects/defend_effect.tscn" id="2_ak66p"]
+[ext_resource type="Resource" uid="uid://da8lupy1orf44" path="res://Visuals/Skill Effects/WhiteFlash.tres" id="2_sksri"]
+
+[node name="Defend" type="Node"]
+script = ExtResource("1_tnnid")
+defendEffect = ExtResource("2_ak66p")
+name = "Defend"
+hidden = true
+userEffect = ExtResource("2_sksri")
