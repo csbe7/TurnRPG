@@ -7,10 +7,11 @@ public partial class ActionDrawer : Control
     [Export] PackedScene skill_button;
     public Skill attackSkill;
     public Skill defendSkill;
+    public Skill restSkill;
 
     GridContainer grid;
 
-    public Button attackButton, defendButton, fleeButton;
+    public Button attackButton, defendButton, restButton;
 
     [Signal] public delegate void SkillSelectedEventHandler(Skill skill);
 
@@ -20,10 +21,11 @@ public partial class ActionDrawer : Control
 
         attackButton = GetNode<Button>("%Attack Button");
         defendButton = GetNode<Button>("%Defend Button");
-        fleeButton = GetNode<Button>("%Flee Button");
+        restButton = GetNode<Button>("%Rest Button");
 
         attackButton.ButtonDown += OnAttactButtonDown;
         defendButton.ButtonDown += OnDefendButtonDown;
+        restButton.ButtonDown += OnRestButtonDown;
     }
 
 
@@ -34,6 +36,7 @@ public partial class ActionDrawer : Control
         {
             if (sk is Attack) attackSkill = sk;
             else if (sk is Defend) defendSkill = sk;
+            else if (sk is Rest) restSkill = sk; 
             if (sk.hidden) continue;
             SkillButton button = skill_button.Instantiate<SkillButton>();
             grid.AddChild(button);
@@ -61,6 +64,11 @@ public partial class ActionDrawer : Control
     void OnDefendButtonDown()
     {
         EmitSignal(SignalName.SkillSelected, defendSkill);
+    }
+
+    void OnRestButtonDown()
+    {
+        EmitSignal(SignalName.SkillSelected, restSkill);
     }
 
 

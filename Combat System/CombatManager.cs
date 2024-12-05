@@ -71,6 +71,13 @@ public partial class CombatManager : Node
     {
         currTurn = t;
 
+        if (IsInstanceValid(selectedCharacter)){
+            selectedCharacter.spent = true;
+            selectedCharacter.sheet.ChangeEnergy(selectedSkill.restoreEnegry);
+            selectedCharacter.sheet.EmitSignal(Sheet.SignalName.TurnEnded);
+
+        } 
+
         if (PlayerDefeated() || AIDefeated())
         {
             Control endScren = battleInterface.GetNode<Control>("Battle End Screen");
@@ -180,7 +187,6 @@ public partial class CombatManager : Node
             {
                 selectedSkill.SetTarget(selectedCharacter);
                 selectedSkill.UseSkill();
-
                 SetTurn(Turn.ai_turn);
             }
             else if (selectedSkill.playerTargeting == Skill.Targeting.any)

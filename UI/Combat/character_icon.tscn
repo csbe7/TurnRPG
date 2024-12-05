@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://bwnm4qvqoeaie"]
+[gd_scene load_steps=18 format=3 uid="uid://bwnm4qvqoeaie"]
 
 [ext_resource type="Script" path="res://UI/Combat/CharacterIcon.cs" id="1_cdu8g"]
 [ext_resource type="Script" path="res://RPG system/Sheet.cs" id="2_pi50f"]
 [ext_resource type="PackedScene" uid="uid://bsp5io55uurw7" path="res://UI/Combat/health_change_display.tscn" id="3_dasyr"]
-[ext_resource type="Script" path="res://CounterBar.cs" id="3_mg6ff"]
+[ext_resource type="Script" path="res://UI/Combat/CounterBar.cs" id="3_mg6ff"]
+[ext_resource type="PackedScene" uid="uid://bm22mw8anktq8" path="res://UI/Combat/status_effect_display.tscn" id="5_tdvni"]
 
 [sub_resource type="Resource" id="Resource_infym"]
 resource_local_to_scene = true
@@ -127,6 +128,7 @@ grow_vertical = 2
 script = ExtResource("1_cdu8g")
 sheet = SubResource("Resource_infym")
 hpChangedDisplay = ExtResource("3_dasyr")
+statusEffectDisplay = ExtResource("5_tdvni")
 
 [node name="Border" type="ColorRect" parent="."]
 layout_mode = 0
@@ -199,6 +201,15 @@ offset_right = 132.0
 offset_bottom = 23.0
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Effect Display Container" type="GridContainer" parent="Border/Background"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -2.0
+offset_top = -3.0
+offset_right = 37.0
+offset_bottom = 118.0
+theme_override_constants/v_separation = 34
 
 [node name="Button" type="Button" parent="Border"]
 unique_name_in_owner = true

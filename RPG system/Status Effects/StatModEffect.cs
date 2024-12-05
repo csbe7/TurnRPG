@@ -3,21 +3,26 @@ using System;
 
 public partial class StatModEffect : StatusEffect
 {
-    [Export] string targetStat;
-    [Export] StatModifier mod;
+    [Export] Godot.Collections.Dictionary<string, StatModifier> statMods = new Godot.Collections.Dictionary<string, StatModifier>();
 
     public override void _Ready()
     {
         base._Ready();
         
-        Stat s = (Stat)receiver.statBlock.Get(targetStat);
-        s.AddModifier(mod);
+        foreach(string targetStat in statMods.Keys)
+        {
+            Stat s = (Stat)receiver.statBlock.Get(targetStat);
+            s.AddModifier(statMods[targetStat]);
+        }
     }
 
     public override void EndEffect()
     {
+        foreach(string targetStat in statMods.Keys)
+        {
+            Stat s = (Stat)receiver.statBlock.Get(targetStat);
+            s.RemoveModifier(statMods[targetStat]);
+        }
         base.EndEffect();
-        Stat s = (Stat)receiver.statBlock.Get(targetStat);
-        s.RemoveModifier(mod);
     }
 }

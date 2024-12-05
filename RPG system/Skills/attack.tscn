@@ -6,7 +6,9 @@
 [node name="Attack" type="Node"]
 script = ExtResource("1_mwgcq")
 name = "Attack"
+description = "Deals %DamageRange %DamageType damage on target"
 hidden = true
 playerTargeting = 2
 aiTargeting = 2
+restoreEnegry = 1.0
 targetEffect = ExtResource("2_2vosf")

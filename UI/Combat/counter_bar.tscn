@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://jvp1cketm5q8"]
 
-[ext_resource type="Script" path="res://CounterBar.cs" id="1_5oa4u"]
+[ext_resource type="Script" path="res://UI/Combat/CounterBar.cs" id="1_5oa4u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dsper"]
 bg_color = Color(0, 0, 0, 1)

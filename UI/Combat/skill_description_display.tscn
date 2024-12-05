@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://byblcs4360etj"]
+
+[ext_resource type="Script" path="res://UI/Combat/SkillDescriptionDisplay.cs" id="1_1h4fb"]
+
+[node name="Skill Description Display" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1h4fb")
+cornerWidth = 2.0
+
+[node name="Corner" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 27.0
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 94.0
+offset_bottom = 25.0
+color = Color(0, 0, 0, 1)
+
+[node name="Description" type="Label" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 91.0
+offset_bottom = 25.0
+text = "Description"

@@ -11,8 +11,7 @@ public partial class Stat : Resource
 
     [Export] public float minValue = 0, maxValue = 9999;
 
-	public float value;
-
+	private float value;
 	[Export] public float Value
     {
 		get{
@@ -124,6 +123,6 @@ public partial class Stat : Resource
 	
 	}
 
-	
+		
 }
 

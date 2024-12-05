@@ -7,6 +7,7 @@ public partial class CharacterIcon : Control
 {
     [Export] public Sheet sheet;
     [Export] PackedScene hpChangedDisplay;
+    [Export] PackedScene statusEffectDisplay;
 
     AnimationPlayer ap;
 
@@ -20,6 +21,8 @@ public partial class CharacterIcon : Control
     public ColorRect effectDisplay;
     SkillEffect currEffect;
     float effectProgress;
+
+    GridContainer effectDisplayGrid;
 
     public Button select;
 
@@ -36,7 +39,7 @@ public partial class CharacterIcon : Control
         }
 
         sheet = (Sheet)sheet.Duplicate();
-        sheet.statBlock = (StatBlock)sheet.statBlock.Duplicate();
+        sheet.statBlock = (StatBlock)sheet.statBlock.Clone();
         sheet.statusEffects = new Node();
         sheet.statusEffects.Name = "Status Effects";
         sheet.skillParent = new Node();
@@ -51,6 +54,11 @@ public partial class CharacterIcon : Control
 		sheet.skills.Add(rs);
 		rs.user = this;
         r = (PackedScene)ResourceLoader.Load("res://RPG system/Skills/defend.tscn");
+        rs = r.Instantiate<Skill>();
+		sheet.skillParent.AddChild(rs);
+		sheet.skills.Add(rs);
+		rs.user = this;
+        r = (PackedScene)ResourceLoader.Load("res://RPG system/Skills/rest.tscn");
         rs = r.Instantiate<Skill>();
 		sheet.skillParent.AddChild(rs);
 		sheet.skills.Add(rs);
@@ -71,6 +79,7 @@ public partial class CharacterIcon : Control
         effectDisplay = GetNode<ColorRect>("%Effect");
         ap = GetNode<AnimationPlayer>("AnimationPlayer");
         hpDisplayPos = GetNode<Control>("HP Display Position");
+        effectDisplayGrid = GetNode<GridContainer>("%Effect Display Container");
 
         
         select = GetNode<Button>("%Button");
@@ -85,6 +94,7 @@ public partial class CharacterIcon : Control
 
         sheet.statBlock.CurrHealth.ValueChanged += OnHealthChanged;
         sheet.statBlock.CurrEnergy.ValueChanged += OnEnergyChanged;
+        sheet.StatusEffectAdded += OnStatusEffectAdded;
 
         SetPhysicsProcess(false);
     }
@@ -139,5 +149,14 @@ public partial class CharacterIcon : Control
         currEffect = effect;
         effectProgress = 0;
         SetPhysicsProcess(true);
+    }
+
+    void OnStatusEffectAdded(StatusEffect effect)
+    {  
+        if (effect.hidden) return;
+        GD.Print("Effect Added");
+        StatusEffectDisplay seDisplay = statusEffectDisplay.Instantiate<StatusEffectDisplay>();
+        effectDisplayGrid.AddChild(seDisplay);
+        seDisplay.SetEffect(effect);
     }
 }

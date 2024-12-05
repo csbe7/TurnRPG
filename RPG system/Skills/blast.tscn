@@ -15,6 +15,7 @@ damageType = 1
 script = ExtResource("1_7gcbv")
 attack = SubResource("Resource_vxgel")
 name = "Blast"
+description = "Deals %DamageRange %DamageType to target"
 cost = 5.0
 playerTargeting = 3
 aiTargeting = 2

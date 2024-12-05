@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2sqo5ylvvq2j"]
+
+[ext_resource type="Script" path="res://RPG system/Skills/Rest.cs" id="1_ilfju"]
+
+[node name="Rest" type="Node"]
+script = ExtResource("1_ilfju")
+name = "Rest"
+description = "Rest to recover 2 energy"
+hidden = true
+restoreEnegry = 2.0

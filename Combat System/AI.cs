@@ -31,6 +31,7 @@ public partial class AI : Node
         do{
             int charI = rng.RandiRange(0, ai_party.Count-1);
             cm.selectedCharacter = ai_party[charI];
+            //rng.Randomize();
         }while(cm.selectedCharacter.sheet.statBlock.Dead || cm.selectedCharacter.spent);
         
         cm.selectedCharacter.Select();
@@ -39,6 +40,7 @@ public partial class AI : Node
         do{
             int skillI = rng.RandiRange(0, cm.selectedCharacter.sheet.skills.Count-1);
             cm.selectedSkill = cm.selectedCharacter.sheet.skills[skillI];
+            //rng.Randomize();
         }while(cm.selectedSkill.cost > cm.selectedCharacter.sheet.statBlock.CurrEnergy.ModValue);
         
 
@@ -52,6 +54,7 @@ public partial class AI : Node
             do{
                 int targetI = rng.RandiRange(0, player_party.Count-1);
                 target = player_party[targetI];
+                //rng.Randomize();
             }while((target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.alive) 
             || (!target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.dead));
         }
@@ -60,6 +63,7 @@ public partial class AI : Node
             do{
                 int targetI = rng.RandiRange(0, ai_party.Count-1);
                 target = player_party[targetI];
+                //rng.Randomize();
             }while((target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.alive) 
             || (!target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.dead) 
             || (target == cm.selectedCharacter && !cm.selectedSkill.canTargetSelf));
@@ -71,6 +75,7 @@ public partial class AI : Node
 
                 if (targetI > ai_party.Count-1) target = player_party[targetI - ai_party.Count-1];
                 else target = ai_party[targetI];
+                //rng.Randomize();
             }while((target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.alive) 
             || (!target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.dead) 
             || (target == cm.selectedCharacter && !cm.selectedSkill.canTargetSelf));

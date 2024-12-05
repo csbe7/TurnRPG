@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 [GlobalClass]
 public partial class Skill : Node
@@ -39,6 +40,7 @@ public partial class Skill : Node
     [Export] public Targeting aiTargeting;
     [Export] public TargetState targetState;
     [Export] public bool canTargetSelf = true;
+    [Export] public float restoreEnegry = 0;
     //[Export] public Godot.Collections.Array<StatusEffect> effects;
 
     [ExportCategory("VFX")]
@@ -63,9 +65,25 @@ public partial class Skill : Node
         if (IsInstanceValid(targetEffect)) target.PlayEffect(targetEffect);
     }
 
-    public virtual string GetDescrption()
+    public virtual string GetDescription()
     {
+        if (cost != 0) return DescAddCost(new string(description));
         return description;
+    }
+
+    public virtual string DescFillAttack(string desc, AttackInfo a)
+    {
+        //string desc = new string(description);
+        a = user.sheet.Attack(a, null, true);
+        if (a.minDamage != a.maxDamage) desc = desc.Replace("%DamageRange", a.minDamage.ToString() + "-" + a.maxDamage.ToString());
+        else desc = desc.Replace("%DamageRange", a.maxDamage.ToString());
+        desc = desc.Replace("%DamageType", a.damageType.ToString());
+        return desc;
+    }
+
+    public virtual string DescAddCost(string desc)
+    {
+        return desc + "\nCost: " + cost;
     }
 
 }

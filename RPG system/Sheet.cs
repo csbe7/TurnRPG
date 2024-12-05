@@ -16,6 +16,8 @@ public partial class Sheet : Resource
     [Signal] public delegate void AttackedEventHandler(AttackInfo info);
     [Signal] public delegate void HealthChangedEventHandler(float change);
     [Signal] public delegate void EnergyChangedEventHandler(float change);
+
+	[Signal] public delegate void StatusEffectAddedEventHandler(StatusEffect effect);
     
 	public Node skillParent;
 	public Godot.Collections.Array<Skill> skills = new Godot.Collections.Array<Skill>();
@@ -49,9 +51,15 @@ public partial class Sheet : Resource
 
 		float damage = rng.RandiRange((int)attack.minDamage, (int)attack.maxDamage);
 		
-		damage = (damage/100) * (100-statBlock.Defence.ModValue);
-		
-        statBlock.CurrHealth.Value -= damage;
+		if (attack.damageType == AttackInfo.DamageType.physical)
+		{
+			damage = (damage/100) * (100-statBlock.PhysicalDefence.ModValue);
+		}
+		else if (attack.damageType == AttackInfo.DamageType.magical)
+		{
+			damage = (damage/100) * (100-statBlock.MagicalDefence.ModValue);
+		}
+        statBlock.CurrHealth.Value -= Mathf.Round(damage);
 		//GD.Print(this.name + " damaged by " + attack.attacker.name);
 
 		EmitSignal(SignalName.HealthChanged, -attack.maxDamage);
@@ -101,6 +109,22 @@ public partial class Sheet : Resource
         
 		Godot.Collections.Array<StatusEffect> statusEffectList = GetStatusEffects();
 		SortStatusEffects(statusEffectList, 0, statusEffectList.Count - 1);
+		EmitSignal(SignalName.StatusEffectAdded, statusEffect);
+
+		statusEffect.EffectEnded += RemoveStatusEffect;
+	}
+
+	public void RemoveStatusEffect(StatusEffect statusEffect)
+	{
+		foreach(Node child in statusEffects.GetChildren())
+		{
+			if (child == statusEffect)
+			{
+				child.QueueFree();
+				statusEffect.EffectEnded -= RemoveStatusEffect;
+				return;
+			}
+		}
 	}
 
 

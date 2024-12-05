@@ -8,5 +8,7 @@
 script = ExtResource("1_tnnid")
 defendEffect = ExtResource("2_ak66p")
 name = "Defend"
+description = "Gives +50 defense on all damage"
 hidden = true
+restoreEnegry = 1.0
 userEffect = ExtResource("2_sksri")

@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://bm22mw8anktq8"]
+
+[ext_resource type="Script" path="res://UI/Combat/StatusEffectDisplay.cs" id="1_v0dmt"]
+[ext_resource type="Texture2D" uid="uid://cgq4cyt4ps2xm" path="res://UI/Combat/Icons/placeholder-shield-removebg-preview.png" id="2_df2bn"]
+
+[node name="Status Effect Display" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v0dmt")
+
+[node name="Corner" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 37.0
+offset_bottom = 37.0
+color = Color(0, 0, 0, 1)
+
+[node name="Button" type="Button" parent="Background"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 34.0
+offset_bottom = 34.0
+disabled = true
+icon = ExtResource("2_df2bn")
+flat = true
+icon_alignment = 1
+expand_icon = true
