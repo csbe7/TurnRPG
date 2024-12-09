@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdrj6280qh6dj"]
+
+[ext_resource type="Script" path="res://RPG system/Status Effects/DotEffect.cs" id="1_c0ogf"]
+[ext_resource type="Script" path="res://RPG system/AttackInfo.cs" id="2_ldp7o"]
+
+[sub_resource type="Resource" id="Resource_cbeav"]
+script = ExtResource("2_ldp7o")
+minDamage = 3.0
+maxDamage = 3.0
+attackType = 0
+damageType = 0
+
+[node name="Bleed Effect" type="Node"]
+script = ExtResource("1_c0ogf")
+dot = SubResource("Resource_cbeav")

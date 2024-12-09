@@ -16,6 +16,8 @@ public partial class CharacterIcon : Control
     Label characterName;
     CounterBar healthBar, energyBar;
 
+    Sprite2D actionIcon;
+
     Control hpDisplayPos;
 
     public ColorRect effectDisplay;
@@ -26,7 +28,17 @@ public partial class CharacterIcon : Control
 
     public Button select;
 
-    public bool spent; //has this character already been used this round?
+    bool spent;
+    public bool Spent{
+        get{
+            return spent;
+        }
+        set{
+            spent = value;
+            if (spent || sheet.statBlock.Dead) actionIcon.Hide();
+            else actionIcon.Show();
+        }
+    } //has this character already been used this round?
 
     [Signal] public delegate void SelectedEventHandler(CharacterIcon self);
 
@@ -80,6 +92,7 @@ public partial class CharacterIcon : Control
         ap = GetNode<AnimationPlayer>("AnimationPlayer");
         hpDisplayPos = GetNode<Control>("HP Display Position");
         effectDisplayGrid = GetNode<GridContainer>("%Effect Display Container");
+        actionIcon = GetNode<Sprite2D>("%Action Icon");
 
         
         select = GetNode<Button>("%Button");
@@ -126,6 +139,7 @@ public partial class CharacterIcon : Control
         AddChild(display);
         display.Position = hpDisplayPos.Position;
         display.Start(newVal - oldVal, ai);
+        if (sheet.statBlock.Dead) actionIcon.Hide();
     }
 
     void OnEnergyChanged(float oldVal, float newVal)

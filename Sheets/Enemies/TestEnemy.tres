@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Sheet" load_steps=12 format=3 uid="uid://dfqmdnnjiesg8"]
+[gd_resource type="Resource" script_class="Sheet" load_steps=14 format=3 uid="uid://dfqmdnnjiesg8"]
 
 [ext_resource type="Script" path="res://RPG system/Sheet.cs" id="1_3phre"]
 [ext_resource type="PackedScene" uid="uid://bfna2hbdvienf" path="res://RPG system/Skills/blast.tscn" id="2_dpdss"]
@@ -18,10 +18,22 @@ minValue = 0.0
 maxValue = 9999.0
 Value = 40.0
 
+[sub_resource type="Resource" id="Resource_120tu"]
+script = ExtResource("2_vxg15")
+minValue = -1000.0
+maxValue = 1000.0
+Value = 0.0
+
 [sub_resource type="Resource" id="Resource_xqnt6"]
 script = ExtResource("2_vxg15")
 minValue = 0.0
 maxValue = 100.0
+Value = 0.0
+
+[sub_resource type="Resource" id="Resource_3o3tp"]
+script = ExtResource("2_vxg15")
+minValue = -1000.0
+maxValue = 1000.0
 Value = 0.0
 
 [sub_resource type="Resource" id="Resource_if323"]
@@ -43,6 +55,8 @@ Health = SubResource("Resource_eevbd")
 Energy = SubResource("Resource_35nmm")
 PhysicalDefence = SubResource("Resource_if323")
 MagicalDefence = SubResource("Resource_xqnt6")
+PhysicalAttack = SubResource("Resource_3o3tp")
+MagicalAttack = SubResource("Resource_120tu")
 baseAttack = SubResource("Resource_xqogt")
 
 [resource]

@@ -9,6 +9,8 @@ public partial class StatusEffect : Node
     public Sheet receiver;
     [Export] public int priority = 0;
 
+    [Export] bool countRounds = false;
+
     [Export] public int duration; //0 = infinite
 
     private int durationLeft;
@@ -18,15 +20,31 @@ public partial class StatusEffect : Node
     public override void _Ready()
     {
         durationLeft = duration;
-        receiver.TurnEnded += OnTurnEnded;
+        if (!countRounds) receiver.TurnEnded += OnTurnEnded;
+        else
+        {
+            CombatManager cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
+            cm.RoundEnded += OnRoundEnded;
+        }
     }
 
     public virtual void OnTurnEnded()
     {
+        ApplyEffect();
         durationLeft--;
 
         if (durationLeft <= 0 && duration != 0) EndEffect();
     }
+    public virtual void OnRoundEnded()
+    {
+        ApplyEffect();
+        durationLeft--;
+
+        if (durationLeft <= 0 && duration != 0) EndEffect();
+    }
+    
+    public virtual void ApplyEffect() {}
+
 
     public virtual void EndEffect()
     {

@@ -9,11 +9,6 @@ public partial class AttackInfo : Resource
     [Export] public float minDamage;
     [Export] public float maxDamage;
     
-    public enum AttackType{
-        meele,
-        ranged,
-    }
-    [Export] AttackType attackType;
 
     public enum DamageType{
         physical,

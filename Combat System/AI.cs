@@ -8,8 +8,8 @@ public partial class AI : Node
 {
     static CombatManager cm;
 
-    public static Godot.Collections.Array<CharacterIcon> player_party = new Godot.Collections.Array<CharacterIcon>();
-    public static Godot.Collections.Array<CharacterIcon> ai_party = new Godot.Collections.Array<CharacterIcon>();
+    //public static Godot.Collections.Array<CharacterIcon> cm.player_party = new Godot.Collections.Array<CharacterIcon>();
+    //public static Godot.Collections.Array<CharacterIcon> cm.ai_party = new Godot.Collections.Array<CharacterIcon>();
 
     static RandomNumberGenerator rng = new RandomNumberGenerator();
 
@@ -18,21 +18,16 @@ public partial class AI : Node
         cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
     }
 
-    public static void SetParties(Godot.Collections.Array<CharacterIcon> player, Godot.Collections.Array<CharacterIcon> ai)
-    {
-        player_party = player;
-        ai_party = ai;
-    }
 
     public static async void Turn()
     {
         await Task.Delay(1000);
         
         do{
-            int charI = rng.RandiRange(0, ai_party.Count-1);
-            cm.selectedCharacter = ai_party[charI];
+            int charI = rng.RandiRange(0, cm.ai_party.Count-1);
+            cm.selectedCharacter = cm.ai_party[charI];
             //rng.Randomize();
-        }while(cm.selectedCharacter.sheet.statBlock.Dead || cm.selectedCharacter.spent);
+        }while(cm.selectedCharacter.sheet.statBlock.Dead || cm.selectedCharacter.Spent);
         
         cm.selectedCharacter.Select();
         await Task.Delay(500);
@@ -52,8 +47,8 @@ public partial class AI : Node
         else if (cm.selectedSkill.aiTargeting == Skill.Targeting.enemy)
         {
             do{
-                int targetI = rng.RandiRange(0, player_party.Count-1);
-                target = player_party[targetI];
+                int targetI = rng.RandiRange(0, cm.player_party.Count-1);
+                target = cm.player_party[targetI];
                 //rng.Randomize();
             }while((target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.alive) 
             || (!target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.dead));
@@ -61,8 +56,8 @@ public partial class AI : Node
         if (cm.selectedSkill.aiTargeting == Skill.Targeting.ally)
         {
             do{
-                int targetI = rng.RandiRange(0, ai_party.Count-1);
-                target = player_party[targetI];
+                int targetI = rng.RandiRange(0, cm.ai_party.Count-1);
+                target = cm.player_party[targetI];
                 //rng.Randomize();
             }while((target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.alive) 
             || (!target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.dead) 
@@ -71,16 +66,18 @@ public partial class AI : Node
         if (cm.selectedSkill.aiTargeting == Skill.Targeting.any)
         {
             do{
-                int targetI = rng.RandiRange(0, ai_party.Count-1 + player_party.Count-1);
+                int targetI = rng.RandiRange(0, cm.ai_party.Count-1 + cm.player_party.Count-1);
 
-                if (targetI > ai_party.Count-1) target = player_party[targetI - ai_party.Count-1];
-                else target = ai_party[targetI];
+                if (targetI > cm.ai_party.Count-1) target = cm.player_party[targetI - cm.ai_party.Count-1];
+                else target = cm.ai_party[targetI];
                 //rng.Randomize();
             }while((target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.alive) 
             || (!target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.dead) 
             || (target == cm.selectedCharacter && !cm.selectedSkill.canTargetSelf));
         }
 
+        cm.selectedCharacter.Spent = true;
+        
         cm.battleInterface.aiSkillDisplay.Show();
         cm.battleInterface.aiSkillDisplay.SetText(cm.selectedSkill.name);
         cm.battleInterface.aiSkillDisplay.FadeIn();
@@ -90,7 +87,7 @@ public partial class AI : Node
         await Task.Delay(200);
         cm.battleInterface.aiSkillDisplay.FadeOut();
 
-        cm.selectedCharacter.spent = true;
+        
 
         cm.SetTurn(CombatManager.Turn.player_turn);
 

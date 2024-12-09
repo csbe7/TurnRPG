@@ -29,19 +29,6 @@ public partial class Sheet : Resource
 		statBlock.CurrHealth = new Stat(statBlock.Health.ModValue, 0, statBlock.Health.ModValue);
 		statBlock.CurrEnergy = new Stat(statBlock.Energy.ModValue, 0, statBlock.Energy.ModValue);
 		
-		/*PackedScene r = (PackedScene)ResourceLoader.Load("res://RPG system/Skills/attack.tscn");
-		Skill rs = r.Instantiate<Skill>();
-		skillParent.AddChild(rs);
-		skills.Add(rs);
-		rs.user = this;
-
-		foreach(PackedScene skillScene in packedSkills)
-		{
-			Skill s = skillScene.Instantiate<Skill>();
-			skillParent.AddChild(s);
-			skills.Add(s);
-			s.user = this;
-		}*/
 	}
 
 
@@ -51,27 +38,35 @@ public partial class Sheet : Resource
 
 		float damage = rng.RandiRange((int)attack.minDamage, (int)attack.maxDamage);
 		
-		if (attack.damageType == AttackInfo.DamageType.physical)
-		{
-			damage = (damage/100) * (100-statBlock.PhysicalDefence.ModValue);
-		}
-		else if (attack.damageType == AttackInfo.DamageType.magical)
-		{
-			damage = (damage/100) * (100-statBlock.MagicalDefence.ModValue);
-		}
+		float damageMult = 0;
+		if (attack.damageType == AttackInfo.DamageType.physical) damageMult = statBlock.PhysicalDefence.ModValue;
+		else if (attack.damageType == AttackInfo.DamageType.magical) damageMult = statBlock.MagicalDefence.ModValue;
+
+		damage -= (damage/100) * damageMult;
+		damage = Mathf.Round(damage);
+		damage = Mathf.Clamp(damage, 0, statBlock.CurrHealth.ModValue);
+
         statBlock.CurrHealth.Value -= Mathf.Round(damage);
 		//GD.Print(this.name + " damaged by " + attack.attacker.name);
 
-		EmitSignal(SignalName.HealthChanged, -attack.maxDamage);
+		EmitSignal(SignalName.HealthChanged, -damage);
     }
 
-	public AttackInfo Attack(AttackInfo attack, Sheet target = null, bool dup = false)
+	public AttackInfo Attack(AttackInfo attack, Sheet target = null, bool dup = true)
 	{
 		if (dup) 
 		{
 			attack = (AttackInfo)attack.Duplicate();
-			attack.attacker = this;
 		}
+		attack.attacker = this;
+
+		float damageMult = 0;
+
+		if (attack.damageType == AttackInfo.DamageType.physical) damageMult = statBlock.PhysicalAttack.ModValue;
+		else if (attack.damageType == AttackInfo.DamageType.magical) damageMult = statBlock.MagicalAttack.ModValue;
+
+		attack.minDamage += Mathf.Round((attack.minDamage/100) * damageMult);
+		attack.maxDamage += Mathf.Round((attack.maxDamage/100) * damageMult);
 		if (IsInstanceValid(target)) target.HandleAttack(attack);
 		return attack;
 	} 

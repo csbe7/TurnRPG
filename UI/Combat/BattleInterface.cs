@@ -8,12 +8,14 @@ public partial class BattleInterface : Control
     public ActionDrawer actionDrawer;
     public SelectedSkillDisplay selectedSkillDisplay;
     public AiSkillDisplay aiSkillDisplay;
+    public Label roundCounter;
 
     public override void _Ready()
     {
         cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
         partyGrid = GetNode<GridContainer>("%Party Grid");
         enemyGrid = GetNode<GridContainer>("%Enemy Grid");
+        roundCounter = GetNode<Label>("Round Counter");
         
 
         actionDrawer = GetNode<ActionDrawer>("%Action Drawer");

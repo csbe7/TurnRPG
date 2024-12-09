@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcqcwsgrewmco"]
+[gd_scene load_steps=8 format=3 uid="uid://bcqcwsgrewmco"]
 
 [ext_resource type="Script" path="res://UI/Combat/ActionDrawer.cs" id="1_ris4m"]
 [ext_resource type="PackedScene" uid="uid://bhjj3u6xrbr2h" path="res://UI/Combat/skill_button.tscn" id="1_w5u18"]
 [ext_resource type="Texture2D" uid="uid://bko14roeu1ouo" path="res://UI/Combat/Icons/placeholder-sword.jpg" id="3_26oti"]
+[ext_resource type="Script" path="res://UI/Combat/SkillButton.cs" id="4_1wspx"]
 [ext_resource type="Texture2D" uid="uid://cgq4cyt4ps2xm" path="res://UI/Combat/Icons/placeholder-shield-removebg-preview.png" id="4_30g1g"]
+[ext_resource type="PackedScene" uid="uid://byblcs4360etj" path="res://UI/Combat/skill_description_display.tscn" id="5_dolls"]
 [ext_resource type="Texture2D" uid="uid://cn6hiac7rqrkl" path="res://UI/Combat/Icons/rest_icon-removebg-preview.png" id="5_pornn"]
 
 [node name="Action Drawer" type="Control"]
@@ -37,20 +39,22 @@ layout_mode = 0
 offset_top = 50.0
 offset_right = 200.0
 offset_bottom = 250.0
+mouse_filter = 0
 theme_override_constants/h_separation = 100
 theme_override_constants/v_separation = 25
 
 [node name="Attack Button" type="Button" parent="Border/Background"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = -1
-offset_left = 14.0
+layout_mode = 2
+offset_left = 16.0
 offset_top = 10.0
-offset_right = 42.0
+offset_right = 44.0
 offset_bottom = 38.0
 icon = ExtResource("3_26oti")
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("4_1wspx")
+descDisplay = ExtResource("5_dolls")
 
 [node name="Defend Button" type="Button" parent="Border/Background"]
 unique_name_in_owner = true
@@ -62,6 +66,8 @@ offset_bottom = 38.0
 icon = ExtResource("4_30g1g")
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("4_1wspx")
+descDisplay = ExtResource("5_dolls")
 
 [node name="Rest Button" type="Button" parent="Border/Background"]
 unique_name_in_owner = true
@@ -72,9 +78,12 @@ offset_right = 186.0
 offset_bottom = 38.0
 icon = ExtResource("5_pornn")
 expand_icon = true
+script = ExtResource("4_1wspx")
+descDisplay = ExtResource("5_dolls")
 
 [node name="Separation Line" type="ColorRect" parent="Border"]
 layout_mode = 0
 offset_top = 50.0
 offset_right = 206.0
 offset_bottom = 53.0
+mouse_filter = 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b1v15kb6yuq5o"]
+[gd_scene load_steps=10 format=3 uid="uid://b1v15kb6yuq5o"]
 
 [ext_resource type="Script" path="res://UI/Combat/BattleInterface.cs" id="1_un732"]
 [ext_resource type="PackedScene" uid="uid://bwnm4qvqoeaie" path="res://UI/Combat/character_icon.tscn" id="2_okrib"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://w40wpr50376h" path="res://UI/Combat/selected_skill_display.tscn" id="6_2ir7b"]
 [ext_resource type="PackedScene" uid="uid://bp38s0bodp8ox" path="res://UI/Combat/ai_skill_display.tscn" id="8_6d83l"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_2bjq0"]
+font_size = 32
+
 [node name="Battle Interface" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -18,12 +21,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_un732")
 
-[node name="BackGround" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = -623.0
+offset_left = -2041.0
 offset_top = -714.0
-offset_right = 1800.0
-offset_bottom = 1412.0
+offset_right = 3134.0
+offset_bottom = 2644.0
 color = Color(0, 0, 0, 1)
 
 [node name="Party Grid" type="GridContainer" parent="."]
@@ -78,6 +81,10 @@ layout_mode = 2
 sheet = ExtResource("3_navpl")
 
 [node name="Character Icon2" parent="Enemy Grid" instance=ExtResource("2_okrib")]
+layout_mode = 2
+sheet = ExtResource("3_navpl")
+
+[node name="Character Icon3" parent="Enemy Grid" instance=ExtResource("2_okrib")]
 layout_mode = 2
 sheet = ExtResource("3_navpl")
 
@@ -137,3 +144,17 @@ offset_right = 603.0
 offset_bottom = 336.0
 mouse_filter = 0
 text = "VICTORY"
+
+[node name="Round Counter" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 34.0
+offset_top = -22.0
+offset_right = 74.0
+offset_bottom = 23.0
+grow_vertical = 2
+text = "10"
+label_settings = SubResource("LabelSettings_2bjq0")
+horizontal_alignment = 1

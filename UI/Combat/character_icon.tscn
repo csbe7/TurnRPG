@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://bwnm4qvqoeaie"]
+[gd_scene load_steps=19 format=3 uid="uid://bwnm4qvqoeaie"]
 
 [ext_resource type="Script" path="res://UI/Combat/CharacterIcon.cs" id="1_cdu8g"]
 [ext_resource type="Script" path="res://RPG system/Sheet.cs" id="2_pi50f"]
 [ext_resource type="PackedScene" uid="uid://bsp5io55uurw7" path="res://UI/Combat/health_change_display.tscn" id="3_dasyr"]
 [ext_resource type="Script" path="res://UI/Combat/CounterBar.cs" id="3_mg6ff"]
 [ext_resource type="PackedScene" uid="uid://bm22mw8anktq8" path="res://UI/Combat/status_effect_display.tscn" id="5_tdvni"]
+[ext_resource type="Texture2D" uid="uid://8p6naegdvlt8" path="res://UI/Combat/Icons/action_icon.png" id="6_1j4hk"]
 
 [sub_resource type="Resource" id="Resource_infym"]
 resource_local_to_scene = true
@@ -231,6 +232,12 @@ offset_right = 139.0
 offset_bottom = 185.0
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
+
+[node name="Action Icon" type="Sprite2D" parent="Border"]
+unique_name_in_owner = true
+position = Vector2(129, 13)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("6_1j4hk")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

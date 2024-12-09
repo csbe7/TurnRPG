@@ -14,22 +14,22 @@ script = ExtResource("1_v0dmt")
 
 [node name="Corner" type="ColorRect" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 30.0
+offset_bottom = 30.0
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 3.0
-offset_right = 37.0
-offset_bottom = 37.0
+offset_right = 27.0
+offset_bottom = 27.0
 color = Color(0, 0, 0, 1)
 
 [node name="Button" type="Button" parent="Background"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_right = 34.0
-offset_bottom = 34.0
+offset_right = 24.0
+offset_bottom = 24.0
 disabled = true
 icon = ExtResource("2_df2bn")
 flat = true

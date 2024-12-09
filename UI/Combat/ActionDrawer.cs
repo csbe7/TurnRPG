@@ -5,13 +5,9 @@ public partial class ActionDrawer : Control
 {
     public Sheet sheet;
     [Export] PackedScene skill_button;
-    public Skill attackSkill;
-    public Skill defendSkill;
-    public Skill restSkill;
-
     GridContainer grid;
 
-    public Button attackButton, defendButton, restButton;
+    public SkillButton attackButton, defendButton, restButton;
 
     [Signal] public delegate void SkillSelectedEventHandler(Skill skill);
 
@@ -19,13 +15,13 @@ public partial class ActionDrawer : Control
     {
         grid = GetNode<GridContainer>("%Skill Grid");
 
-        attackButton = GetNode<Button>("%Attack Button");
-        defendButton = GetNode<Button>("%Defend Button");
-        restButton = GetNode<Button>("%Rest Button");
+        attackButton = GetNode<SkillButton>("%Attack Button");
+        defendButton = GetNode<SkillButton>("%Defend Button");
+        restButton = GetNode<SkillButton>("%Rest Button");
 
-        attackButton.ButtonDown += OnAttactButtonDown;
-        defendButton.ButtonDown += OnDefendButtonDown;
-        restButton.ButtonDown += OnRestButtonDown;
+        attackButton.SkillButtonDown += OnSkillButtonDown;
+        defendButton.SkillButtonDown += OnSkillButtonDown;
+        restButton.SkillButtonDown += OnSkillButtonDown;
     }
 
 
@@ -34,18 +30,19 @@ public partial class ActionDrawer : Control
         sheet = s;
         foreach(Skill sk in sheet.skills)
         {
-            if (sk is Attack) attackSkill = sk;
-            else if (sk is Defend) defendSkill = sk;
-            else if (sk is Rest) restSkill = sk; 
-            if (sk.hidden) continue;
-            SkillButton button = skill_button.Instantiate<SkillButton>();
-            grid.AddChild(button);
-            Skill skill = sk;
-            button.LoadSkill(skill);
+            if (sk is Attack) attackButton.LoadSkill(sk);
+            else if (sk is Defend) defendButton.LoadSkill(sk);
+            else if (sk is Rest) restButton.LoadSkill(sk);
+            if (sk.hidden) continue; //attack, defend, and rest are hidden
+            Control skillButton = skill_button.Instantiate<Control>();
+            SkillButton button = skillButton.GetNode<SkillButton>("Skill Button");
+            grid.AddChild(skillButton);
+    
+            button.LoadSkill(sk);
 
-            if (sheet.statBlock.CurrEnergy.Value < skill.cost)
+            if (sheet.statBlock.CurrEnergy.Value < sk.cost)
             {
-                button.button.Disabled = true;
+                button.Disabled = true;
             } 
             else button.SkillButtonDown += OnSkillButtonDown;
         }
@@ -56,30 +53,13 @@ public partial class ActionDrawer : Control
         EmitSignal(SignalName.SkillSelected, button.skill);
     }
 
-    void OnAttactButtonDown()
-    {
-        EmitSignal(SignalName.SkillSelected, attackSkill);
-    }
-
-    void OnDefendButtonDown()
-    {
-        EmitSignal(SignalName.SkillSelected, defendSkill);
-    }
-
-    void OnRestButtonDown()
-    {
-        EmitSignal(SignalName.SkillSelected, restSkill);
-    }
-
 
     public void ClearSheet()
     {
         foreach(Node child in grid.GetChildren())
         {
-            if (child is SkillButton sb)
-            {
-                if (IsInstanceValid(sb)) sb.QueueFree();
-            }
+            SkillButton sb = child.GetNodeOrNull<SkillButton>("Skill Button");
+            if (IsInstanceValid(sb)) child.QueueFree();
         }
     }
 

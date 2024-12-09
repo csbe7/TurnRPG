@@ -19,7 +19,7 @@ public partial class CombatManager : Node
     }
     public TurnStage turnStage;
 
-    [Signal] public delegate void RoundStartedEventHandler();
+    [Signal] public delegate void RoundEndedEventHandler();
     [Signal] public delegate void PlayerTurnStartedEventHandler();
     [Signal] public delegate void AITurnStartedEventHandler();
     
@@ -30,6 +30,8 @@ public partial class CombatManager : Node
     
     public CharacterIcon selectedCharacter;
     public Skill selectedSkill;
+
+    int roundCounter;
 
     public void BattleStart()
     {
@@ -59,11 +61,12 @@ public partial class CombatManager : Node
         battleInterface.actionDrawer.SkillSelected += PlayerSkillSelect;
         battleInterface.selectedSkillDisplay.button.ButtonDown += PlayerCancelSkill;
 
-        AI.SetParties(player_party, ai_party);
+        roundCounter = player_party.Count + ai_party.Count;
+
 
         SetTurn(Turn.player_turn);
         SetTurnStage(TurnStage.character_selection);
-        EmitSignal(SignalName.RoundStarted);
+
     }
 
     int turnCounter = 0;
@@ -72,7 +75,8 @@ public partial class CombatManager : Node
         currTurn = t;
 
         if (IsInstanceValid(selectedCharacter)){
-            selectedCharacter.spent = true;
+            roundCounter--;
+            selectedCharacter.Spent = true;
             selectedCharacter.sheet.ChangeEnergy(selectedSkill.restoreEnegry);
             selectedCharacter.sheet.EmitSignal(Sheet.SignalName.TurnEnded);
 
@@ -90,7 +94,10 @@ public partial class CombatManager : Node
             return;
         }
 
-        if (turnCounter != 2) turnCounter++;
+        PlayerSpent(true);
+        AISpent(true);
+
+        /*if (turnCounter != 2) turnCounter++;
         else{
             bool pspent = PlayerSpent(true);
             bool aspent = AISpent(true);
@@ -100,7 +107,15 @@ public partial class CombatManager : Node
                EmitSignal(SignalName.RoundStarted);
             }
             turnCounter = 1;
+        }*/
+        if (roundCounter <= 0)
+        {
+            roundCounter = player_party.Count + ai_party.Count;
+            GD.Print("Round Ended");
+            EmitSignal(SignalName.RoundEnded);
         }
+
+        battleInterface.roundCounter.Text = roundCounter.ToString();
 
 
 
@@ -284,7 +299,7 @@ public partial class CombatManager : Node
         selectedSkill.SetTarget(target);
         selectedSkill.UseSkill();
 
-        selectedCharacter.spent = true;
+        selectedCharacter.Spent = true;
         selectedCharacter.sheet.EmitSignal(Sheet.SignalName.TurnEnded);
         SetTurn(Turn.ai_turn);
     }
@@ -333,12 +348,12 @@ public partial class CombatManager : Node
         {
             foreach(CharacterIcon pchar in player_party)
             {
-                if (pchar.spent) pchar.select.Disabled = !mode;
+                if (pchar.Spent) pchar.select.Disabled = !mode;
             }
 
             foreach(CharacterIcon enemy in ai_party)
             {
-                if (enemy.spent) enemy.select.Disabled = !mode;
+                if (enemy.Spent) enemy.select.Disabled = !mode;
             }
         }
     }
@@ -349,14 +364,14 @@ public partial class CombatManager : Node
         foreach(CharacterIcon icon in player_party)
         {
             if (icon.sheet.statBlock.Dead) continue;
-            if (!icon.spent) return false;
+            if (!icon.Spent) return false;
         }
         if (reset)
         {
             foreach(CharacterIcon icon in player_party)
             {
                 if (icon.sheet.statBlock.Dead) continue;
-                icon.spent = false;
+                icon.Spent = false;
             }
         }
         return true;
@@ -367,14 +382,14 @@ public partial class CombatManager : Node
         foreach(CharacterIcon icon in ai_party)
         {
             if (icon.sheet.statBlock.Dead) continue;
-            if (!icon.spent) return false;
+            if (!icon.Spent) return false;
         }
         if (reset)
         {
             foreach(CharacterIcon icon in ai_party)
             {
                 if (icon.sheet.statBlock.Dead) continue;
-                icon.spent = false;
+                icon.Spent = false;
             }
         }
         return true;
