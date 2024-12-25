@@ -8,7 +8,6 @@
 script = ExtResource("2_7dgw0")
 minDamage = 20.0
 maxDamage = 20.0
-attackType = 1
 damageType = 1
 
 [node name="Blast" type="Node"]

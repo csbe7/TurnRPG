@@ -89,7 +89,7 @@ public partial class AI : Node
 
         
 
-        cm.SetTurn(CombatManager.Turn.player_turn);
+        cm.CountDownTurn();
 
     }
 }

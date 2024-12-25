@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4r4503fnpl4l"]
+
+[ext_resource type="Texture2D" uid="uid://cfbtskc3b7jyw" path="res://UI/Combat/Icons/playerturnframe_bg.png" id="1_lsknn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7eq02"]
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_gyko7"]
+font_size = 32
+font_color = Color(0.29219, 0.29219, 0.29219, 1)
+
+[node name="Turn Display" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 50.0
+offset_bottom = 50.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_lsknn")
+centered = false
+
+[node name="Turns" type="Label" parent="Sprite2D"]
+unique_name_in_owner = true
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 93.0
+offset_bottom = 93.0
+text = "2"
+label_settings = SubResource("LabelSettings_7eq02")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Turns Left" type="Label" parent="Sprite2D"]
+unique_name_in_owner = true
+z_index = 1
+offset_left = 57.0
+offset_top = 43.0
+offset_right = 92.0
+offset_bottom = 88.0
+text = "2"
+label_settings = SubResource("LabelSettings_gyko7")
+horizontal_alignment = 1
+vertical_alignment = 1

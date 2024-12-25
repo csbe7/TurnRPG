@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://clmkqq2npkp2s"]
+
+[ext_resource type="Script" path="res://RPG system/Skills/ApplyStatusEffect.cs" id="1_lxp5i"]
+[ext_resource type="PackedScene" uid="uid://bdrj6280qh6dj" path="res://RPG system/Status Effects/bleed_effect.tscn" id="2_2q5yq"]
+[ext_resource type="Script" path="res://Visuals/Skill Effects/SkillEffect.cs" id="3_xeu4w"]
+
+[sub_resource type="Curve" id="Curve_n0jnv"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Resource" id="Resource_katfg"]
+script = ExtResource("3_xeu4w")
+color = Color(1, 0.174173, 0.127216, 1)
+fadeCurve = SubResource("Curve_n0jnv")
+
+[node name="Cut" type="Node"]
+script = ExtResource("1_lxp5i")
+targetStausEffects = [ExtResource("2_2q5yq")]
+name = "Cut"
+description = "Opens cuts across the target's body, making them bleed for 4 turns, causing 3 physical damage each turn"
+cost = 3.0
+playerTargeting = 3
+aiTargeting = 2
+targetEffect = SubResource("Resource_katfg")

@@ -8,11 +8,13 @@ public partial class DotEffect : StatusEffect
 
     public override void _Ready()
     {
+        base._Ready();
         if (affectedByUserStats) dot = giver.Attack(dot, null, true);
     }
 
     public override void ApplyEffect()
     {
+        GD.Print("Apply Effect");
         receiver.HandleAttack(dot);
     }
 }

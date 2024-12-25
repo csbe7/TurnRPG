@@ -20,29 +20,24 @@ public partial class StatusEffect : Node
     public override void _Ready()
     {
         durationLeft = duration;
-        if (!countRounds) receiver.TurnEnded += OnTurnEnded;
+        if (!countRounds) receiver.TurnEnded += Countdown;
         else
         {
             CombatManager cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
-            cm.RoundEnded += OnRoundEnded;
+            cm.RoundEnded += Countdown;
         }
     }
 
-    public virtual void OnTurnEnded()
+    public virtual void Countdown()
     {
+        GD.Print("Countdown");
         ApplyEffect();
         durationLeft--;
+        
 
         if (durationLeft <= 0 && duration != 0) EndEffect();
     }
-    public virtual void OnRoundEnded()
-    {
-        ApplyEffect();
-        durationLeft--;
 
-        if (durationLeft <= 0 && duration != 0) EndEffect();
-    }
-    
     public virtual void ApplyEffect() {}
 
 

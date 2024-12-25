@@ -8,10 +8,12 @@ public partial class ApplyStatusEffect : Skill
 
     public override void UseSkill()
     {
+        base.UseSkill();
         foreach (PackedScene ps in targetStausEffects)
         {
             StatusEffect se = ps.Instantiate<StatusEffect>();
             se.giver = user.sheet;
+            se.receiver = target.sheet;
             target.sheet.AddStatusEffect(se);
         }
         foreach (PackedScene ps in userStausEffects)

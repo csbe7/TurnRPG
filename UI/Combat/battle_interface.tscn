@@ -1,13 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://b1v15kb6yuq5o"]
+[gd_scene load_steps=14 format=3 uid="uid://b1v15kb6yuq5o"]
 
 [ext_resource type="Script" path="res://UI/Combat/BattleInterface.cs" id="1_un732"]
 [ext_resource type="PackedScene" uid="uid://bwnm4qvqoeaie" path="res://UI/Combat/character_icon.tscn" id="2_okrib"]
+[ext_resource type="PackedScene" uid="uid://c4r4503fnpl4l" path="res://UI/Combat/turn_display.tscn" id="2_sg2eo"]
+[ext_resource type="Texture2D" uid="uid://cfbtskc3b7jyw" path="res://UI/Combat/Icons/playerturnframe_bg.png" id="3_06pxr"]
 [ext_resource type="Resource" uid="uid://culxaylya3f7" path="res://Sheets/Party/TestParty.tres" id="3_ffs5c"]
 [ext_resource type="Resource" uid="uid://dfqmdnnjiesg8" path="res://Sheets/Enemies/TestEnemy.tres" id="3_navpl"]
+[ext_resource type="Texture2D" uid="uid://b4gfby8ffbulf" path="res://UI/Combat/Icons/aiturnframe_bg.png" id="4_b8x3a"]
 [ext_resource type="Resource" uid="uid://cpxm3ob1oskel" path="res://Sheets/Party/TestParty2.tres" id="4_n070j"]
 [ext_resource type="PackedScene" uid="uid://bcqcwsgrewmco" path="res://UI/Combat/action_drawer.tscn" id="5_pyk47"]
 [ext_resource type="PackedScene" uid="uid://w40wpr50376h" path="res://UI/Combat/selected_skill_display.tscn" id="6_2ir7b"]
 [ext_resource type="PackedScene" uid="uid://bp38s0bodp8ox" path="res://UI/Combat/ai_skill_display.tscn" id="8_6d83l"]
+[ext_resource type="PackedScene" uid="uid://csn0ctynqxjdo" path="res://UI/Combat/turn_order_display.tscn" id="9_5e20r"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2bjq0"]
 font_size = 32
@@ -20,6 +24,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_un732")
+turnDisplay = ExtResource("2_sg2eo")
+blueTurnContainer = ExtResource("3_06pxr")
+redTurnContainer = ExtResource("4_b8x3a")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 0
@@ -77,14 +84,6 @@ theme_override_constants/h_separation = 146
 columns = 4
 
 [node name="Character Icon" parent="Enemy Grid" instance=ExtResource("2_okrib")]
-layout_mode = 2
-sheet = ExtResource("3_navpl")
-
-[node name="Character Icon2" parent="Enemy Grid" instance=ExtResource("2_okrib")]
-layout_mode = 2
-sheet = ExtResource("3_navpl")
-
-[node name="Character Icon3" parent="Enemy Grid" instance=ExtResource("2_okrib")]
 layout_mode = 2
 sheet = ExtResource("3_navpl")
 
@@ -146,6 +145,7 @@ mouse_filter = 0
 text = "VICTORY"
 
 [node name="Round Counter" type="Label" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -158,3 +158,6 @@ grow_vertical = 2
 text = "10"
 label_settings = SubResource("LabelSettings_2bjq0")
 horizontal_alignment = 1
+
+[node name="Turn Order Display" parent="." instance=ExtResource("9_5e20r")]
+layout_mode = 1

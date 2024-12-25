@@ -135,16 +135,36 @@ public partial class CharacterIcon : Control
     void OnHealthChanged(float oldVal, float newVal)
     {
         healthBar.SetValue(sheet.statBlock.CurrHealth.ModValue);
-        var display = hpChangedDisplay.Instantiate<HealthChangeDisplay>();
-        AddChild(display);
-        display.Position = hpDisplayPos.Position;
-        display.Start(newVal - oldVal, ai);
+        hpchange.Add(newVal - oldVal);
+
+        GD.Print("Health Changed");
+        if (!displayingHealthChange) DisplayHealthChange();
+        
         if (sheet.statBlock.Dead) actionIcon.Hide();
     }
 
     void OnEnergyChanged(float oldVal, float newVal)
     {
         energyBar.SetValue(sheet.statBlock.CurrEnergy.ModValue);
+    }
+
+    Godot.Collections.Array<float> hpchange = new Godot.Collections.Array<float>();
+    bool displayingHealthChange = false;
+    async void DisplayHealthChange()
+    {   
+        displayingHealthChange = true;
+        foreach(float change in hpchange)
+        {
+            GD.Print(hpchange.Count);
+            var display = hpChangedDisplay.Instantiate<HealthChangeDisplay>();
+            AddChild(display);
+            display.Position = hpDisplayPos.Position;
+            display.Start(change, ai);
+            await Task.Delay(500);
+        }
+
+        hpchange.Clear();
+        displayingHealthChange = false;
     }
 
     public void Select()

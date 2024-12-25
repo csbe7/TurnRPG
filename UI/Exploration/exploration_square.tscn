@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://dyx4peovibpml"]
+
+[ext_resource type="Script" path="res://UI/Exploration/ExplorationSquare.cs" id="1_t6k7b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_713up"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1hvw8"]
+bg_color = Color(0.133196, 0.133196, 0.133196, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.305882, 0.305882, 0.305882, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5u0w"]
+bg_color = Color(0.270222, 0.270222, 0.270222, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.305882, 0.305882, 0.305882, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp6t8"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.306923, 0.306923, 0.306922, 1)
+
+[node name="Exploration Square" type="Control"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1088.0
+offset_bottom = -584.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t6k7b")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_713up")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1hvw8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p5u0w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_xp6t8")

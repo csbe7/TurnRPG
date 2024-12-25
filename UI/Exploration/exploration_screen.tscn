@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgrwtcg2ad4hd"]
+
+[ext_resource type="Script" path="res://Exploration System/ExplorationManager.cs" id="1_wsgqb"]
+[ext_resource type="PackedScene" uid="uid://dyx4peovibpml" path="res://UI/Exploration/exploration_square.tscn" id="2_iui1k"]
+[ext_resource type="PackedScene" uid="uid://dker2c0bexovy" path="res://UI/Exploration/player_icon_exploration.tscn" id="3_2l6l1"]
+
+[node name="Exploration Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wsgqb")
+explorationSquare = ExtResource("2_iui1k")
+playerIcon = ExtResource("3_2l6l1")
+explorationGridMaxSize = Vector2i(10, 10)
+explorationGridMinSize = Vector2i(4, 4)
+squareSpacing = 61.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -516.0
+offset_top = -368.0
+offset_right = 1747.0
+offset_bottom = 1158.0
+color = Color(0.0430392, 0.0430392, 0.0430392, 1)
+
+[node name="Grid Top Right" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 194.0
+offset_top = 144.0
+offset_right = 206.0
+offset_bottom = 161.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 322)

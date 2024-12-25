@@ -3,6 +3,8 @@ using System;
 
 public partial class CombatManager : Node
 {
+    Godot.Collections.Array<int> turnOrder = new Godot.Collections.Array<int>();
+    RandomNumberGenerator rng = new RandomNumberGenerator();
 
     public enum Turn
     {
@@ -22,6 +24,7 @@ public partial class CombatManager : Node
     [Signal] public delegate void RoundEndedEventHandler();
     [Signal] public delegate void PlayerTurnStartedEventHandler();
     [Signal] public delegate void AITurnStartedEventHandler();
+    [Signal] public delegate void TurnEndedEventHandler();
     
     public Godot.Collections.Array<CharacterIcon> player_party = new Godot.Collections.Array<CharacterIcon>();
     public Godot.Collections.Array<CharacterIcon> ai_party = new Godot.Collections.Array<CharacterIcon>();
@@ -35,6 +38,8 @@ public partial class CombatManager : Node
 
     public void BattleStart()
     {
+        rng.Randomize();
+
         battleInterface = GetNode<BattleInterface>("../Battle Interface");
         int i = 0;
         foreach(Node child in battleInterface.partyGrid.GetChildren())
@@ -63,25 +68,35 @@ public partial class CombatManager : Node
 
         roundCounter = player_party.Count + ai_party.Count;
 
+        if (ai_party.Count >= player_party.Count)
+        {
+            MakeTurnOrder();
+            turnIndex = 0;
+            turnsLeft = turnOrder[turnIndex];
+            SetTurn(Turn.player_turn);
+            SetTurnStage(TurnStage.character_selection);
+            battleInterface.LoadTurnOrder(turnOrder, false);
+        }
+        else if (ai_party.Count < player_party.Count)
+        {
+            MakeTurnOrder(true);
+            turnIndex = 0;
+            turnsLeft = turnOrder[turnIndex];
+            SetTurnStage(TurnStage.character_selection);
+            SetTurn(Turn.ai_turn);
+            battleInterface.LoadTurnOrder(turnOrder, true);
+        }
 
-        SetTurn(Turn.player_turn);
-        SetTurnStage(TurnStage.character_selection);
+        EmitSignal(SignalName.RoundEnded);
 
     }
 
-    int turnCounter = 0;
-    public void SetTurn(Turn t)
+
+    public int turnsLeft;
+    public int turnIndex;
+    public void CountDownTurn()
     {
-        currTurn = t;
-
-        if (IsInstanceValid(selectedCharacter)){
-            roundCounter--;
-            selectedCharacter.Spent = true;
-            selectedCharacter.sheet.ChangeEnergy(selectedSkill.restoreEnegry);
-            selectedCharacter.sheet.EmitSignal(Sheet.SignalName.TurnEnded);
-
-        } 
-
+        GD.Print("Count");
         if (PlayerDefeated() || AIDefeated())
         {
             Control endScren = battleInterface.GetNode<Control>("Battle End Screen");
@@ -94,41 +109,53 @@ public partial class CombatManager : Node
             return;
         }
 
-        PlayerSpent(true);
-        AISpent(true);
+        turnsLeft--;
 
-        /*if (turnCounter != 2) turnCounter++;
-        else{
-            bool pspent = PlayerSpent(true);
-            bool aspent = AISpent(true);
-            if (pspent && aspent)
-            {
-               GD.Print("Round Ended");
-               EmitSignal(SignalName.RoundStarted);
-            }
-            turnCounter = 1;
-        }*/
-        if (roundCounter <= 0)
+        if (IsInstanceValid(selectedCharacter))
         {
-            roundCounter = player_party.Count + ai_party.Count;
-            GD.Print("Round Ended");
-            EmitSignal(SignalName.RoundEnded);
+            selectedCharacter.Spent = true;
+            selectedCharacter.sheet.ChangeEnergy(selectedSkill.restoreEnegry);
+            selectedCharacter.sheet.EmitSignal(Sheet.SignalName.TurnEnded);
+
+        } 
+
+        if (turnsLeft <= 0 || (currTurn == Turn.ai_turn && AISpent()) || (currTurn == Turn.player_turn && PlayerSpent()))
+        {
+            turnIndex++;
+            if (turnIndex >= turnOrder.Count)
+            {
+                turnIndex = 0;
+                PlayerSpent(true);
+                AISpent(true);
+                GD.Print("Round Ended");
+                EmitSignal(SignalName.RoundEnded);
+            }
+            turnsLeft = turnOrder[turnIndex];
+            if (currTurn == Turn.ai_turn) SetTurn(Turn.player_turn);
+            else SetTurn(Turn.ai_turn);
         }
 
-        battleInterface.roundCounter.Text = roundCounter.ToString();
+        EmitSignal(SignalName.TurnEnded); 
+        SetTurnStage(TurnStage.character_selection);
 
 
+        //battleInterface.roundCounter.Text = turnsLeft.ToString();
+    }
+
+    public void SetTurn(Turn t)
+    {
+        currTurn = t;
 
         switch(t)
         {
             case Turn.ai_turn:
-            SetTurnStage(TurnStage.character_selection);
+            //SetTurnStage(TurnStage.character_selection);
             EmitSignal(SignalName.AITurnStarted);
             AI.Turn();
             break;
 
             case Turn.player_turn:
-            SetTurnStage(TurnStage.character_selection);
+            //SetTurnStage(TurnStage.character_selection);
             EmitSignal(SignalName.PlayerTurnStarted);
             break;
         }
@@ -202,7 +229,7 @@ public partial class CombatManager : Node
             {
                 selectedSkill.SetTarget(selectedCharacter);
                 selectedSkill.UseSkill();
-                SetTurn(Turn.ai_turn);
+                CountDownTurn();
             }
             else if (selectedSkill.playerTargeting == Skill.Targeting.any)
             {
@@ -301,7 +328,7 @@ public partial class CombatManager : Node
 
         selectedCharacter.Spent = true;
         selectedCharacter.sheet.EmitSignal(Sheet.SignalName.TurnEnded);
-        SetTurn(Turn.ai_turn);
+        CountDownTurn();
     }
 
     void PlayerCancelSkill()
@@ -361,10 +388,15 @@ public partial class CombatManager : Node
 
     bool PlayerSpent(bool reset = false)
     {
+        bool status = true;
         foreach(CharacterIcon icon in player_party)
         {
             if (icon.sheet.statBlock.Dead) continue;
-            if (!icon.Spent) return false;
+            if (!icon.Spent) 
+            {
+                status = false;
+                break;
+            }
         }
         if (reset)
         {
@@ -374,15 +406,20 @@ public partial class CombatManager : Node
                 icon.Spent = false;
             }
         }
-        return true;
+        return status;
     }
 
     bool AISpent(bool reset = false)
     {
+        bool status = true;
         foreach(CharacterIcon icon in ai_party)
         {
             if (icon.sheet.statBlock.Dead) continue;
-            if (!icon.Spent) return false;
+            if (!icon.Spent) 
+            {
+                status = false;
+                break;
+            }
         }
         if (reset)
         {
@@ -392,7 +429,7 @@ public partial class CombatManager : Node
                 icon.Spent = false;
             }
         }
-        return true;
+        return status;
     }
 
     bool PlayerDefeated()
@@ -410,5 +447,57 @@ public partial class CombatManager : Node
             if (!icon.sheet.statBlock.Dead) return false;
         }
         return true;
+    }
+
+    void MakeTurnOrder(bool aifirst = false)
+    {
+        turnOrder.Clear();
+        int aileft = ai_party.Count;
+        int pleft = player_party.Count;
+        while(!aifirst)
+        {
+            int pn;
+            if (aileft == 0 || pleft == 0) pn = pleft;
+            else pn = rng.RandiRange(1, pleft);
+            
+            pleft -= pn;
+            
+            int ain;
+            if (pleft == 0 || aileft == 0) ain = aileft;
+            else ain = rng.RandiRange(1, aileft);
+
+            aileft -= ain;
+
+            if (pn != 0) turnOrder.Add(pn);
+            if (ain != 0) turnOrder.Add(ain);
+
+            if (aileft == 0 && pleft == 0) break;
+        }
+
+        while(aifirst)
+        {
+            
+            int ain;
+            if (pleft == 0 || aileft == 0) ain = aileft;
+            else ain = rng.RandiRange(1, aileft);
+
+            aileft -= ain;
+
+            int pn;
+            if (aileft == 0 || pleft == 0) pn = pleft;
+            else pn = rng.RandiRange(1, pleft);
+            
+            pleft -= pn;
+
+            if (ain != 0) turnOrder.Add(ain);
+            if (pn != 0) turnOrder.Add(pn);
+
+            if (aileft == 0 && pleft == 0)
+            {
+
+                break;
+            }
+        }
+
     }
 }
