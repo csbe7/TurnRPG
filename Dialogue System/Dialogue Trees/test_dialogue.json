@@ -1,0 +1,42 @@
+[
+	{
+		"commands_raw": "WELCOME\n\n?> \"hi\" -> Hi node\n?> \"fuck you\" -> FU node",
+		"gnode_name": "start",
+		"id": 0,
+		"name": "start",
+		"position": [
+			500,
+			0
+		]
+	},
+	{
+		"commands_raw": "MEOW\n?>End -> End",
+		"gnode_name": "hi node",
+		"id": 1,
+		"name": "Hi node",
+		"position": [
+			740,
+			-80
+		]
+	},
+	{
+		"commands_raw": "FU\n?>End -> End",
+		"gnode_name": "fu node",
+		"id": 2,
+		"name": "FU node",
+		"position": [
+			740,
+			80
+		]
+	},
+	{
+		"commands_raw": "",
+		"gnode_name": "end",
+		"id": 3,
+		"name": "End",
+		"position": [
+			980,
+			-20
+		]
+	}
+]

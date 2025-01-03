@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://bv2bm6rrn6nvr"]
+
+[ext_resource type="Script" path="res://Dialogue System/DialogueBox.gd" id="1_fj1x3"]
+[ext_resource type="PackedScene" uid="uid://ccny88wondmlf" path="res://Dialogue System/choice_button.tscn" id="2_cxf17"]
+[ext_resource type="Script" path="res://addons/ez_dialogue/ez_dialogue_node.gd" id="3_4v15w"]
+[ext_resource type="JSON" path="res://Dialogue System/Dialogue Trees/test_dialogue.json" id="3_dfrok"]
+[ext_resource type="Script" path="res://Dialogue System/DialogBoxCsharpInterface.cs" id="5_60lq6"]
+
+[node name="Dialogue Interface" type="Control"]
+custom_minimum_size = Vector2(320, 50)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 269.0
+offset_bottom = 38.0
+script = ExtResource("5_60lq6")
+
+[node name="Dialogue Box" type="Control" parent="." node_paths=PackedStringArray("ez_dialogue", "label", "choice_container")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -122.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fj1x3")
+ez_dialogue = NodePath("EzDialogue")
+label = NodePath("Choice Container/RichTextLabel")
+choice_container = NodePath("Choice Container")
+choice_button_scene = ExtResource("2_cxf17")
+dialogue = ExtResource("3_dfrok")
+
+[node name="Choice Container" type="VBoxContainer" parent="Dialogue Box"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+offset_right = 320.0
+offset_bottom = 120.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Dialogue Box/Choice Container"]
+custom_minimum_size = Vector2(320, 50)
+layout_mode = 2
+text = "WELCOME"
+
+[node name="EzDialogue" type="Node" parent="Dialogue Box"]
+script = ExtResource("3_4v15w")
+
+[connection signal="EndOfDialogueReached" from="Dialogue Box" to="." method="OnEODReached"]
+[connection signal="dialogue_generated" from="Dialogue Box/EzDialogue" to="Dialogue Box" method="on_dialogue_generated"]

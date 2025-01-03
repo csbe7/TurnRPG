@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Encounter" load_steps=3 format=3 uid="uid://nf3qfg1qgnno"]
+
+[ext_resource type="Resource" uid="uid://dfqmdnnjiesg8" path="res://Sheets/Enemies/TestEnemy.tres" id="1_ravrm"]
+[ext_resource type="Script" path="res://Exploration System/Events/Encounter.cs" id="1_tj1db"]
+
+[resource]
+script = ExtResource("1_tj1db")
+enemies = [ExtResource("1_ravrm"), ExtResource("1_ravrm"), ExtResource("1_ravrm"), ExtResource("1_ravrm")]
+name = "Encounter"

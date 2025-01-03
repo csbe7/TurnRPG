@@ -48,3 +48,8 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_713up")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1hvw8")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_p5u0w")
 theme_override_styles/normal = SubResource("StyleBoxFlat_xp6t8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(30, 32)
+scale = Vector2(0.25, 0.25)

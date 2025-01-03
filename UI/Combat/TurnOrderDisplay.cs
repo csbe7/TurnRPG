@@ -28,7 +28,7 @@ public partial class TurnOrderDisplay : Control
     public override void _PhysicsProcess(double delta)
     {
         grid.Position += (targetPos - grid.Position).Normalized() * moveSpeed;
-        if (grid.Position.DistanceTo(targetPos) <= 0.05f)
+        if (grid.Position.DistanceTo(targetPos) <= 1f)
         {
             grid.Position = targetPos;
             SetPhysicsProcess(false);

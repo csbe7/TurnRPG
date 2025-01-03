@@ -26,7 +26,7 @@ public partial class AI : Node
         do{
             int charI = rng.RandiRange(0, cm.ai_party.Count-1);
             cm.selectedCharacter = cm.ai_party[charI];
-            //rng.Randomize();
+            rng.Randomize();
         }while(cm.selectedCharacter.sheet.statBlock.Dead || cm.selectedCharacter.Spent);
         
         cm.selectedCharacter.Select();
@@ -35,7 +35,7 @@ public partial class AI : Node
         do{
             int skillI = rng.RandiRange(0, cm.selectedCharacter.sheet.skills.Count-1);
             cm.selectedSkill = cm.selectedCharacter.sheet.skills[skillI];
-            //rng.Randomize();
+            rng.Randomize();
         }while(cm.selectedSkill.cost > cm.selectedCharacter.sheet.statBlock.CurrEnergy.ModValue);
         
 
@@ -49,7 +49,7 @@ public partial class AI : Node
             do{
                 int targetI = rng.RandiRange(0, cm.player_party.Count-1);
                 target = cm.player_party[targetI];
-                //rng.Randomize();
+                rng.Randomize();
             }while((target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.alive) 
             || (!target.sheet.statBlock.Dead && cm.selectedSkill.targetState == Skill.TargetState.dead));
         }
@@ -88,7 +88,6 @@ public partial class AI : Node
         cm.battleInterface.aiSkillDisplay.FadeOut();
 
         
-
         cm.CountDownTurn();
 
     }

@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://n0krq5pi6646"]
+
+[ext_resource type="Script" path="res://Dialogue System/DialogueEventInterface.cs" id="1_7kuau"]
+[ext_resource type="Texture2D" uid="uid://cgq4cyt4ps2xm" path="res://UI/Combat/Icons/placeholder-shield-removebg-preview.png" id="1_d2php"]
+[ext_resource type="PackedScene" uid="uid://bv2bm6rrn6nvr" path="res://Dialogue System/dialogue_box.tscn" id="2_hsdc7"]
+[ext_resource type="JSON" path="res://Dialogue System/Dialogue Trees/test_dialogue.json" id="4_j18g2"]
+
+[node name="Dialogue Event Interface" type="Control" node_paths=PackedStringArray("sprite", "dci")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7kuau")
+sprite = NodePath("Icon Positioner/Event Icon")
+dci = NodePath("Dialog Box")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -299.0
+offset_top = -358.0
+offset_right = 1562.0
+offset_bottom = 770.0
+color = Color(0, 0, 0, 1)
+
+[node name="Icon Positioner" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Event Icon" type="Sprite2D" parent="Icon Positioner"]
+unique_name_in_owner = true
+position = Vector2(22, 123)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_d2php")
+
+[node name="Dialog Box" parent="." instance=ExtResource("2_hsdc7")]
+offset_left = 423.0
+offset_top = 217.0
+offset_right = 545.0
+offset_bottom = 257.0
+test = ExtResource("4_j18g2")

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccny88wondmlf"]
+
+[ext_resource type="Script" path="res://Dialogue System/ChoiceButton.gd" id="1_51ogs"]
+
+[node name="Choice Button" type="Button"]
+offset_right = 320.0
+offset_bottom = 31.0
+text = "CHOICE 1"
+script = ExtResource("1_51ogs")

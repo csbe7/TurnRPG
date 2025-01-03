@@ -1,11 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://b1v15kb6yuq5o"]
+[gd_scene load_steps=13 format=3 uid="uid://b1v15kb6yuq5o"]
 
 [ext_resource type="Script" path="res://UI/Combat/BattleInterface.cs" id="1_un732"]
 [ext_resource type="PackedScene" uid="uid://bwnm4qvqoeaie" path="res://UI/Combat/character_icon.tscn" id="2_okrib"]
 [ext_resource type="PackedScene" uid="uid://c4r4503fnpl4l" path="res://UI/Combat/turn_display.tscn" id="2_sg2eo"]
 [ext_resource type="Texture2D" uid="uid://cfbtskc3b7jyw" path="res://UI/Combat/Icons/playerturnframe_bg.png" id="3_06pxr"]
 [ext_resource type="Resource" uid="uid://culxaylya3f7" path="res://Sheets/Party/TestParty.tres" id="3_ffs5c"]
-[ext_resource type="Resource" uid="uid://dfqmdnnjiesg8" path="res://Sheets/Enemies/TestEnemy.tres" id="3_navpl"]
 [ext_resource type="Texture2D" uid="uid://b4gfby8ffbulf" path="res://UI/Combat/Icons/aiturnframe_bg.png" id="4_b8x3a"]
 [ext_resource type="Resource" uid="uid://cpxm3ob1oskel" path="res://Sheets/Party/TestParty2.tres" id="4_n070j"]
 [ext_resource type="PackedScene" uid="uid://bcqcwsgrewmco" path="res://UI/Combat/action_drawer.tscn" id="5_pyk47"]
@@ -24,6 +23,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_un732")
+characterIcon = ExtResource("2_okrib")
 turnDisplay = ExtResource("2_sg2eo")
 blueTurnContainer = ExtResource("3_06pxr")
 redTurnContainer = ExtResource("4_b8x3a")
@@ -82,10 +82,6 @@ offset_bottom = 188.0
 grow_horizontal = 2
 theme_override_constants/h_separation = 146
 columns = 4
-
-[node name="Character Icon" parent="Enemy Grid" instance=ExtResource("2_okrib")]
-layout_mode = 2
-sheet = ExtResource("3_navpl")
 
 [node name="Action Drawer" parent="." instance=ExtResource("5_pyk47")]
 unique_name_in_owner = true

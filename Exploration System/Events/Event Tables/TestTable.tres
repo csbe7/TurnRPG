@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EventTable" load_steps=5 format=3 uid="uid://caryagogpi5vb"]
+
+[ext_resource type="Resource" uid="uid://ov7805h8r66k" path="res://Exploration System/Events/Encounters/TestEncounter.tres" id="1_8tm24"]
+[ext_resource type="Script" path="res://Exploration System/EventTable.cs" id="1_23mov"]
+[ext_resource type="Resource" uid="uid://blnvlysu5gbgl" path="res://Exploration System/Events/ExitEvent.tres" id="1_p4sri"]
+[ext_resource type="Resource" uid="uid://du606gxgv2jt5" path="res://Exploration System/Events/Dialogue Events/TestDialogueEvent.tres" id="3_vygso"]
+
+[resource]
+script = ExtResource("1_23mov")
+possible_events = {
+ExtResource("1_8tm24"): 20,
+ExtResource("3_vygso"): 80
+}
+no_event_chance = 70
+exitEvent = ExtResource("1_p4sri")

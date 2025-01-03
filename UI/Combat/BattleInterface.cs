@@ -10,6 +10,7 @@ public partial class BattleInterface : Control
     public AiSkillDisplay aiSkillDisplay;
     public Label roundCounter;
 
+    [Export] PackedScene characterIcon;
     [Export] PackedScene turnDisplay;
     [Export] Texture2D blueTurnContainer, redTurnContainer;
     TurnOrderDisplay turnOrderDisplay;
@@ -33,7 +34,7 @@ public partial class BattleInterface : Control
 
         cm.TurnEnded += OnTurnEnded;
 
-        cm.BattleStart();
+        //cm.BattleStart();
 
     }
 
@@ -87,11 +88,28 @@ public partial class BattleInterface : Control
     void OnTurnEnded()
     {
         if (IsInstanceValid(turnsLeftLabel)) turnsLeftLabel.Hide();
-        turnOrderDisplay.PositionDisplay(cm.turnIndex);
+        if (IsInstanceValid(turnOrderDisplay)) turnOrderDisplay.PositionDisplay(cm.turnIndex);
         Control td = (Control)turnOrderDisplay.grid.GetChild(cm.turnIndex);
         turnsLeftLabel = td.GetNode<Label>("%Turns Left");
         turnsLeftLabel.Text = cm.turnsLeft.ToString();
         turnsLeftLabel.Show();
+    }
+
+    public CharacterIcon AddCharacterIcon(Sheet s, bool enemy)
+    {
+        CharacterIcon ci = characterIcon.Instantiate<CharacterIcon>();
+        ci.sheet = s;
+        if (enemy) enemyGrid.AddChild(ci);
+        else partyGrid.AddChild(ci);
+
+        return ci;
+    }
+
+    public void Delete()
+    {
+        cm.TurnEnded -= OnTurnEnded;
+        
+        QueueFree();
     }
 
 }

@@ -17,8 +17,17 @@ config/icon="res://icon.svg"
 [autoload]
 
 CombatManager="*res://Combat System/CombatManager.cs"
+PlayerInfo="*res://General/PlayerInfo.cs"
 Ai="*res://Combat System/AI.cs"
 
 [dotnet]
 
 project/assembly_name="TurnRPG"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/ez_dialogue/plugin.cfg")
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://Translations/TestTranslation (2).eng.translation", "res://Translations/TestTranslation (2).it.translation")

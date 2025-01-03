@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DialogueEvent" load_steps=3 format=3 uid="uid://du606gxgv2jt5"]
+
+[ext_resource type="JSON" path="res://Dialogue System/Dialogue Trees/test_dialogue.json" id="1_d3rgb"]
+[ext_resource type="Script" path="res://Exploration System/Events/DialogueEvent.cs" id="1_k5bet"]
+
+[resource]
+script = ExtResource("1_k5bet")
+dialogueJSON = ExtResource("1_d3rgb")
+name = "Test Dialogue"

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class CombatManager : Node
 {
@@ -25,6 +26,7 @@ public partial class CombatManager : Node
     [Signal] public delegate void PlayerTurnStartedEventHandler();
     [Signal] public delegate void AITurnStartedEventHandler();
     [Signal] public delegate void TurnEndedEventHandler();
+    [Signal] public delegate void CombatEndedEventHandler(bool win);
     
     public Godot.Collections.Array<CharacterIcon> player_party = new Godot.Collections.Array<CharacterIcon>();
     public Godot.Collections.Array<CharacterIcon> ai_party = new Godot.Collections.Array<CharacterIcon>();
@@ -36,32 +38,60 @@ public partial class CombatManager : Node
 
     int roundCounter;
 
-    public void BattleStart()
+    Encounter currEncounter;
+
+    public void BattleStart(Godot.Collections.Array<Sheet> party, Encounter e)
     {
         rng.Randomize();
+        currEncounter = e;
 
-        battleInterface = GetNode<BattleInterface>("../Battle Interface");
-        int i = 0;
-        foreach(Node child in battleInterface.partyGrid.GetChildren())
+        battleInterface = GetNodeOrNull<BattleInterface>("../Battle Interface");
+        if (!IsInstanceValid(battleInterface))
         {
-            if (child is CharacterIcon icon)
+            PackedScene bi = (PackedScene)ResourceLoader.Load("res://UI/Combat/battle_interface.tscn");
+            battleInterface = bi.Instantiate<BattleInterface>();
+            GetParent().AddChild(battleInterface);
+            foreach(Node child in battleInterface.partyGrid.GetChildren() + battleInterface.enemyGrid.GetChildren()) child.QueueFree();
+            
+            foreach(Sheet s in party)
             {
+                CharacterIcon icon = battleInterface.AddCharacterIcon(s, false);
                 player_party.Add(icon);
                 icon.Selected += PlayerCharacterSelect;
                 icon.Selected += PlayerTargetSelection;
-                i++;
             }
-        }
-
-        foreach(Node child in battleInterface.enemyGrid.GetChildren())
-        {
-            if (child is CharacterIcon icon)
+            foreach(Sheet s in e.enemies)
             {
+                CharacterIcon icon = battleInterface.AddCharacterIcon(s, true);
                 ai_party.Add(icon);
                 icon.Selected += PlayerTargetSelection;
                 icon.ai = true;
             }
         }
+        else
+        {
+            GD.Print("Already Exists");
+            foreach(Node child in battleInterface.partyGrid.GetChildren())
+            {
+                if (child is CharacterIcon icon)
+                {
+                    player_party.Add(icon);
+                    icon.Selected += PlayerCharacterSelect;
+                    icon.Selected += PlayerTargetSelection;
+                }
+            }
+
+            foreach(Node child in battleInterface.enemyGrid.GetChildren())
+            {
+                if (child is CharacterIcon icon)
+                {
+                    ai_party.Add(icon);
+                    icon.Selected += PlayerTargetSelection;
+                    icon.ai = true;
+                }
+            }
+        }
+        
 
         battleInterface.actionDrawer.SkillSelected += PlayerSkillSelect;
         battleInterface.selectedSkillDisplay.button.ButtonDown += PlayerCancelSkill;
@@ -94,7 +124,7 @@ public partial class CombatManager : Node
 
     public int turnsLeft;
     public int turnIndex;
-    public void CountDownTurn()
+    public async void CountDownTurn()
     {
         GD.Print("Count");
         if (PlayerDefeated() || AIDefeated())
@@ -106,6 +136,16 @@ public partial class CombatManager : Node
             endScren.Show();
             battleInterface.selectedSkillDisplay.Hide();
             battleInterface.aiSkillDisplay.Hide();
+            await Task.Delay(1000);
+
+            
+            battleInterface.Delete();
+            battleInterface = null;
+            ai_party.Clear();
+            player_party.Clear();
+            
+            EmitSignal(SignalName.CombatEnded, AIDefeated());
+            currEncounter.Resolve();
             return;
         }
 
@@ -121,6 +161,7 @@ public partial class CombatManager : Node
 
         if (turnsLeft <= 0 || (currTurn == Turn.ai_turn && AISpent()) || (currTurn == Turn.player_turn && PlayerSpent()))
         {
+            if (currTurn== Turn.ai_turn) GD.Print(AISpent());
             turnIndex++;
             if (turnIndex >= turnOrder.Count)
             {
@@ -342,7 +383,6 @@ public partial class CombatManager : Node
     {
         if (who == 0 || who == 1)
         {
-            
             foreach(CharacterIcon enemy in ai_party)
             {
                 enemy.select.Disabled = !mode;
@@ -408,7 +448,6 @@ public partial class CombatManager : Node
         }
         return status;
     }
-
     bool AISpent(bool reset = false)
     {
         bool status = true;

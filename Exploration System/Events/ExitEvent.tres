@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Event" load_steps=3 format=3 uid="uid://blnvlysu5gbgl"]
+
+[ext_resource type="Texture2D" uid="uid://cjdhpad4wb7rs" path="res://UI/Exploration/Icons/Locations/exit_door.png" id="1_st8rg"]
+[ext_resource type="Script" path="res://Exploration System/Event.cs" id="1_v1y1k"]
+
+[resource]
+script = ExtResource("1_v1y1k")
+name = "Exit"
+icon = ExtResource("1_st8rg")
