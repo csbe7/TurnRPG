@@ -24,4 +24,9 @@ public partial class DialogBoxCsharpInterface : Control
     {
         EmitSignal(SignalName.DialogueEnded);
     }
+
+    void OnDialogueSignalReceived(string signal)
+    {
+        Game.DialogueSignalHandler(signal);
+    }
 }

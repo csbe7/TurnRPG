@@ -149,41 +149,70 @@ public partial class ExplorationManager : Control
 
     }
 
+
+
     async void OnSquareClicked(ExplorationSquare square)
     {
         Vector2I displacement = pi.currSquare - square.gridPos;
         if (displacement == new Vector2I(1, 0) || displacement == new Vector2I(0, 1) || displacement == new Vector2I(0, -1) || displacement == new Vector2I(-1, 0))
         {
+
             square.SetIconVisibility(true);
+
+
+            //HANDLE EVENTS
             if (!square.explored){
+                square.OnExplore();
+                await ToSignal(square, ExplorationSquare.SignalName.IconFadedIn);
                 if (IsInstanceValid(square.squareEvent))
                 {
                     if (square.squareEvent is Encounter encounter) StartEncounter(encounter);
                     else if (square.squareEvent is DialogueEvent dialogueEvent) StartDialogueEvent(dialogueEvent);
                     else if (square.squareEvent.name == "Exit") ExitReached();
+                    await ToSignal(square.squareEvent, Event.SignalName.EventResolved);
                 }
             }
-            
-            if (IsInstanceValid(square.squareEvent)) await ToSignal(square.squareEvent, Event.SignalName.EventResolved);
-
-            Vector2 squarePos = square.Position;
-            Vector2 squareSize = square.Size;
-            pi.Move(new Vector2(squarePos.X + squareSize.X/2, squarePos.Y + squareSize.Y/2), square.gridPos);
-
-            square.explored = true;
+            else square.FadeOutIcon();
         }
+        
+        if (!square.explored && square.squareEvent is Encounter && lastEncounterState == 0) return; //if flee, don't move
+
+        Vector2 squarePos = square.Position;
+        Vector2 squareSize = square.Size;
+        pi.Move(new Vector2(squarePos.X + squareSize.X/2, squarePos.Y + squareSize.Y/2), square.gridPos);
     }
     
 
-    BattleInterface bi;
+
     void StartEncounter(Encounter encounter)
     {
-        cm.BattleStart(PlayerInfo.current_party, encounter);
+        cm.BattleStart(Game.state.current_party, encounter);
+        cm.CombatEnded += OnEncounterResolved;
+    }
+
+    int lastEncounterState;
+    void OnEncounterResolved(int state)
+    {
+        cm.CombatEnded -= OnEncounterResolved;
+        
+        lastEncounterState = state;
+        switch(state)
+        {
+            case CombatManager.FLEE:
+            break;
+
+            case CombatManager.LOSS: 
+            QueueFree();
+            break;
+
+            case CombatManager.VICTORY: 
+            break;
+        }
     }
 
     void StartDialogueEvent(DialogueEvent dialogueEvent)
     {
-        DialogueEventInterface dei = dialogueEventInterface.Instantiate<DialogueEventInterface>();
+        DialogueEventInterface dei = Game.dialogueEventInterface.Instantiate<DialogueEventInterface>();
         dei.dialogueEvent = dialogueEvent;
         GetParent().AddChild(dei);
     }
@@ -203,17 +232,19 @@ public partial class ExplorationManager : Control
         
     }
 
+
     void PlayerArrived(Vector2I startPos, Vector2I endPos)
     {
+        if (startPos == endPos) return;
         pi.currSquare = endPos;
         GetSquare(pi.currSquare).SetIconVisibility(false);
-        GetSquare(startPos).SetIconVisibility(true);
+        GetSquare(startPos).FadeInIcon();
+        GetSquare(pi.currSquare).explored = true;
         
     }
 
     public void ExitReached()
     {
-
         QueueFree();
     }
 }

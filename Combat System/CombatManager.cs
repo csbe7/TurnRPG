@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 public partial class CombatManager : Node
 {
+    public const int FLEE = 0, LOSS = 1, VICTORY = 2;
+
     Godot.Collections.Array<int> turnOrder = new Godot.Collections.Array<int>();
     RandomNumberGenerator rng = new RandomNumberGenerator();
 
@@ -26,7 +28,7 @@ public partial class CombatManager : Node
     [Signal] public delegate void PlayerTurnStartedEventHandler();
     [Signal] public delegate void AITurnStartedEventHandler();
     [Signal] public delegate void TurnEndedEventHandler();
-    [Signal] public delegate void CombatEndedEventHandler(bool win);
+    [Signal] public delegate void CombatEndedEventHandler(int mode);
     
     public Godot.Collections.Array<CharacterIcon> player_party = new Godot.Collections.Array<CharacterIcon>();
     public Godot.Collections.Array<CharacterIcon> ai_party = new Godot.Collections.Array<CharacterIcon>();
@@ -92,6 +94,9 @@ public partial class CombatManager : Node
             }
         }
         
+        battleInterface.GetNode<Button>("Win Button").ButtonDown += Win;
+        battleInterface.GetNode<Button>("Lose Button").ButtonDown += Lose;
+        battleInterface.GetNode<Button>("Flee Button").ButtonDown += Flee;
 
         battleInterface.actionDrawer.SkillSelected += PlayerSkillSelect;
         battleInterface.selectedSkillDisplay.button.ButtonDown += PlayerCancelSkill;
@@ -124,28 +129,14 @@ public partial class CombatManager : Node
 
     public int turnsLeft;
     public int turnIndex;
-    public async void CountDownTurn()
+    public void CountDownTurn()
     {
         GD.Print("Count");
         if (PlayerDefeated() || AIDefeated())
         {
-            Control endScren = battleInterface.GetNode<Control>("Battle End Screen");
-            Label l = battleInterface.GetNode<Label>("Battle End Screen/Label");
-            if (PlayerDefeated()) l.Text = "DEFEAT";
-            else l.Text = "VICTORY";
-            endScren.Show();
-            battleInterface.selectedSkillDisplay.Hide();
-            battleInterface.aiSkillDisplay.Hide();
-            await Task.Delay(1000);
-
+            if (PlayerDefeated()) EndBattle(1);
+            else EndBattle(2);
             
-            battleInterface.Delete();
-            battleInterface = null;
-            ai_party.Clear();
-            player_party.Clear();
-            
-            EmitSignal(SignalName.CombatEnded, AIDefeated());
-            currEncounter.Resolve();
             return;
         }
 
@@ -538,5 +529,54 @@ public partial class CombatManager : Node
             }
         }
 
+    }
+
+    async void EndBattle(int state) //0 = flee   1 - lose   2 - win
+    {
+        Control endScren = battleInterface.GetNode<Control>("Battle End Screen");
+        Label l = battleInterface.GetNode<Label>("Battle End Screen/Label");
+        switch(state)
+        {
+            case FLEE:
+            l.Text = "FLEEING";
+            break;
+
+            case LOSS:
+            l.Text = "DEFEAT";
+            break;
+
+            case VICTORY:
+            l.Text = "VICTORY";
+            break;
+        }
+
+        endScren.Show();
+        battleInterface.selectedSkillDisplay.Hide();
+        battleInterface.aiSkillDisplay.Hide();
+        await Task.Delay(1000);
+
+            
+        battleInterface.Delete();
+        battleInterface = null;
+        ai_party.Clear();
+        player_party.Clear();
+            
+        EmitSignal(SignalName.CombatEnded, state);
+        currEncounter.Resolve();
+    }
+
+    void Win()
+    {
+        EndBattle(2);
+    }
+
+    void Lose()
+    {
+        EndBattle(1);
+    }
+
+    void Flee()
+    {
+        EndBattle(0);
     }
 }

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bv2bm6rrn6nvr"]
+[gd_scene load_steps=7 format=3 uid="uid://bv2bm6rrn6nvr"]
 
-[ext_resource type="Script" path="res://Dialogue System/DialogueBox.gd" id="1_fj1x3"]
+[ext_resource type="Script" path="res://UI/Dialogue/DialogueBox.gd" id="1_fj1x3"]
 [ext_resource type="PackedScene" uid="uid://ccny88wondmlf" path="res://Dialogue System/choice_button.tscn" id="2_cxf17"]
 [ext_resource type="Script" path="res://addons/ez_dialogue/ez_dialogue_node.gd" id="3_4v15w"]
 [ext_resource type="JSON" path="res://Dialogue System/Dialogue Trees/test_dialogue.json" id="3_dfrok"]
-[ext_resource type="Script" path="res://Dialogue System/DialogBoxCsharpInterface.cs" id="5_60lq6"]
+[ext_resource type="Script" path="res://UI/Dialogue/DialogueTextUI.cs" id="5_7omvy"]
+[ext_resource type="Script" path="res://UI/Dialogue/DialogBoxCsharpInterface.cs" id="5_60lq6"]
 
 [node name="Dialogue Interface" type="Control"]
 custom_minimum_size = Vector2(320, 50)
@@ -25,7 +26,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fj1x3")
 ez_dialogue = NodePath("EzDialogue")
-label = NodePath("Choice Container/RichTextLabel")
+label = NodePath("Choice Container/ScrollContainer/RichTextLabel")
 choice_container = NodePath("Choice Container")
 choice_button_scene = ExtResource("2_cxf17")
 dialogue = ExtResource("3_dfrok")
@@ -36,13 +37,24 @@ layout_mode = 1
 offset_right = 320.0
 offset_bottom = 120.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Dialogue Box/Choice Container"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Dialogue Box/Choice Container"]
 custom_minimum_size = Vector2(320, 50)
 layout_mode = 2
-text = "WELCOME"
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Dialogue Box/Choice Container/ScrollContainer"]
+custom_minimum_size = Vector2(320, 50)
+layout_mode = 2
+text = "HELLO "
+script = ExtResource("5_7omvy")
+minSize = Vector2(320, 25)
+maxYsize = 100.0
 
 [node name="EzDialogue" type="Node" parent="Dialogue Box"]
 script = ExtResource("3_4v15w")
 
 [connection signal="EndOfDialogueReached" from="Dialogue Box" to="." method="OnEODReached"]
+[connection signal="custom_signal_received" from="Dialogue Box/EzDialogue" to="." method="OnDialogueSignalReceived"]
+[connection signal="custom_signal_received" from="Dialogue Box/EzDialogue" to="Dialogue Box" method="on_custom_signal_received"]
 [connection signal="dialogue_generated" from="Dialogue Box/EzDialogue" to="Dialogue Box" method="on_dialogue_generated"]

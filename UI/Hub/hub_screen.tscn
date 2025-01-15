@@ -1,0 +1,118 @@
+[gd_scene load_steps=7 format=3 uid="uid://do2wh8lwnbgax"]
+
+[ext_resource type="Script" path="res://UI/Hub/HubScreen.cs" id="1_7xmtm"]
+[ext_resource type="PackedScene" uid="uid://bxc7wsnjpddai" path="res://UI/Hub/hub_button.tscn" id="1_c0max"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0iki6"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ew1sq"]
+resource_local_to_scene = true
+bg_color = Color(0.133196, 0.133196, 0.133196, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.792157, 0.792157, 0.792157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o88j6"]
+resource_local_to_scene = true
+bg_color = Color(0.187176, 0.187176, 0.187176, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.792157, 0.792157, 0.792157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ertib"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.791999, 0.791999, 0.791999, 1)
+
+[node name="Hub Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7xmtm")
+
+[node name="Hub Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -575.5
+offset_top = -323.5
+offset_right = 575.5
+offset_bottom = 323.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.154876, 0.154876, 0.154876, 1)
+
+[node name="Buttons" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 179.0
+offset_bottom = 649.0
+theme_override_constants/h_separation = 180
+theme_override_constants/v_separation = 70
+
+[node name="Journal Button" parent="Buttons" instance=ExtResource("1_c0max")]
+unique_name_in_owner = true
+layout_mode = 2
+buttonText = "IDK"
+
+[node name="Button" parent="Buttons/Journal Button" index="0"]
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0iki6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ew1sq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_o88j6")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ertib")
+text = "Journal"
+
+[node name="Shop Button" parent="Buttons" instance=ExtResource("1_c0max")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Button" parent="Buttons/Shop Button" index="0"]
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0iki6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ew1sq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_o88j6")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ertib")
+text = "Shop"
+
+[node name="Party Button" parent="Buttons" instance=ExtResource("1_c0max")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Button" parent="Buttons/Party Button" index="0"]
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0iki6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ew1sq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_o88j6")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ertib")
+text = "Party"
+
+[node name="Explore Button" parent="Buttons" instance=ExtResource("1_c0max")]
+unique_name_in_owner = true
+layout_mode = 2
+buttonText = "Explore"
+
+[node name="Button" parent="Buttons/Explore Button" index="0"]
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0iki6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ew1sq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_o88j6")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ertib")
+text = "Explore"
+
+[editable path="Buttons/Journal Button"]
+[editable path="Buttons/Shop Button"]
+[editable path="Buttons/Party Button"]
+[editable path="Buttons/Explore Button"]

@@ -1,4 +1,6 @@
 key,eng,it
-WELCOME,Welcome,Benvenuto
-MEOW,Meow!,Miao!
-FU,Not nice.,Poco carino.
+TestEvent0,"""Welcome %PlayerName%""","""Benvenuto %PlayerName%"""
+TestEvent1,"""Meow!""","""Miao!"""
+TestEvent2,"""Not nice.""","""Poco carino."""
+TestEventChoice2,"""fuck you""","""vaffanculo"""
+TestEventChoice1,"""hi""","""ciao"""

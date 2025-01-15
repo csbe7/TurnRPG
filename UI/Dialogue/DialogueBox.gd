@@ -33,7 +33,7 @@ func SetText(text : String):
 func AddChoice(index : int, choice_text : String):
 	var cb = choice_button_scene.instantiate()
 	cb.choice_index = index
-	cb.text = choice_text
+	cb.text = ParseTranslation(tr(choice_text))
 	cb.connect("Selected", OnChoiceSelected)
 	choice_container.add_child(cb)
 
@@ -46,6 +46,9 @@ func ClearDialogue():
 
 func OnChoiceSelected(index : int):
 	ez_dialogue.next(index)
+
+func on_custom_signal_received(_value):
+	pass # Replace with function body.
 
 
 func on_dialogue_generated(response : DialogueResponse):
@@ -67,16 +70,15 @@ func ParseTranslation(toParse : String):
 		var toReplace : String
 		var offset : int = 1
 		
-		while (found + offset < toParse.length() && c != ""):
+		while (found + offset < toParse.length() && c != "" && c!= "%"):
 			c = toParse[found + offset]
-			if (c == ""): continue
+			if (c == "" || c == "%"): continue
 			toReplace = toReplace + c
 			offset = offset + 1
 		
-		print(toReplace)
 		if (state.has(toReplace)):
 			if (state[toReplace] is String):
-				toParse = toParse.replace("%" + toReplace, state[toReplace])
+				toParse = toParse.replace("%" + toReplace + "%", state[toReplace])
 			else: if (state[toReplace] is int):
 				toParse = toParse.replace("%" + toReplace, state[toReplace].to_string())
 	return toParse

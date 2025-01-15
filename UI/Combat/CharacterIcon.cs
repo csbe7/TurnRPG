@@ -52,6 +52,8 @@ public partial class CharacterIcon : Control
 
         sheet = (Sheet)sheet.Duplicate();
         sheet.statBlock = (StatBlock)sheet.statBlock.Clone();
+
+
         sheet.statusEffects = new Node();
         sheet.statusEffects.Name = "Status Effects";
         sheet.skillParent = new Node();

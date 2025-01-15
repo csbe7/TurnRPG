@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://n0krq5pi6646"]
 
-[ext_resource type="Script" path="res://Dialogue System/DialogueEventInterface.cs" id="1_7kuau"]
+[ext_resource type="Script" path="res://UI/Dialogue/DialogueEventInterface.cs" id="1_7kuau"]
 [ext_resource type="Texture2D" uid="uid://cgq4cyt4ps2xm" path="res://UI/Combat/Icons/placeholder-shield-removebg-preview.png" id="1_d2php"]
-[ext_resource type="PackedScene" uid="uid://bv2bm6rrn6nvr" path="res://Dialogue System/dialogue_box.tscn" id="2_hsdc7"]
+[ext_resource type="PackedScene" uid="uid://bv2bm6rrn6nvr" path="res://UI/Dialogue/dialogue_box.tscn" id="2_hsdc7"]
 [ext_resource type="JSON" path="res://Dialogue System/Dialogue Trees/test_dialogue.json" id="4_j18g2"]
 
 [node name="Dialogue Event Interface" type="Control" node_paths=PackedStringArray("sprite", "dci")]

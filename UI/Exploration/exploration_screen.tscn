@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dker2c0bexovy" path="res://UI/Exploration/player_icon_exploration.tscn" id="3_2l6l1"]
 [ext_resource type="Resource" uid="uid://caryagogpi5vb" path="res://Exploration System/Events/Event Tables/TestTable.tres" id="4_bycyo"]
 [ext_resource type="Texture2D" uid="uid://1clau0glb8xa" path="res://UI/Exploration/Icons/Locations/enter_door.png" id="4_hyed2"]
-[ext_resource type="PackedScene" uid="uid://n0krq5pi6646" path="res://Dialogue System/dialogue_event_interface.tscn" id="6_yuo2x"]
+[ext_resource type="PackedScene" uid="uid://n0krq5pi6646" path="res://UI/Dialogue/dialogue_event_interface.tscn" id="6_yuo2x"]
 
 [node name="Exploration Screen" type="Control"]
 layout_mode = 3

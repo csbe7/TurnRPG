@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="DialogueEvent" load_steps=3 format=3 uid="uid://du606gxgv2jt5"]
+[gd_resource type="Resource" script_class="DialogueEvent" load_steps=4 format=3 uid="uid://du606gxgv2jt5"]
 
 [ext_resource type="JSON" path="res://Dialogue System/Dialogue Trees/test_dialogue.json" id="1_d3rgb"]
 [ext_resource type="Script" path="res://Exploration System/Events/DialogueEvent.cs" id="1_k5bet"]
+[ext_resource type="Texture2D" uid="uid://cgq4cyt4ps2xm" path="res://UI/Combat/Icons/placeholder-shield-removebg-preview.png" id="2_gvyrx"]
 
 [resource]
 script = ExtResource("1_k5bet")
 dialogueJSON = ExtResource("1_d3rgb")
 name = "Test Dialogue"
+icon = ExtResource("2_gvyrx")

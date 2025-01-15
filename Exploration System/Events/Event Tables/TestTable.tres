@@ -9,7 +9,7 @@
 script = ExtResource("1_23mov")
 possible_events = {
 ExtResource("1_8tm24"): 20,
-ExtResource("3_vygso"): 80
+ExtResource("3_vygso"): 60
 }
 no_event_chance = 70
 exitEvent = ExtResource("1_p4sri")

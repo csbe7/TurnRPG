@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dyx4peovibpml"]
+[gd_scene load_steps=7 format=3 uid="uid://dyx4peovibpml"]
 
 [ext_resource type="Script" path="res://UI/Exploration/ExplorationSquare.cs" id="1_t6k7b"]
+[ext_resource type="Texture2D" uid="uid://8p6naegdvlt8" path="res://UI/Combat/Icons/action_icon.png" id="2_rfw64"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_713up"]
 
@@ -29,6 +30,7 @@ border_width_bottom = 3
 border_color = Color(0.306923, 0.306923, 0.306922, 1)
 
 [node name="Exploration Square" type="Control"]
+clip_contents = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 3
 anchors_preset = 15
@@ -39,6 +41,7 @@ offset_bottom = -584.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t6k7b")
+iconFadeInTime = 3.0
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
@@ -53,3 +56,4 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_xp6t8")
 visible = false
 position = Vector2(30, 32)
 scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_rfw64")

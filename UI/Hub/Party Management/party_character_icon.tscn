@@ -1,0 +1,136 @@
+[gd_scene load_steps=15 format=3 uid="uid://d1ggx47cs5wov"]
+
+[ext_resource type="Script" path="res://UI/Hub/Party Management/PartyCharacterIcon.cs" id="1_ee7d4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0d22r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_edk5o"]
+bg_color = Color(0.592157, 0.592157, 0.592157, 0.317647)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ynvvj"]
+bg_color = Color(0.6, 0.6, 0.6, 0.686275)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l86us"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vgeme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ak02w"]
+bg_color = Color(0.27755, 0.961957, 1.15514e-06, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ye7yf"]
+bg_color = Color(0.25629, 0.896944, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g48ua"]
+bg_color = Color(0.211765, 0.760784, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vtage"]
+font_size = 12
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.333333)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_33s5u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c42lo"]
+bg_color = Color(1, 0.246498, 0.175606, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t52qf"]
+bg_color = Color(1, 0.444378, 0.369103, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0nd2x"]
+bg_color = Color(0.961736, 0.0651469, 0, 1)
+
+[node name="Party Character Icon" type="Control" node_paths=PackedStringArray("removeButton", "addButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1017.0
+offset_bottom = -505.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ee7d4")
+removeButton = NodePath("Remove from Party Button")
+addButton = NodePath("Add to Party Button")
+
+[node name="Border" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 136.0
+offset_bottom = 143.0
+
+[node name="Background" type="ColorRect" parent="Border"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 133.0
+offset_bottom = 140.0
+color = Color(0, 0, 0, 1)
+
+[node name="Character Name" type="Label" parent="Border/Background"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 113.0
+offset_right = 128.0
+offset_bottom = 136.0
+text = "NAME"
+horizontal_alignment = 1
+
+[node name="Portrait" type="Sprite2D" parent="Border/Background"]
+position = Vector2(1, 1)
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 133.0
+offset_bottom = 140.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0d22r")
+theme_override_styles/hover = SubResource("StyleBoxFlat_edk5o")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ynvvj")
+theme_override_styles/normal = SubResource("StyleBoxFlat_l86us")
+
+[node name="Add to Party Button" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_top = 146.0
+offset_right = 136.0
+offset_bottom = 173.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vgeme")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ak02w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ye7yf")
+theme_override_styles/normal = SubResource("StyleBoxFlat_g48ua")
+autowrap_mode = 1
+
+[node name="Label" type="Label" parent="Add to Party Button"]
+layout_mode = 0
+offset_right = 136.0
+offset_bottom = 27.0
+text = "ADD TO PARTY"
+label_settings = SubResource("LabelSettings_vtage")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Remove from Party Button" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_top = 146.0
+offset_right = 136.0
+offset_bottom = 173.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_33s5u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_c42lo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_t52qf")
+theme_override_styles/normal = SubResource("StyleBoxFlat_0nd2x")
+text = "
+"
+autowrap_mode = 1
+
+[node name="Label" type="Label" parent="Remove from Party Button"]
+layout_mode = 0
+offset_right = 136.0
+offset_bottom = 27.0
+text = "REMOVE FROM PARTY"
+label_settings = SubResource("LabelSettings_vtage")
+horizontal_alignment = 1
+vertical_alignment = 1

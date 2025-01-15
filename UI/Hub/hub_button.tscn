@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxc7wsnjpddai"]
+
+[ext_resource type="Script" path="res://UI/Hub/HubButton.cs" id="1_led51"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ldx1w"]
+resource_local_to_scene = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jgjc6"]
+resource_local_to_scene = true
+bg_color = Color(0.133196, 0.133196, 0.133196, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.792157, 0.792157, 0.792157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3pei5"]
+resource_local_to_scene = true
+bg_color = Color(0.187176, 0.187176, 0.187176, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.792157, 0.792157, 0.792157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h5s8m"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.791999, 0.791999, 0.791999, 1)
+
+[node name="Hub Button" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -977.0
+offset_bottom = -583.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_led51")
+buttonText = "Party"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 175.0
+offset_bottom = 65.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ldx1w")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jgjc6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3pei5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_h5s8m")
+text = "TEST"

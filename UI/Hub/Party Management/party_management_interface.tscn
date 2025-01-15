@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5p20k6uv6wem"]
+
+[ext_resource type="Script" path="res://UI/Hub/Party Management/PartyManagementInterface.cs" id="1_1ivq2"]
+[ext_resource type="PackedScene" uid="uid://d1ggx47cs5wov" path="res://UI/Hub/Party Management/party_character_icon.tscn" id="1_je2pe"]
+
+[node name="Party Management Interface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 176.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1ivq2")
+PartyIcon = ExtResource("1_je2pe")
+
+[node name="BackGround" type="ColorRect" parent="."]
+layout_mode = 1
+offset_left = 2.0
+offset_right = 974.0
+offset_bottom = 645.0
+color = Color(0, 0, 0, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 177.0
+offset_right = 1149.0
+offset_bottom = 644.0
+horizontal_scroll_mode = 0
+
+[node name="Control" type="Control" parent="ScrollContainer"]
+layout_mode = 2
+
+[node name="Avaible Party" type="GridContainer" parent="ScrollContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 223.0
+offset_top = 169.0
+offset_right = 363.0
+offset_bottom = 169.0
+theme_override_constants/h_separation = 140
+columns = 6

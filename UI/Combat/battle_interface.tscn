@@ -157,3 +157,30 @@ horizontal_alignment = 1
 
 [node name="Turn Order Display" parent="." instance=ExtResource("9_5e20r")]
 layout_mode = 1
+
+[node name="Win Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 456.0
+offset_right = 115.0
+offset_bottom = 514.0
+text = "WIN
+"
+
+[node name="Lose Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 515.0
+offset_right = 115.0
+offset_bottom = 573.0
+text = "LOSE
+"
+
+[node name="Flee Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 574.0
+offset_right = 115.0
+offset_bottom = 632.0
+text = "FLEE
+"

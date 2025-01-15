@@ -33,4 +33,13 @@ public partial class PlayerIconExploration : Control
             SetPhysicsProcess(false);
         }
     }
+
+    public void CancelMove()
+    {
+        GD.Print("Move Cancelled");
+        targetSquare = currSquare;
+        target = startPos;
+        EmitSignal(SignalName.Arrived, currSquare, targetSquare);
+        SetPhysicsProcess(false);
+    }
 }
