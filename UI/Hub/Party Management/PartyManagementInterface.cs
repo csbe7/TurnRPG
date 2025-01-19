@@ -8,6 +8,7 @@ public partial class PartyManagementInterface : Control
     PartyCharacterIcon currSelection;
 
     [Export] PackedScene PartyIcon;
+    [Export] PackedScene inventoryItemButton;
    
     public override void _Ready()
     {
@@ -35,6 +36,25 @@ public partial class PartyManagementInterface : Control
 
         if (Game.state.current_party.Contains(pci.sheet)) pci.ShowRemoveFromParty();
         else pci.ShowAddToParty();
+        LoadCharacterInfo(pci.sheet);
+    }
+
+    void LoadCharacterInfo(Sheet c)
+    {
+        Control ci = GetNode<Control>("%Character Info");
+        ci.Show();
+
+        EquipmentButton armorButton = GetNode<EquipmentButton>("%Armor Button");
+        EquipmentButton weaponButton = GetNode<EquipmentButton>("%Weapon Button");
+        EquipmentButton accessoryButton = GetNode<EquipmentButton>("%Accessory Button");
+
+        armorButton.SetItem(c.equips.armor);
+        weaponButton.SetItem(c.equips.weapon);
+        accessoryButton.SetItem(c.equips.accessory);
+
+        armorButton.ButtonClicked += EquipmentButtonDown;
+        weaponButton.ButtonClicked += EquipmentButtonDown;
+        accessoryButton.ButtonClicked += EquipmentButtonDown;
     }
 
     void RemoveFromParty(PartyCharacterIcon pci)
@@ -46,5 +66,19 @@ public partial class PartyManagementInterface : Control
     {
         Game.state.current_party.Add(pci.sheet);
         pci.ShowRemoveFromParty();
+    }
+
+    void EquipmentButtonDown(EquipmentButton eb)
+    {
+        GridContainer gc = GetNode<GridContainer>("%Inventory Display/GridContainer");
+        foreach(ItemSlot i in Game.state.playerInventory.items)
+        {
+            if (i.item is EquippableItem ei && eb.slot == ei.slot)
+            {
+                ShopItemButton iib = inventoryItemButton.Instantiate<ShopItemButton>();
+                iib.SetItemSlot(i);
+                gc.AddChild(iib);
+            }
+        }
     }
 }

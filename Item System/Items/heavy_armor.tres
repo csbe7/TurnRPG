@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EquippableItem" load_steps=2 format=3 uid="uid://t2ujr4sj708r"]
+
+[ext_resource type="Script" path="res://Item System/EquippableItem.cs" id="1_cmjfo"]
+
+[resource]
+script = ExtResource("1_cmjfo")
+slot = 0
+statModifiers = {}
+name = "Heavy Armor"
+description = ""
+maxStack = 1
+value = 0
+shopProbability = 1.0
+useTarget = 0

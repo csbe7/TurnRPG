@@ -16,6 +16,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Game="*res://General/Game.cs"
 CombatManager="*res://Combat System/CombatManager.cs"
 PlayerInfo="*res://General/PlayerInfo.cs"
 Ai="*res://Combat System/AI.cs"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://csqsbhv6xeucb"]
+
+[ext_resource type="Script" path="res://Item System/Item.cs" id="1_yjcx1"]
+
+[resource]
+script = ExtResource("1_yjcx1")
+name = "Health potion"
+description = "Heals"
+maxStack = 5
+value = 0
+shopProbability = 1.0
+useTarget = 0

@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvj761kpim5kc"]
+
+[ext_resource type="Script" path="res://UI/Hub/Shop/ShopItemButton.cs" id="1_fusf2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cphrc"]
+font_size = 10
+
+[node name="Shop Item Button" type="Control" node_paths=PackedStringArray("b", "l")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fusf2")
+b = NodePath("Button")
+l = NodePath("Button/Label")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 169.0
+offset_bottom = 39.0
+text = "ITEM"
+
+[node name="Label" type="Label" parent="Button"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.893
+anchor_top = 0.641
+anchor_right = 0.893
+anchor_bottom = 0.641
+offset_left = 0.0829926
+offset_top = 0.000999451
+offset_right = 18.083
+offset_bottom = 14.001
+text = "x1"
+label_settings = SubResource("LabelSettings_cphrc")

@@ -10,6 +10,7 @@ public partial class Game : Node
     [ExportCategory("Interfaces")]
     public static PackedScene hubInterface = (PackedScene)ResourceLoader.Load("res://UI/Hub/hub_screen.tscn");
     public static PackedScene partyManagementInterface = (PackedScene)ResourceLoader.Load("res://UI/Hub/Party Management/party_management_interface.tscn");
+    public static PackedScene shopInterface = (PackedScene)ResourceLoader.Load("res://UI/Hub/Shop/shop_interface.tscn");
 
     public static PackedScene explorationInterface = (PackedScene)ResourceLoader.Load("res://UI/Exploration/exploration_screen.tscn");
     public static PackedScene dialogueEventInterface = (PackedScene)ResourceLoader.Load("res://UI/Dialogue/dialogue_event_interface.tscn");
@@ -21,9 +22,11 @@ public partial class Game : Node
     public static int maxPartyMembers = 4;
 
 
-
-
-
+    //Ready
+    public override void _Ready()
+    {
+        state.LoadItems();
+    }
 
     //Dialogue
     public static void DialogueSignalHandler(string command)

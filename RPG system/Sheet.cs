@@ -7,6 +7,7 @@ public partial class Sheet : Resource
 {
     [Export] public string name;
     [Export] public StatBlock statBlock;
+	[Export] public Equips equips = new Equips();
 	[Export] public Godot.Collections.Array<PackedScene> packedSkills = new Godot.Collections.Array<PackedScene>();
     
 	//[Export] static public PackedScene attackSkill;
@@ -28,7 +29,6 @@ public partial class Sheet : Resource
 	{
 		statBlock.CurrHealth = new Stat(statBlock.Health.ModValue, 0, statBlock.Health.ModValue);
 		statBlock.CurrEnergy = new Stat(statBlock.Energy.ModValue, 0, statBlock.Energy.ModValue);
-		
 	}
 
 
@@ -82,8 +82,6 @@ public partial class Sheet : Resource
         statBlock.CurrEnergy.Value += amount;
 		EmitSignal(SignalName.EnergyChanged, amount);
     }
-
-
 
 
     public void AddStatModifier(StatModifier mod, string targetStat)
@@ -178,5 +176,37 @@ public partial class Sheet : Resource
 	
 	}
 
+	public void EquipItem(EquippableItem e)
+	{
+		EquippableItem toSwitch = null;
+		switch (e.slot)
+		{
+			case EquippableItem.Slot.accessory:
+			toSwitch = equips.accessory;
+			equips.accessory = e;
+			break;
+
+			case EquippableItem.Slot.armor:
+			toSwitch = equips.armor;
+			equips.armor = e;
+			break;
+
+			case EquippableItem.Slot.weapon:
+			toSwitch = equips.weapon;
+			equips.weapon = e;
+			break;
+		}
+		if (IsInstanceValid(toSwitch)) Game.state.playerInventory.AddItem(toSwitch);
+		
+		foreach (string stat in toSwitch.statModifiers.Keys)
+		{
+			RemoveStatModifier(e.statModifiers[stat], stat);
+		}
+
+		foreach (string stat in e.statModifiers.Keys)
+		{
+			AddStatModifier(e.statModifiers[stat], stat);
+		}
+	}
 
 }

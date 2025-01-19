@@ -19,7 +19,7 @@ public partial class SkillButton : Button
     {
         label = GetNodeOrNull<Label>("%Label");
 
-        ButtonDown += OnButtonDown;
+        ButtonDown += () => EmitSignal(SignalName.SkillButtonDown, this);;
         MouseEntered += OnMouseEntered;
         MouseExited += OnMouseExited;
 
@@ -58,11 +58,6 @@ public partial class SkillButton : Button
         skill = s;
         if (IsInstanceValid(label)) label.Text = s.name;
 
-    }
-
-    void OnButtonDown()
-    {
-        EmitSignal(SignalName.SkillButtonDown, this);
     }
 
 }

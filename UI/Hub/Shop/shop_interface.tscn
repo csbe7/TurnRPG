@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://d24je1nhgu5m8"]
+
+[ext_resource type="Script" path="res://UI/Hub/Shop/ShopInterface.cs" id="1_1xms7"]
+[ext_resource type="PackedScene" uid="uid://bvj761kpim5kc" path="res://UI/Hub/Shop/shop_item_button.tscn" id="2_tlk1m"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_akblm"]
+font_size = 24
+
+[node name="Shop Interface" type="Control" node_paths=PackedStringArray("playerGrid", "shopGrid")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 180.0
+offset_right = 181.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1xms7")
+shopItemButton = ExtResource("2_tlk1m")
+playerGrid = NodePath("Player Scroll/Player Item Container")
+shopGrid = NodePath("Shop Scroll/Shop Item Container")
+
+[node name="BackGround" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 972.0
+offset_bottom = 645.0
+color = Color(0, 0, 0, 1)
+
+[node name="Player Item Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 191.0
+offset_top = 154.0
+offset_right = 333.0
+offset_bottom = 215.0
+text = "YOUR ITEMS"
+label_settings = SubResource("LabelSettings_akblm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player Scroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 178.0
+offset_top = 210.0
+offset_right = 350.0
+offset_bottom = 498.0
+horizontal_scroll_mode = 0
+
+[node name="Player Item Container" type="GridContainer" parent="Player Scroll"]
+layout_mode = 2
+theme_override_constants/v_separation = 40
+
+[node name="Shop Item Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 622.0
+offset_top = 154.0
+offset_right = 764.0
+offset_bottom = 215.0
+text = "SHOP ITEMS"
+label_settings = SubResource("LabelSettings_akblm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Shop Scroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 614.0
+offset_top = 209.0
+offset_right = 779.0
+offset_bottom = 493.0
+horizontal_scroll_mode = 0
+
+[node name="Shop Item Container" type="GridContainer" parent="Shop Scroll"]
+layout_mode = 2
+theme_override_constants/v_separation = 40
