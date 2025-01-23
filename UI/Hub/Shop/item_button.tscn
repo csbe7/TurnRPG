@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvj761kpim5kc"]
 
-[ext_resource type="Script" path="res://UI/Hub/Shop/ShopItemButton.cs" id="1_fusf2"]
+[ext_resource type="Script" path="res://UI/Hub/Shop/ItemButton.cs" id="1_fusf2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_cphrc"]
 font_size = 10
 
-[node name="Shop Item Button" type="Control" node_paths=PackedStringArray("b", "l")]
+[node name="Item Button" type="Control" node_paths=PackedStringArray("b", "l")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

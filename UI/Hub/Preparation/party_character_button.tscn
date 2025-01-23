@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://biyuuutvoqy13"]
+
+[ext_resource type="Script" path="res://UI/Hub/Preparation/PartyCharacterButton.cs" id="1_c7w13"]
+
+[node name="Party Character Button" type="Control" node_paths=PackedStringArray("b", "l")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -966.0
+offset_bottom = -606.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c7w13")
+b = NodePath("Button")
+l = NodePath("Label")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 186.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 8.0
+offset_right = 145.0
+offset_bottom = 31.0
+text = "TestParty"

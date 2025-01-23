@@ -1,11 +1,15 @@
-[gd_resource type="Resource" script_class="Sheet" load_steps=15 format=3 uid="uid://culxaylya3f7"]
+[gd_resource type="Resource" script_class="Sheet" load_steps=17 format=3 uid="uid://culxaylya3f7"]
 
 [ext_resource type="Script" path="res://RPG system/Sheet.cs" id="1_0w5mm"]
+[ext_resource type="Script" path="res://RPG system/Equips.cs" id="1_jhoqx"]
 [ext_resource type="PackedScene" uid="uid://bfna2hbdvienf" path="res://RPG system/Skills/blast.tscn" id="2_bcpdp"]
 [ext_resource type="Script" path="res://RPG system/Stat.cs" id="2_bxllx"]
 [ext_resource type="PackedScene" uid="uid://clmkqq2npkp2s" path="res://RPG system/Skills/cut.tscn" id="2_ti68d"]
 [ext_resource type="Script" path="res://RPG system/StatBlock.cs" id="3_d4a6a"]
 [ext_resource type="Script" path="res://RPG system/AttackInfo.cs" id="4_jwwo8"]
+
+[sub_resource type="Resource" id="Resource_bcfd3"]
+script = ExtResource("1_jhoqx")
 
 [sub_resource type="Resource" id="Resource_x6qlo"]
 script = ExtResource("2_bxllx")
@@ -63,4 +67,5 @@ baseAttack = SubResource("Resource_n5n80")
 script = ExtResource("1_0w5mm")
 name = "TestParty"
 statBlock = SubResource("Resource_y860v")
+equips = SubResource("Resource_bcfd3")
 packedSkills = [ExtResource("2_bcpdp"), ExtResource("2_ti68d")]

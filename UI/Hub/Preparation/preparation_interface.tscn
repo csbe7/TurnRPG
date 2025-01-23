@@ -1,0 +1,166 @@
+[gd_scene load_steps=5 format=3 uid="uid://cklnp36sk5df4"]
+
+[ext_resource type="PackedScene" uid="uid://d1ggx47cs5wov" path="res://UI/Hub/Party Management/party_character_icon.tscn" id="1_42pp4"]
+[ext_resource type="Script" path="res://UI/Hub/Preparation/PreparationInterface.cs" id="1_fdn5t"]
+[ext_resource type="PackedScene" uid="uid://biyuuutvoqy13" path="res://UI/Hub/Preparation/party_character_button.tscn" id="2_ship6"]
+[ext_resource type="PackedScene" uid="uid://bvj761kpim5kc" path="res://UI/Hub/Shop/item_button.tscn" id="4_kb6w3"]
+
+[node name="Preparation interface" type="Control" node_paths=PackedStringArray("partyContainer", "chosenPartyContainer", "inventoryContainer", "backpackContainer", "partySelect", "itemSelect")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_fdn5t")
+partyContainer = NodePath("Party And Location/Avaible Party Container")
+chosenPartyContainer = NodePath("Party And Location/Chosen Party container")
+inventoryContainer = NodePath("Backpack Interface/Inventory Container/GridContainer")
+backpackContainer = NodePath("Backpack Interface/Backpack Container/GridContainer")
+partyCharacterButton = ExtResource("2_ship6")
+partyCharacterIcon = ExtResource("1_42pp4")
+itemButton = ExtResource("4_kb6w3")
+partySelect = NodePath("Party And Location")
+itemSelect = NodePath("Backpack Interface")
+
+[node name="BackGround" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 180.0
+offset_top = -683.0
+offset_right = 1805.0
+offset_bottom = 833.0
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Party And Location" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Chosen Party container" type="GridContainer" parent="Party And Location"]
+layout_mode = 0
+offset_left = 450.0
+offset_top = 422.0
+offset_right = 967.0
+offset_bottom = 565.0
+theme_override_constants/h_separation = 140
+columns = 4
+
+[node name="Party Character Icon" parent="Party And Location/Chosen Party container" instance=ExtResource("1_42pp4")]
+layout_mode = 2
+
+[node name="Party Character Icon2" parent="Party And Location/Chosen Party container" instance=ExtResource("1_42pp4")]
+layout_mode = 2
+
+[node name="Avaible Party Container" type="GridContainer" parent="Party And Location"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.783
+anchor_top = 0.123
+anchor_right = 0.783
+anchor_bottom = 0.123
+offset_left = 870.68
+offset_top = 75.08
+offset_right = 1054.68
+offset_bottom = 346.08
+theme_override_constants/v_separation = 47
+
+[node name="Party Character Button" parent="Party And Location/Avaible Party Container" instance=ExtResource("2_ship6")]
+layout_mode = 2
+
+[node name="Party Character Button2" parent="Party And Location/Avaible Party Container" instance=ExtResource("2_ship6")]
+layout_mode = 2
+
+[node name="Backpack Button" type="Button" parent="Party And Location"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.553
+anchor_top = 1.0
+anchor_right = 0.553
+anchor_bottom = 1.0
+offset_left = 530.88
+offset_top = 545.0
+offset_right = 712.88
+offset_bottom = 584.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "BACKPACK"
+
+[node name="Backpack Interface" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchor_left = 0.003
+anchor_right = 0.003
+offset_left = -0.456
+offset_top = 6.0
+offset_right = 1145.54
+offset_bottom = 648.0
+
+[node name="Inventory Label" type="Label" parent="Backpack Interface"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.155
+anchor_right = 0.155
+offset_left = 171.835
+offset_top = 141.0
+offset_right = 306.835
+offset_bottom = 172.0
+text = "INVENTORY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Inventory Container" type="ScrollContainer" parent="Backpack Interface"]
+layout_mode = 0
+offset_left = 339.0
+offset_top = 195.0
+offset_right = 509.0
+offset_bottom = 492.0
+
+[node name="GridContainer" type="GridContainer" parent="Backpack Interface/Inventory Container"]
+layout_mode = 2
+theme_override_constants/v_separation = 40
+
+[node name="Item Button" parent="Backpack Interface/Inventory Container/GridContainer" instance=ExtResource("4_kb6w3")]
+layout_mode = 2
+
+[node name="Backpack Label" type="Label" parent="Backpack Interface"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.155
+anchor_right = 0.155
+offset_left = 695.835
+offset_top = 141.0
+offset_right = 830.835
+offset_bottom = 172.0
+text = "BACKPACK 0/10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Backpack Container" type="ScrollContainer" parent="Backpack Interface"]
+layout_mode = 0
+offset_left = 863.0
+offset_top = 195.0
+offset_right = 1033.0
+offset_bottom = 492.0
+
+[node name="GridContainer" type="GridContainer" parent="Backpack Interface/Backpack Container"]
+layout_mode = 2
+theme_override_constants/v_separation = 40
+
+[node name="Item Button" parent="Backpack Interface/Backpack Container/GridContainer" instance=ExtResource("4_kb6w3")]
+layout_mode = 2
+
+[node name="Embark Button" type="Button" parent="Backpack Interface"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 617.0
+offset_top = 510.0
+offset_right = 748.0
+offset_bottom = 547.0
+text = "EMBARK"

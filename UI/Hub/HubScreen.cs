@@ -37,7 +37,10 @@ public partial class HubScreen : Control
     void OnExploreButtonDown()
     {
         if (IsInstanceValid(currInterface)) currInterface.QueueFree();
-        ExplorationManager em = Game.explorationInterface.Instantiate<ExplorationManager>();
-        GetParent().AddChild(em);
+        PreparationInterface pi = Game.preparationInterface.Instantiate<PreparationInterface>();
+        GetParent().AddChild(pi);
+
+        /*ExplorationManager em = Game.explorationInterface.Instantiate<ExplorationManager>();
+        GetParent().AddChild(em);*/
     }
 }

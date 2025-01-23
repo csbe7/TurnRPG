@@ -22,9 +22,10 @@ public partial class ShopInterface : Control
         rng.Randomize();
         while(added < amount)
         {
-            foreach (Item i in Game.state.avaibleItems)
+            foreach (String iname in Game.state.avaible_items.Keys)
             {
-                float r = rng.RandfRange(0, Game.state.avaibleItems.Count);
+                Item i = Game.state.avaible_items[iname];
+                float r = rng.RandfRange(0, Game.state.avaible_items.Count);
                 if (r <= i.shopProbability)
                 {
                    int toAdd = rng.RandiRange(1,i.maxStack);
@@ -45,9 +46,9 @@ public partial class ShopInterface : Control
             child.QueueFree();
         }
 
-        foreach (ItemSlot itemSlot in Game.state.playerInventory.items)
+        foreach (ItemSlot itemSlot in Game.state.player_inventory.items)
         {
-            ShopItemButton sib = shopItemButton.Instantiate<ShopItemButton>();
+            ItemButton sib = shopItemButton.Instantiate<ItemButton>();
             sib.SetItemSlot(itemSlot);
             sib.player = true;
             playerGrid.AddChild(sib);
@@ -55,7 +56,7 @@ public partial class ShopInterface : Control
         }
         foreach (ItemSlot itemSlot in shopItems.items)
         {
-            ShopItemButton sib = shopItemButton.Instantiate<ShopItemButton>();
+            ItemButton sib = shopItemButton.Instantiate<ItemButton>();
             sib.SetItemSlot(itemSlot);
             shopGrid.AddChild(sib);
             sib.ButtonClicked += OnShopButtonClicked;
@@ -63,19 +64,19 @@ public partial class ShopInterface : Control
 
     }
 
-    void OnShopButtonClicked(ShopItemButton sib)
+    void OnShopButtonClicked(ItemButton sib)
     {
         if ((int)Game.state.variables["Gold"] < sib.item.item.value) return;
-        if (Game.state.playerInventory.CanAddItem(sib.item.item, 1))
+        if (Game.state.player_inventory.CanAddItem(sib.item.item, 1))
         {
             shopItems.RemoveItem(sib.item, 1);
-            Game.state.playerInventory.AddItem(sib.item.item, 1);
+            Game.state.player_inventory.AddItem(sib.item.item, 1);
         }
         PopulateGrids();
         Game.state.variables["Gold"] = (int)Game.state.variables["Gold"]- sib.item.item.value;
     }
 
-    void OnPlayerButtonClicked(ShopItemButton sib)
+    void OnPlayerButtonClicked(ItemButton sib)
     {
 
     }

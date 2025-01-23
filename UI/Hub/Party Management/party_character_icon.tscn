@@ -69,10 +69,9 @@ color = Color(0, 0, 0, 1)
 [node name="Character Name" type="Label" parent="Border/Background"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 2.0
 offset_top = 113.0
-offset_right = 128.0
-offset_bottom = 136.0
+offset_right = 130.0
+offset_bottom = 137.0
 text = "NAME"
 horizontal_alignment = 1
 

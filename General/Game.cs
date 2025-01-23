@@ -11,6 +11,7 @@ public partial class Game : Node
     public static PackedScene hubInterface = (PackedScene)ResourceLoader.Load("res://UI/Hub/hub_screen.tscn");
     public static PackedScene partyManagementInterface = (PackedScene)ResourceLoader.Load("res://UI/Hub/Party Management/party_management_interface.tscn");
     public static PackedScene shopInterface = (PackedScene)ResourceLoader.Load("res://UI/Hub/Shop/shop_interface.tscn");
+    public static PackedScene preparationInterface = (PackedScene)ResourceLoader.Load("res://UI/Hub/Preparation/preparation_interface.tscn");
 
     public static PackedScene explorationInterface = (PackedScene)ResourceLoader.Load("res://UI/Exploration/exploration_screen.tscn");
     public static PackedScene dialogueEventInterface = (PackedScene)ResourceLoader.Load("res://UI/Dialogue/dialogue_event_interface.tscn");

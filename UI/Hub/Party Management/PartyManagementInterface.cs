@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Dynamic;
 
 public partial class PartyManagementInterface : Control
 {
@@ -24,6 +25,12 @@ public partial class PartyManagementInterface : Control
             pci.RemoveButtonDown += RemoveFromParty;
             pci.AddButtonDown += AddToParty;
         }
+
+        Button cib = GetNode<Button>("%Inventory Display/Close Inventory Button");
+        cib.ButtonDown += () => {
+            cib.GetParent<Control>().Hide();
+        };
+
     }
 
     void OnCharacterSelected(PartyCharacterIcon pci)
@@ -31,6 +38,10 @@ public partial class PartyManagementInterface : Control
         if (IsInstanceValid(currSelection))
         {
             currSelection.HideButtons();
+            if (currSelection == pci)
+            {
+                GetNode<Control>("%Character Info").Hide();
+            }
         }
         currSelection = pci;
 
@@ -68,17 +79,62 @@ public partial class PartyManagementInterface : Control
         pci.ShowRemoveFromParty();
     }
 
-    void EquipmentButtonDown(EquipmentButton eb)
+
+    void ClearInventory()
     {
-        GridContainer gc = GetNode<GridContainer>("%Inventory Display/GridContainer");
-        foreach(ItemSlot i in Game.state.playerInventory.items)
+        GridContainer gc = GetNode<GridContainer>("%Inventory Container/GridContainer");
+        foreach (var child in gc.GetChildren()) child.QueueFree();
+    }
+
+    async void EquipmentButtonDown(EquipmentButton eb)
+    {
+        ClearInventory();
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        Control id = GetNode<Control>("%Inventory Display");
+        id.Hide();
+        GridContainer gc = GetNode<GridContainer>("%Inventory Container/GridContainer");
+
+        if (IsInstanceValid(eb.item))
+        {
+            ItemButton iib = inventoryItemButton.Instantiate<ItemButton>();
+            iib.b.Text = "Unequip";
+            iib.l.Hide();
+            iib.ButtonClicked += (b) => {
+                if (!Game.state.player_inventory.CanAddItem(eb.item)) return;
+
+                currSelection.sheet.UnequipItem(eb.item.slot);
+                eb.SetItem(null);
+                id.Hide();
+            };
+            gc.AddChild(iib);
+        }
+
+        foreach(ItemSlot i in Game.state.player_inventory.items)
         {
             if (i.item is EquippableItem ei && eb.slot == ei.slot)
             {
-                ShopItemButton iib = inventoryItemButton.Instantiate<ShopItemButton>();
+                ItemButton iib = inventoryItemButton.Instantiate<ItemButton>();
                 iib.SetItemSlot(i);
+
+                iib.ButtonClicked += (b) => {
+                    if (!IsInstanceValid(eb.item) || Game.state.player_inventory.CanAddItem(eb.item))
+                    {
+                        Game.state.player_inventory.RemoveItem(iib.item);
+
+                        currSelection.sheet.EquipItem((EquippableItem)iib.item.item);
+                        
+                        id.Hide();
+
+                        eb.SetItem((EquippableItem)iib.item.item);
+
+                    }
+                    ClearInventory();
+                };
+
                 gc.AddChild(iib);
             }
         }
+
+        if (gc.GetChildCount() != 0) id.Show();  
     }
 }

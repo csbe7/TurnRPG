@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d24je1nhgu5m8"]
 
 [ext_resource type="Script" path="res://UI/Hub/Shop/ShopInterface.cs" id="1_1xms7"]
-[ext_resource type="PackedScene" uid="uid://bvj761kpim5kc" path="res://UI/Hub/Shop/shop_item_button.tscn" id="2_tlk1m"]
+[ext_resource type="PackedScene" uid="uid://bvj761kpim5kc" path="res://UI/Hub/Shop/item_button.tscn" id="2_tlk1m"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_akblm"]
 font_size = 24

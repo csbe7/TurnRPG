@@ -196,17 +196,56 @@ public partial class Sheet : Resource
 			equips.weapon = e;
 			break;
 		}
-		if (IsInstanceValid(toSwitch)) Game.state.playerInventory.AddItem(toSwitch);
+		if (IsInstanceValid(toSwitch)) Game.state.player_inventory.AddItem(toSwitch);
 		
-		foreach (string stat in toSwitch.statModifiers.Keys)
+		if (IsInstanceValid(toSwitch))
 		{
-			RemoveStatModifier(e.statModifiers[stat], stat);
+			foreach (string stat in toSwitch.statModifiers.Keys)
+			{
+				RemoveStatModifier(toSwitch.statModifiers[stat], stat);
+			}
+		}
+		
+		if (IsInstanceValid(e))
+		{
+			foreach (string stat in e.statModifiers.Keys)
+			{
+				AddStatModifier(e.statModifiers[stat], stat);
+			}
+		}
+	}
+
+	public void UnequipItem(EquippableItem.Slot slot)
+	{
+		EquippableItem toUnequip = null;
+		switch (slot)
+		{
+			case EquippableItem.Slot.accessory:
+			toUnequip = equips.accessory;
+			equips.accessory = null;
+			break;
+
+			case EquippableItem.Slot.armor:
+			toUnequip = equips.armor;
+			equips.armor = null;
+			break;
+
+			case EquippableItem.Slot.weapon:
+			toUnequip = equips.weapon;
+			equips.weapon = null;
+			break;
 		}
 
-		foreach (string stat in e.statModifiers.Keys)
+		Game.state.player_inventory.AddItem(toUnequip);
+
+		if (IsInstanceValid(toUnequip))
 		{
-			AddStatModifier(e.statModifiers[stat], stat);
+			foreach (string stat in toUnequip.statModifiers.Keys)
+			{
+				RemoveStatModifier(toUnequip.statModifiers[stat], stat);
+			}
 		}
+
 	}
 
 }

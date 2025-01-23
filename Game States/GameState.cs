@@ -7,8 +7,9 @@ public partial class GameState : Resource
     [Export] public Godot.Collections.Array<Sheet> avaible_party = new Godot.Collections.Array<Sheet>();
     [Export] public Godot.Collections.Array<Sheet> current_party = new Godot.Collections.Array<Sheet>();
 
-    [Export] public Inventory playerInventory = new Inventory(10);
-    [Export] public Godot.Collections.Array<Item> avaibleItems = new Godot.Collections.Array<Item>();
+    [Export] public Inventory player_inventory = new Inventory(0);
+    [Export] public Inventory exploration_inventory = new Inventory(10);
+    [Export] public Godot.Collections.Dictionary<string, Item> avaible_items = new Godot.Collections.Dictionary<string, Item>();
     public void LoadItems()
     {
         var dir = DirAccess.Open("res://Item System/Items");
@@ -23,7 +24,7 @@ public partial class GameState : Resource
         {
             if (dir.CurrentIsDir()) continue;
             Item i = (Item)ResourceLoader.Load("res://Item System/Items/" + filename);
-            avaibleItems.Add(i);
+            avaible_items.Add(i.name, i);
             filename = dir.GetNext();
             GD.Print(filename);
         }
@@ -111,7 +112,7 @@ public partial class GameState : Resource
 
     public bool CheckInventory(Item toCheck, string dictEntry = null)
     {
-        bool contains = playerInventory.HasItem(toCheck); 
+        bool contains = player_inventory.HasItem(toCheck); 
         
         if (dictEntry != null)
         {
@@ -125,7 +126,7 @@ public partial class GameState : Resource
     }
     public bool CheckInventory(string toCheck, string dictEntry = null)
     {
-        bool contains = playerInventory.HasItem(toCheck);
+        bool contains = player_inventory.HasItem(toCheck);
         if (dictEntry != null)
         {
             if (variables.ContainsKey(dictEntry)){

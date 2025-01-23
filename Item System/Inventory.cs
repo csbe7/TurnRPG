@@ -119,6 +119,7 @@ public partial class Inventory : Resource
 
     public bool CanAddItem(Item item, int amount = 1)
     {
+        if (!IsInstanceValid(item)) return false;
         foreach(ItemSlot itemSlot in items)
         {
             if (itemSlot.item == item)
