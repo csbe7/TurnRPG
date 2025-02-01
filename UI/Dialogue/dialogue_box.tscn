@@ -7,21 +7,22 @@
 [ext_resource type="Script" path="res://UI/Dialogue/DialogueTextUI.cs" id="5_7omvy"]
 [ext_resource type="Script" path="res://UI/Dialogue/DialogBoxCsharpInterface.cs" id="5_60lq6"]
 
-[node name="Dialogue Interface" type="Control"]
+[node name="Dialogue Interface" type="Control" node_paths=PackedStringArray("dtUI")]
 custom_minimum_size = Vector2(320, 50)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 269.0
 offset_bottom = 38.0
 script = ExtResource("5_60lq6")
+dtUI = NodePath("Dialogue Box/Choice Container/ScrollContainer/RichTextLabel")
 
 [node name="Dialogue Box" type="Control" parent="." node_paths=PackedStringArray("ez_dialogue", "label", "choice_container")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -122.0
-offset_bottom = -40.0
+offset_right = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fj1x3")
@@ -46,10 +47,10 @@ vertical_scroll_mode = 3
 [node name="RichTextLabel" type="RichTextLabel" parent="Dialogue Box/Choice Container/ScrollContainer"]
 custom_minimum_size = Vector2(320, 50)
 layout_mode = 2
-text = "HELLO "
+text = "HELLO"
 script = ExtResource("5_7omvy")
 minSize = Vector2(320, 25)
-maxYsize = 100.0
+maxYSize = 100.0
 
 [node name="EzDialogue" type="Node" parent="Dialogue Box"]
 script = ExtResource("3_4v15w")

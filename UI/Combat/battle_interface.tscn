@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b1v15kb6yuq5o"]
+[gd_scene load_steps=11 format=3 uid="uid://b1v15kb6yuq5o"]
 
 [ext_resource type="Script" path="res://UI/Combat/BattleInterface.cs" id="1_un732"]
 [ext_resource type="PackedScene" uid="uid://bwnm4qvqoeaie" path="res://UI/Combat/character_icon.tscn" id="2_okrib"]
@@ -10,12 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bcqcwsgrewmco" path="res://UI/Combat/action_drawer.tscn" id="5_pyk47"]
 [ext_resource type="PackedScene" uid="uid://w40wpr50376h" path="res://UI/Combat/selected_skill_display.tscn" id="6_2ir7b"]
 [ext_resource type="PackedScene" uid="uid://bp38s0bodp8ox" path="res://UI/Combat/ai_skill_display.tscn" id="8_6d83l"]
-[ext_resource type="PackedScene" uid="uid://csn0ctynqxjdo" path="res://UI/Combat/turn_order_display.tscn" id="9_5e20r"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_2bjq0"]
-font_size = 32
 
 [node name="Battle Interface" type="Control"]
+z_index = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +26,7 @@ blueTurnContainer = ExtResource("3_06pxr")
 redTurnContainer = ExtResource("4_b8x3a")
 
 [node name="Background" type="ColorRect" parent="."]
+z_as_relative = false
 layout_mode = 0
 offset_left = -2041.0
 offset_top = -714.0
@@ -139,24 +137,6 @@ offset_right = 603.0
 offset_bottom = 336.0
 mouse_filter = 0
 text = "VICTORY"
-
-[node name="Round Counter" type="Label" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 34.0
-offset_top = -22.0
-offset_right = 74.0
-offset_bottom = 23.0
-grow_vertical = 2
-text = "10"
-label_settings = SubResource("LabelSettings_2bjq0")
-horizontal_alignment = 1
-
-[node name="Turn Order Display" parent="." instance=ExtResource("9_5e20r")]
-layout_mode = 1
 
 [node name="Win Button" type="Button" parent="."]
 layout_mode = 0

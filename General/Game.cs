@@ -26,6 +26,7 @@ public partial class Game : Node
     //Ready
     public override void _Ready()
     {
+        state.LoadAvaibleParty();
         state.LoadItems();
     }
 

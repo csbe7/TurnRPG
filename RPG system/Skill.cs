@@ -36,6 +36,7 @@ public partial class Skill : Node
 
     [ExportCategory("Use")]
     [Export] public float cost;
+    [Export] public int cooldown;
     [Export] public Targeting playerTargeting;
     [Export] public Targeting aiTargeting;
     [Export] public TargetState targetState;

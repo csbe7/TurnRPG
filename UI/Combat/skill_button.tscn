@@ -17,6 +17,7 @@ bg_color = Color(1, 0.317647, 0.443137, 0)
 [sub_resource type="LabelSettings" id="LabelSettings_cht6o"]
 
 [node name="Control" type="Control"]
+z_index = 2
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -35,7 +36,6 @@ descDisplay = ExtResource("2_ht8qo")
 
 [node name="Label" type="Label" parent="Skill Button"]
 unique_name_in_owner = true
-z_as_relative = false
 layout_mode = 0
 offset_right = 91.0
 offset_bottom = 35.0

@@ -19,6 +19,7 @@ targetStausEffects = [ExtResource("2_2q5yq")]
 name = "Cut"
 description = "Opens cuts across the target's body, making them bleed for 4 turns, causing 3 physical damage each turn"
 cost = 3.0
+cooldown = 3.0
 playerTargeting = 3
 aiTargeting = 2
 targetEffect = SubResource("Resource_katfg")

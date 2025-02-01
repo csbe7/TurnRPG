@@ -6,7 +6,7 @@
 script = ExtResource("1_yjcx1")
 name = "Health potion"
 description = "Heals"
-maxStack = 5
+maxStack = 1
 value = 0
 shopProbability = 1.0
 useTarget = 0

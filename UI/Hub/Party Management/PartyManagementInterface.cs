@@ -22,8 +22,8 @@ public partial class PartyManagementInterface : Control
             PartyGrid.AddChild(pci);
             pci.ButtonDown += OnCharacterSelected;
             pci.HideButtons();
-            pci.RemoveButtonDown += RemoveFromParty;
-            pci.AddButtonDown += AddToParty;
+            //pci.RemoveButtonDown += RemoveFromParty;
+            //pci.AddButtonDown += AddToParty;
         }
 
         Button cib = GetNode<Button>("%Inventory Display/Close Inventory Button");
@@ -45,8 +45,8 @@ public partial class PartyManagementInterface : Control
         }
         currSelection = pci;
 
-        if (Game.state.current_party.Contains(pci.sheet)) pci.ShowRemoveFromParty();
-        else pci.ShowAddToParty();
+        //if (Game.state.current_party.Contains(pci.sheet)) pci.ShowRemoveFromParty();
+        //else pci.ShowAddToParty();
         LoadCharacterInfo(pci.sheet);
     }
 

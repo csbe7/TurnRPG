@@ -27,6 +27,7 @@ public partial class ActionDrawer : Control
 
     public void LoadSheet(Sheet s)
     {
+        ClearSheet();
         sheet = s;
         foreach(Skill sk in sheet.skills)
         {

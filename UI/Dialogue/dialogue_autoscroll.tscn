@@ -1,0 +1,111 @@
+[gd_scene load_steps=3 format=3 uid="uid://n86esm14ucnw"]
+
+[ext_resource type="Script" path="res://UI/Dialogue/DialogueAutoscrollInterface.cs" id="1_eumgx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yn7gg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.942823, 0.942823, 0.942823, 1)
+
+[node name="Dialogue Autoscroll" type="Control" node_paths=PackedStringArray("scrollContainer", "label", "b")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_eumgx")
+scrollContainer = NodePath("ScrollContainer")
+label = NodePath("ScrollContainer/Control/RichTextLabel")
+b = NodePath("Button")
+scrollSpeed = 30.0
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -949.0
+offset_top = -566.5
+offset_right = 949.0
+offset_bottom = 566.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -403.0
+offset_right = 240.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="Control" type="Control" parent="ScrollContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer/Control"]
+custom_minimum_size = Vector2(470, 50)
+layout_mode = 2
+offset_left = -1.0
+offset_top = 403.0
+offset_right = 469.0
+offset_bottom = 541.0
+text = "gmelkwngkwnglrwknglwkrnglwkrngrl
+werherher
+
+hrhrewhreher
+
+rhrwehrewherherherer
+jerjhetjetjetj
+jtedjj
+jherj
+ejtdjr
+jh
+fddf
+hf
+hdf
+hd
+fh
+d
+tyk
+kiktyjtyjjrtreayherhbrd
+
+hdedfhfd
+fd
+ghdfhhgfd
+hfdhdfh
+dfhdf
+hdfhfdhdfhfdhfdhdfhdfhfdhdfhdfh
+
+fhgdfhdfhdfhdfhdfhdfhfdhfdhdfhdfhdf
+fd
+hdfhdfhdfhdfhdhdfhdfhdfhfhdhdhdfhf"
+fit_content = true
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -30.0
+offset_right = 240.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_yn7gg")
+text = "SKIP"

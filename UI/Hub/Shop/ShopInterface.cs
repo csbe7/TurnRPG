@@ -10,7 +10,7 @@ public partial class ShopInterface : Control
 
     public override void _Ready()
     {
-        RandomizeItems(10);
+        RandomizeItems(15);
         PopulateGrids();
     }
 

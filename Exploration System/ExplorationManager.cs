@@ -186,28 +186,13 @@ public partial class ExplorationManager : Control
 
     void StartEncounter(Encounter encounter)
     {
-        cm.BattleStart(Game.state.current_party, encounter);
-        cm.CombatEnded += OnEncounterResolved;
+        
     }
 
     int lastEncounterState;
     void OnEncounterResolved(int state)
     {
-        cm.CombatEnded -= OnEncounterResolved;
         
-        lastEncounterState = state;
-        switch(state)
-        {
-            case CombatManager.FLEE:
-            break;
-
-            case CombatManager.LOSS: 
-            QueueFree();
-            break;
-
-            case CombatManager.VICTORY: 
-            break;
-        }
     }
 
     void StartDialogueEvent(DialogueEvent dialogueEvent)

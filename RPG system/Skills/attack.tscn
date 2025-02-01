@@ -8,6 +8,7 @@ script = ExtResource("1_mwgcq")
 name = "Attack"
 description = "Deals %DamageRange %DamageType damage on target"
 hidden = true
+cooldown = 2
 playerTargeting = 2
 aiTargeting = 2
 restoreEnegry = 1.0

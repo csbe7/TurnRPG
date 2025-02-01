@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 public partial class BattleInterface : Control
 {
@@ -15,16 +17,46 @@ public partial class BattleInterface : Control
     [Export] Texture2D blueTurnContainer, redTurnContainer;
     TurnOrderDisplay turnOrderDisplay;
 
-    public override void _Ready()
+    [Signal] public delegate void PCSelectedEventHandler(CharacterIcon pc);
+    [Signal] public delegate void TargetSelectedEventHandler(CharacterIcon target);
+
+    CharacterIcon selectedChar, selectedTarget;
+    Skill selectedSkill;
+
+    public partial class ActionLine : RefCounted{
+        public CharacterIcon from;
+        public CharacterIcon to;
+        public Color color;
+        public float progression;   
+
+        public ActionLine(CharacterIcon from, CharacterIcon to, Color color)
+        {
+            this.from = from;
+            this.to = to;
+            this.color = color;
+            progression = 0;
+        } 
+    }
+    Godot.Collections.Array<ActionLine> lines = new Godot.Collections.Array<ActionLine>();
+
+    public enum ActionStage{
+        character_selection,
+        skill_selection,
+        target_selection,
+    }
+
+    ActionStage currStage;
+
+    public async override void _Ready()
     {
         cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
+
         partyGrid = GetNode<GridContainer>("%Party Grid");
         enemyGrid = GetNode<GridContainer>("%Enemy Grid");
-        roundCounter = GetNode<Label>("Round Counter");
-        turnOrderDisplay = GetNode<TurnOrderDisplay>("Turn Order Display");
         
-
+    
         actionDrawer = GetNode<ActionDrawer>("%Action Drawer");
+        actionDrawer.SkillSelected += OnSkillSelected;
         actionDrawer.Hide();
 
         selectedSkillDisplay = GetNode<SelectedSkillDisplay>("%Selected Skill Display");
@@ -32,15 +64,70 @@ public partial class BattleInterface : Control
         aiSkillDisplay = GetNode<AiSkillDisplay>("%AI Skill Display");
         aiSkillDisplay.Hide();
 
-        cm.TurnEnded += OnTurnEnded;
+        PCSelected += OnCharacterSelected;
+        TargetSelected += OnTargetSelected;
 
-        //cm.BattleStart();
+        foreach (Node child in partyGrid.GetChildren() + enemyGrid.GetChildren()) child.QueueFree();
 
+        foreach (Sheet s in Game.state.current_party) 
+        {
+            AddCharacterIcon(s, false);
+            AddCharacterIcon(s, false);   
+        }
+
+        //DEBUG LOAD ENEMIES
+        var dir = DirAccess.Open("res://Sheets/Enemies");
+        if (dir == null) 
+        {
+            GD.Print("dir not found");
+            return;
+        }
+        dir.ListDirBegin();
+        string filename = dir.GetNext();
+        while (filename != "")
+        {
+            if (dir.CurrentIsDir()) continue;
+            Sheet s = (Sheet)ResourceLoader.Load("res://Sheets/Enemies/" + filename);
+            AddCharacterIcon(s, true);
+            AddCharacterIcon(s, true);
+            AddCharacterIcon(s, true);
+            AddCharacterIcon(s, true);
+            filename = dir.GetNext();
+        }
+
+        currStage = ActionStage.character_selection;
+        
+        await Task.Delay(10);
+        cm.LoadBattle(this);
+    }
+
+    void SetStageCharacterSelection()
+    {
+        currStage = ActionStage.character_selection;
+        actionDrawer.Hide();
+        selectedSkillDisplay.Hide();
+        DisableOccupied();
+        //SetSelectable(Skill.TargetState.alive, Skill.Targeting.ally);
+    }
+
+    void SetStageSkillSelection()
+    {
+        currStage = ActionStage.skill_selection;
+        actionDrawer.Show();
+        selectedSkillDisplay.Hide();
+    }
+    
+    void SetStageTargetSelection()
+    {
+        currStage = ActionStage.target_selection;
+        actionDrawer.Hide();
+        selectedSkillDisplay.Show();
     }
 
     public override void _PhysicsProcess(double delta)
     {
         PositionUI();
+        //QueueRedraw();
     }
 
     void PositionUI()
@@ -60,56 +147,160 @@ public partial class BattleInterface : Control
     }
 
 
-    public void LoadTurnOrder(Godot.Collections.Array<int> turnOrder, bool red)
+    //DRAW ACTION LINES
+    public void AddActionLine(CharacterIcon from, CharacterIcon to, Color color)
     {
-        foreach(var child in turnOrderDisplay.grid.GetChildren())
+        lines.Add(new ActionLine(from, to, color));
+        QueueRedraw();
+    }
+    public override void _Draw()
+    {
+        foreach (ActionLine line in lines)
         {
-            child.QueueFree();
-        }
-
-        foreach(int t in turnOrder)
-        {
-            Control td = turnDisplay.Instantiate<Control>();
-            Sprite2D s = td.GetNode<Sprite2D>("Sprite2D");
-            if (red) s.Texture = redTurnContainer;
-            else s.Texture = blueTurnContainer;
-
-            Label l = td.GetNode<Label>("%Turns");
-            l.Text = t.ToString(); 
-            l = td.GetNode<Label>("%Turns Left");
-            l.Text = t.ToString();
-            l.Hide();
-            red = !red;
-            turnOrderDisplay.grid.AddChild(td);
+            if (!line.from.isEnemy)
+            {
+                DrawLine(line.from.topFromAttachment.GlobalPosition, line.to.bottomToAttachment.GlobalPosition, line.color, 5, true);
+            }
+            else
+            {
+                DrawLine(line.from.bottomFromAttachment.GlobalPosition, line.to.topToAttachment.GlobalPosition, line.color, 5, true);
+            }
         }
     }
 
-    Label turnsLeftLabel;
-    void OnTurnEnded()
-    {
-        if (IsInstanceValid(turnsLeftLabel)) turnsLeftLabel.Hide();
-        if (IsInstanceValid(turnOrderDisplay)) turnOrderDisplay.PositionDisplay(cm.turnIndex);
-        Control td = (Control)turnOrderDisplay.grid.GetChild(cm.turnIndex);
-        turnsLeftLabel = td.GetNode<Label>("%Turns Left");
-        turnsLeftLabel.Text = cm.turnsLeft.ToString();
-        turnsLeftLabel.Show();
-    }
 
-    public CharacterIcon AddCharacterIcon(Sheet s, bool enemy)
+    public CharacterIcon AddCharacterIcon(Sheet s, bool isEnemy)
     {
         CharacterIcon ci = characterIcon.Instantiate<CharacterIcon>();
         ci.sheet = s;
-        if (enemy) enemyGrid.AddChild(ci);
-        else partyGrid.AddChild(ci);
-
+        ci.isEnemy = isEnemy;
+        if (isEnemy)
+        {
+            enemyGrid.AddChild(ci);
+            ci.Selected += (c) => {
+                if (currStage == ActionStage.target_selection) EmitSignal(SignalName.TargetSelected, c);
+            };
+        } 
+        else
+        {
+            partyGrid.AddChild(ci);
+            ci.Selected += (c) => {
+                if (selectedChar != c)
+                {
+                    if (currStage == ActionStage.character_selection || currStage == ActionStage.skill_selection) EmitSignal(SignalName.PCSelected, c);
+                    else if (currStage == ActionStage.target_selection) EmitSignal(SignalName.TargetSelected, c);
+                }
+            };
+        } 
         return ci;
     }
 
-    public void Delete()
+    public void OnCharacterSelected(CharacterIcon ci)
     {
-        cm.TurnEnded -= OnTurnEnded;
-        
-        QueueFree();
+        if (IsInstanceValid(selectedChar)) selectedChar.Deselect();
+        selectedChar = ci;
+        ci.Select();
+        actionDrawer.LoadSheet(ci.sheet);
+        SetStageSkillSelection();
+    }
+
+    public void OnCharacterDeselected(CharacterIcon ci)
+    {
+        selectedChar = null;
+        SetStageCharacterSelection();
+    }
+
+    public void OnSkillSelected(Skill s)
+    {
+        selectedSkill = s;
+        selectedSkillDisplay.SetText(s.name);
+        if (s.playerTargeting == Skill.Targeting.self)
+        {
+            cm.useSkill(selectedChar, selectedChar, selectedSkill);
+            SetStageCharacterSelection();
+            selectedChar.Deselect();
+            selectedChar = null;
+            return;
+        }
+        SetSelectable(s);
+        SetStageTargetSelection();
+    }
+
+    public void OnTargetSelected(CharacterIcon ci)
+    {
+        selectedTarget = ci;
+        cm.useSkill(selectedChar, selectedTarget, selectedSkill);
+        selectedChar.Deselect();
+        selectedChar = null;
+        SetStageCharacterSelection();
+    }
+
+    public void SetSelectable(Skill s)
+    {
+        Skill.Targeting targeting;
+        if (s.user.isEnemy) targeting = s.aiTargeting;
+        else targeting = s.playerTargeting;
+
+        foreach (Node child in partyGrid.GetChildren() + enemyGrid.GetChildren())
+        {
+            if (child is CharacterIcon icon)
+            {
+                if (targeting == Skill.Targeting.any)
+                {
+                    if (s.targetState == Skill.TargetState.any) icon.select.Disabled = false;
+                    else if (s.targetState == Skill.TargetState.alive && !icon.sheet.statBlock.Dead) icon.select.Disabled = false;
+                    else if (s.targetState == Skill.TargetState.dead && icon.sheet.statBlock.Dead) icon.select.Disabled = false;
+                    else icon.select.Disabled = true;
+                }
+                else if (targeting == Skill.Targeting.enemy && s.user.isEnemy != icon.isEnemy)
+                {
+                    if (s.targetState == Skill.TargetState.any) icon.select.Disabled = false;
+                    else if (s.targetState == Skill.TargetState.alive && !icon.sheet.statBlock.Dead) icon.select.Disabled = false;
+                    else if (s.targetState == Skill.TargetState.dead && icon.sheet.statBlock.Dead) icon.select.Disabled = false;
+                    else icon.select.Disabled = true;
+                }
+                else if (targeting == Skill.Targeting.ally && s.user.isEnemy == icon.isEnemy)
+                {
+                    if (s.targetState == Skill.TargetState.any) icon.select.Disabled = false;
+                    else if (s.targetState == Skill.TargetState.alive && !icon.sheet.statBlock.Dead) icon.select.Disabled = false;
+                    else if (s.targetState == Skill.TargetState.dead && icon.sheet.statBlock.Dead) icon.select.Disabled = false;
+                    else icon.select.Disabled = true;
+                }
+                else icon.select.Disabled = true;                
+            }
+        }
+    }
+
+    public void SetSelectable(Skill.TargetState targetState, Skill.Targeting targeting)
+    {
+        foreach(Node child in partyGrid.GetChildren() + enemyGrid.GetChildren())
+        {
+            if (child is CharacterIcon icon)
+            {
+                if ((!icon.isEnemy && (targeting == Skill.Targeting.ally || targeting == Skill.Targeting.any)) 
+                ||   (icon.isEnemy && (targeting == Skill.Targeting.enemy || targeting == Skill.Targeting.any)))
+                {
+                    if ((icon.sheet.statBlock.Dead == (targetState == Skill.TargetState.dead)) || targetState == Skill.TargetState.any)
+                    {
+                        icon.select.Disabled = false;
+                    }
+                    else icon.select.Disabled = true;
+                }
+                else icon.select.Disabled = true;
+            }
+        }
+    }
+
+    public void DisableOccupied()
+    {
+        foreach (Node child in partyGrid.GetChildren() + enemyGrid.GetChildren())
+        {
+            if (child is CharacterIcon icon)
+            {
+                if (cm.player_party.ContainsKey(icon) && !icon.select.Disabled) icon.select.Disabled = (cm.player_party[icon] > 0);
+                else if (cm.enemy_party.ContainsKey(icon)&& !icon.select.Disabled) icon.select.Disabled = (cm.enemy_party[icon] > 0);
+            }
+        }
     }
 
 }

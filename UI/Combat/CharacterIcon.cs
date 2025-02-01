@@ -9,9 +9,11 @@ public partial class CharacterIcon : Control
     [Export] PackedScene hpChangedDisplay;
     [Export] PackedScene statusEffectDisplay;
 
+    [Export] public Control topToAttachment, topFromAttachment, bottomToAttachment, bottomFromAttachment;
+
     AnimationPlayer ap;
 
-    public bool ai = false;
+    public bool isEnemy = false;
 
     Label characterName;
     CounterBar healthBar, energyBar;
@@ -161,7 +163,7 @@ public partial class CharacterIcon : Control
             var display = hpChangedDisplay.Instantiate<HealthChangeDisplay>();
             AddChild(display);
             display.Position = hpDisplayPos.Position;
-            display.Start(change, ai);
+            display.Start(change, isEnemy);
             await Task.Delay(500);
         }
 
@@ -171,12 +173,12 @@ public partial class CharacterIcon : Control
 
     public void Select()
     {
-        if (!ai) ap.Play("Up");
+        if (!isEnemy) ap.Play("Up");
         else ap.Play("Down");
     }
     public void Deselect()
     {
-        if (!ai) ap.PlayBackwards("Up");
+        if (!isEnemy) ap.PlayBackwards("Up");
         else ap.PlayBackwards("Down");
     }
 

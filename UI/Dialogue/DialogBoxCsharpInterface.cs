@@ -4,7 +4,10 @@ using System;
 public partial class DialogBoxCsharpInterface : Control
 {
     GodotObject dialogueBox;
-    [Export] Json test;
+
+    [Export] DialogueTextUI dtUI;
+    [Export] Vector2 boxSize = Vector2.Zero;
+    //[Export] Json test;
 
     [Signal] public delegate void DialogueEndedEventHandler();
 
@@ -12,7 +15,12 @@ public partial class DialogBoxCsharpInterface : Control
     public override void _Ready()
     {
         dialogueBox = (GodotObject)GetNode("Dialogue Box");
-        SetDialogueJSON(test);
+        if (boxSize != Vector2.Zero)
+        {
+            dtUI.CustomMinimumSize = boxSize;
+            dtUI.maxYSize = boxSize.Y;
+        }
+        //SetDialogueJSON(test);
     }
 
     public void SetDialogueJSON(Json dialogueJSON)

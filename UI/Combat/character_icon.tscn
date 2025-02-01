@@ -1,16 +1,21 @@
-[gd_scene load_steps=19 format=3 uid="uid://bwnm4qvqoeaie"]
+[gd_scene load_steps=21 format=3 uid="uid://bwnm4qvqoeaie"]
 
 [ext_resource type="Script" path="res://UI/Combat/CharacterIcon.cs" id="1_cdu8g"]
 [ext_resource type="Script" path="res://RPG system/Sheet.cs" id="2_pi50f"]
+[ext_resource type="Script" path="res://RPG system/Equips.cs" id="2_t2uoo"]
 [ext_resource type="PackedScene" uid="uid://bsp5io55uurw7" path="res://UI/Combat/health_change_display.tscn" id="3_dasyr"]
 [ext_resource type="Script" path="res://UI/Combat/CounterBar.cs" id="3_mg6ff"]
 [ext_resource type="PackedScene" uid="uid://bm22mw8anktq8" path="res://UI/Combat/status_effect_display.tscn" id="5_tdvni"]
 [ext_resource type="Texture2D" uid="uid://8p6naegdvlt8" path="res://UI/Combat/Icons/action_icon.png" id="6_1j4hk"]
 
+[sub_resource type="Resource" id="Resource_rahjj"]
+script = ExtResource("2_t2uoo")
+
 [sub_resource type="Resource" id="Resource_infym"]
 resource_local_to_scene = true
 script = ExtResource("2_pi50f")
 name = ""
+equips = SubResource("Resource_rahjj")
 packedSkills = []
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yoydv"]
@@ -117,7 +122,7 @@ _data = {
 "Up": SubResource("Animation_7nmo4")
 }
 
-[node name="Character Icon" type="Control"]
+[node name="Character Icon" type="Control" node_paths=PackedStringArray("topToAttachment", "topFromAttachment", "bottomToAttachment", "bottomFromAttachment")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -130,6 +135,10 @@ script = ExtResource("1_cdu8g")
 sheet = SubResource("Resource_infym")
 hpChangedDisplay = ExtResource("3_dasyr")
 statusEffectDisplay = ExtResource("5_tdvni")
+topToAttachment = NodePath("Border/Top To Line")
+topFromAttachment = NodePath("Border/Top From Line")
+bottomToAttachment = NodePath("Border/Bottom To Line")
+bottomFromAttachment = NodePath("Border/Bottom From Line")
 
 [node name="Border" type="ColorRect" parent="."]
 layout_mode = 0
@@ -235,9 +244,46 @@ color = Color(1, 1, 1, 0)
 
 [node name="Action Icon" type="Sprite2D" parent="Border"]
 unique_name_in_owner = true
+visible = false
 position = Vector2(129, 13)
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("6_1j4hk")
+
+[node name="Top From Line" type="Control" parent="Border"]
+layout_mode = 1
+anchor_left = -0.014
+anchor_right = -0.014
+offset_left = 57.988
+offset_top = -1.0
+offset_right = 64.988
+offset_bottom = 3.0
+
+[node name="Top To Line" type="Control" parent="Border"]
+layout_mode = 1
+anchor_left = -0.014
+anchor_right = -0.014
+offset_left = 81.988
+offset_top = -1.0
+offset_right = 88.988
+offset_bottom = 3.0
+
+[node name="Bottom To Line" type="Control" parent="Border"]
+layout_mode = 1
+anchor_left = -0.014
+anchor_right = -0.014
+offset_left = 57.988
+offset_top = 185.0
+offset_right = 64.988
+offset_bottom = 189.0
+
+[node name="Bottom From Line" type="Control" parent="Border"]
+layout_mode = 1
+anchor_left = -0.014
+anchor_right = -0.014
+offset_left = 81.988
+offset_top = 185.0
+offset_right = 88.988
+offset_bottom = 189.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

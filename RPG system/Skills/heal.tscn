@@ -8,6 +8,7 @@ script = ExtResource("1_j3ywe")
 healAmount = 10.0
 name = "Heal"
 cost = 3.0
+cooldown = 4.0
 playerTargeting = 3
 aiTargeting = 1
 targetEffect = ExtResource("2_qjo0f")

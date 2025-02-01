@@ -10,5 +10,6 @@ defendEffect = ExtResource("2_ak66p")
 name = "Defend"
 description = "Gives +50 defense on all damage"
 hidden = true
+cooldown = 3.0
 restoreEnegry = 1.0
 userEffect = ExtResource("2_sksri")

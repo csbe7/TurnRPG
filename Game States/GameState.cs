@@ -10,6 +10,26 @@ public partial class GameState : Resource
     [Export] public Inventory player_inventory = new Inventory(0);
     [Export] public Inventory exploration_inventory = new Inventory(10);
     [Export] public Godot.Collections.Dictionary<string, Item> avaible_items = new Godot.Collections.Dictionary<string, Item>();
+
+    public void LoadAvaibleParty()
+    {
+        var dir = DirAccess.Open("res://Sheets/Party");
+        if (dir == null) 
+        {
+            GD.Print("dir not found");
+            return;
+        }
+        dir.ListDirBegin();
+        string filename = dir.GetNext();
+        while (filename != "")
+        {
+            if (dir.CurrentIsDir()) continue;
+            Sheet s = (Sheet)ResourceLoader.Load("res://Sheets/Party/" + filename);
+            avaible_party.Add(s);
+            current_party.Add(s); //DEBUG
+            filename = dir.GetNext();
+        }
+    }    
     public void LoadItems()
     {
         var dir = DirAccess.Open("res://Item System/Items");
@@ -26,7 +46,6 @@ public partial class GameState : Resource
             Item i = (Item)ResourceLoader.Load("res://Item System/Items/" + filename);
             avaible_items.Add(i.name, i);
             filename = dir.GetNext();
-            GD.Print(filename);
         }
     }
 

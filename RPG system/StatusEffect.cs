@@ -24,7 +24,6 @@ public partial class StatusEffect : Node
         else
         {
             CombatManager cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
-            cm.RoundEnded += Countdown;
         }
     }
 
