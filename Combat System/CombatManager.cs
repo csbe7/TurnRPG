@@ -78,6 +78,7 @@ public partial class CombatManager : Node
             await Task.Delay(turnCountdownDelay);
             CountDownTurn();
         }
+        bi.DisableOccupied();
     }
 
     public void useSkill(CharacterIcon user, CharacterIcon target, Skill skill)
@@ -95,5 +96,6 @@ public partial class CombatManager : Node
         else return;
         user.select.Disabled = true;
         CountDownTurn();
+        if (!user.isEnemy) AI.AITurn();
     }
 }
