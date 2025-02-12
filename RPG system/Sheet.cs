@@ -29,6 +29,7 @@ public partial class Sheet : Resource
 	{
 		statBlock.CurrHealth = new Stat(statBlock.Health.ModValue, 0, statBlock.Health.ModValue);
 		statBlock.CurrEnergy = new Stat(statBlock.Energy.ModValue, 0, statBlock.Energy.ModValue);
+
 	}
 
 
@@ -47,7 +48,6 @@ public partial class Sheet : Resource
 		damage = Mathf.Clamp(damage, 0, statBlock.CurrHealth.ModValue);
 
         statBlock.CurrHealth.Value -= Mathf.Round(damage);
-		//GD.Print(this.name + " damaged by " + attack.attacker.name);
 
 		EmitSignal(SignalName.HealthChanged, -damage);
     }
@@ -109,7 +109,9 @@ public partial class Sheet : Resource
 
 	public void RemoveStatusEffect(StatusEffect statusEffect)
 	{
-		foreach(Node child in statusEffects.GetChildren())
+		statusEffect.EffectEnded -= RemoveStatusEffect;
+		statusEffect.Free();
+		/*foreach(Node child in statusEffects.GetChildren())
 		{
 			if (child == statusEffect)
 			{
@@ -117,7 +119,7 @@ public partial class Sheet : Resource
 				statusEffect.EffectEnded -= RemoveStatusEffect;
 				return;
 			}
-		}
+		}*/
 	}
 
 

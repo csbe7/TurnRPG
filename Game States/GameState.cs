@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 [GlobalClass]
 public partial class GameState : Resource
@@ -19,6 +20,7 @@ public partial class GameState : Resource
             GD.Print("dir not found");
             return;
         }
+        avaible_party.Clear();
         dir.ListDirBegin();
         string filename = dir.GetNext();
         while (filename != "")
@@ -26,7 +28,7 @@ public partial class GameState : Resource
             if (dir.CurrentIsDir()) continue;
             Sheet s = (Sheet)ResourceLoader.Load("res://Sheets/Party/" + filename);
             avaible_party.Add(s);
-            current_party.Add(s); //DEBUG
+            //current_party.Add(s); //DEBUG
             filename = dir.GetNext();
         }
     }    

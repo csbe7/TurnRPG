@@ -15,7 +15,7 @@ public partial class CharacterIcon : Control
 
     public bool isEnemy = false;
 
-    Label characterName;
+    Label characterName, cooldown;
     CounterBar healthBar, energyBar;
 
     Sprite2D actionIcon;
@@ -90,6 +90,7 @@ public partial class CharacterIcon : Control
         sheet.Ready();
         
         characterName = GetNode<Label>("%Character Name");
+        cooldown = GetNode<Label>("%Cooldown Label");
         healthBar = GetNode<CounterBar>("%Health Bar");
         energyBar = GetNode<CounterBar>("%Energy Bar");
         effectDisplay = GetNode<ColorRect>("%Effect");
@@ -101,6 +102,7 @@ public partial class CharacterIcon : Control
         
         select = GetNode<Button>("%Button");
 
+        SetCooldown(0);
         characterName.Text = sheet.name;
         healthBar.MaxValue = sheet.statBlock.Health.ModValue;
         energyBar.MaxValue = sheet.statBlock.Energy.ModValue;
@@ -141,7 +143,6 @@ public partial class CharacterIcon : Control
         healthBar.SetValue(sheet.statBlock.CurrHealth.ModValue);
         hpchange.Add(newVal - oldVal);
 
-        GD.Print("Health Changed");
         if (!displayingHealthChange) DisplayHealthChange();
         
         if (sheet.statBlock.Dead) actionIcon.Hide();
@@ -159,7 +160,6 @@ public partial class CharacterIcon : Control
         displayingHealthChange = true;
         foreach(float change in hpchange)
         {
-            GD.Print(hpchange.Count);
             var display = hpChangedDisplay.Instantiate<HealthChangeDisplay>();
             AddChild(display);
             display.Position = hpDisplayPos.Position;
@@ -192,9 +192,15 @@ public partial class CharacterIcon : Control
     void OnStatusEffectAdded(StatusEffect effect)
     {  
         if (effect.hidden) return;
-        GD.Print("Effect Added");
         StatusEffectDisplay seDisplay = statusEffectDisplay.Instantiate<StatusEffectDisplay>();
         effectDisplayGrid.AddChild(seDisplay);
         seDisplay.SetEffect(effect);
+    }
+
+    public void SetCooldown(int time)
+    {
+        cooldown.Text = time.ToString();
+        if (time <= 0) cooldown.Hide();
+        else cooldown.Show();
     }
 }

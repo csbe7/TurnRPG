@@ -11,6 +11,7 @@ public partial class AI : Node
     public override void _Ready()
     {
         cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
+        cm.AITurnStarted += AITurn;
     }
 
     public async static void AITurn()
@@ -23,6 +24,7 @@ public partial class AI : Node
         
         Godot.Collections.Array<CharacterIcon> keys = new Godot.Collections.Array<CharacterIcon>(cm.enemy_party.Keys);
 
+       
         //SELECT CHARACTER
         CharacterIcon character;
         do{
@@ -45,7 +47,7 @@ public partial class AI : Node
             await Task.Delay(1000);
             cm.bi.aiSkillDisplay.FadeOut();
             character.Deselect();
-            cm.useSkill(character, character, selectedSkill);
+            cm.UseSkill(character, character, selectedSkill);
             return;
         }
 
@@ -62,11 +64,11 @@ public partial class AI : Node
         cm.bi.aiSkillDisplay.Show();
         cm.bi.aiSkillDisplay.SetText(selectedSkill.name);
         cm.bi.aiSkillDisplay.FadeIn();
-        await Task.Delay(1000);
+        await Task.Delay(2000);
         cm.bi.aiSkillDisplay.FadeOut();
         character.Deselect();
-        cm.useSkill(character, character, selectedSkill);
-        cm.useSkill(character, target, selectedSkill);
+        cm.UseSkill(character, target, selectedSkill);
 
     }
+
 }

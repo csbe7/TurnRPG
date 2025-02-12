@@ -60,7 +60,7 @@ public partial class Skill : Node
 
     public virtual void UseSkill()
     {
-        GD.Print(user.sheet.name + " USED " + name + " ON " + target.sheet.name);
+        //GD.Print(user.sheet.name + " USED " + name + " ON " + target.sheet.name);
         user.sheet.ChangeEnergy(-cost);
         if (IsInstanceValid(userEffect)) user.PlayEffect(userEffect);
         if (IsInstanceValid(targetEffect)) target.PlayEffect(targetEffect);

@@ -100,6 +100,7 @@ offset_left = -0.456
 offset_top = 6.0
 offset_right = 1145.54
 offset_bottom = 648.0
+mouse_filter = 2
 
 [node name="Inventory Label" type="Label" parent="Backpack Interface"]
 layout_mode = 1

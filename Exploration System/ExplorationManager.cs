@@ -118,7 +118,8 @@ public partial class ExplorationManager : Control
         Vector2 squarePos = grid[pos.X][pos.Y].Position;
         Vector2 squareSize = grid[pos.X][pos.Y].Size;
         pi.Position = new Vector2(squarePos.X + squareSize.X/2, squarePos.Y + squareSize.Y/2);
-        pi.currSquare = (Vector2I)pos;
+        //pi.currSquare = (Vector2I)pos;
+        pi.SetCurrentPosition((Vector2I)pos);
 
         grid[pos.X][pos.Y].SetIcon(enterDoorTexture); 
         grid[pos.X][pos.Y].SetIconVisibility(false);
@@ -153,6 +154,8 @@ public partial class ExplorationManager : Control
 
     async void OnSquareClicked(ExplorationSquare square)
     {
+        if (pi.IsMoving()) return;
+
         Vector2I displacement = pi.currSquare - square.gridPos;
         if (displacement == new Vector2I(1, 0) || displacement == new Vector2I(0, 1) || displacement == new Vector2I(0, -1) || displacement == new Vector2I(-1, 0))
         {
@@ -169,30 +172,50 @@ public partial class ExplorationManager : Control
                     if (square.squareEvent is Encounter encounter) StartEncounter(encounter);
                     else if (square.squareEvent is DialogueEvent dialogueEvent) StartDialogueEvent(dialogueEvent);
                     else if (square.squareEvent.name == "Exit") ExitReached();
+
                     await ToSignal(square.squareEvent, Event.SignalName.EventResolved);
                 }
             }
             else square.FadeOutIcon();
+
+            if (!square.explored && square.squareEvent is Encounter && lastEncounterState == 0) return; //if flee, don't move
+
+            Vector2 squarePos = square.Position;
+            Vector2 squareSize = square.Size;
+            pi.Move(new Vector2(squarePos.X + squareSize.X/2, squarePos.Y + squareSize.Y/2), square.gridPos);
         }
         
-        if (!square.explored && square.squareEvent is Encounter && lastEncounterState == 0) return; //if flee, don't move
-
-        Vector2 squarePos = square.Position;
-        Vector2 squareSize = square.Size;
-        pi.Move(new Vector2(squarePos.X + squareSize.X/2, squarePos.Y + squareSize.Y/2), square.gridPos);
     }
     
 
 
     void StartEncounter(Encounter encounter)
     {
-        
+        cm.StartBattle(GetParent(), encounter);
+        cm.BattleEnded += OnEncounterResolved;
     }
 
     int lastEncounterState;
     void OnEncounterResolved(int state)
-    {
-        
+    {  
+        cm.BattleEnded -= OnEncounterResolved;
+        lastEncounterState = state;
+        switch(state)
+        {
+            case CombatManager.FLEE:
+            pi.CancelMove();
+            break;
+
+            case CombatManager.LOSS:
+            QueueFree();
+            Game.ResetHub();
+            break;
+
+            case CombatManager.WIN:
+
+            break;
+        }
+        cm.encounter.Resolve();
     }
 
     void StartDialogueEvent(DialogueEvent dialogueEvent)
@@ -231,5 +254,6 @@ public partial class ExplorationManager : Control
     public void ExitReached()
     {
         QueueFree();
+        Game.ResetHub();
     }
 }

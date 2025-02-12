@@ -10,8 +10,11 @@ public partial class PlayerIconExploration : Control
 
     [Signal] public delegate void ArrivedEventHandler(Vector2I startSquare, Vector2I endSquare);
 
+    bool isMoving;
+
     public override void _Ready()
     {
+        targetSquare = currSquare;
         SetPhysicsProcess(false);
     }
 
@@ -20,6 +23,7 @@ public partial class PlayerIconExploration : Control
         target = t;
         targetSquare = tsquare;
         startPos = this.Position;
+        isMoving = true;
         SetPhysicsProcess(true);
     }
 
@@ -30,6 +34,7 @@ public partial class PlayerIconExploration : Control
         {
             Position = target;
             EmitSignal(SignalName.Arrived, currSquare, targetSquare);
+            isMoving = false;
             SetPhysicsProcess(false);
         }
     }
@@ -41,5 +46,16 @@ public partial class PlayerIconExploration : Control
         target = startPos;
         EmitSignal(SignalName.Arrived, currSquare, targetSquare);
         SetPhysicsProcess(false);
+    }
+
+    public bool IsMoving()
+    {
+        return isMoving;
+    }
+
+    public void SetCurrentPosition(Vector2I pos)
+    {
+        currSquare = pos;
+        targetSquare = pos;
     }
 }

@@ -29,10 +29,11 @@ public partial class PreparationInterface : Control
 
         foreach(Node child in partyContainer.GetChildren() + chosenPartyContainer.GetChildren()) child.QueueFree();
 
-
+        GD.Print(Game.state.avaible_party.Count);
         foreach (Sheet character in Game.state.avaible_party)
         {
             DeselectCharacter(character);
+            GD.Print("inserted");
         }        
     }
 

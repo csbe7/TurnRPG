@@ -14,7 +14,6 @@ public partial class DotEffect : StatusEffect
 
     public override void ApplyEffect()
     {
-        GD.Print("Apply Effect");
         receiver.HandleAttack(dot);
     }
 }

@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Linq;
 
+
 public partial class Game : Node
 {
     public static GameState state = (GameState)ResourceLoader.Load("res://Game States/GameState.tres");
@@ -17,7 +18,7 @@ public partial class Game : Node
     public static PackedScene dialogueEventInterface = (PackedScene)ResourceLoader.Load("res://UI/Dialogue/dialogue_event_interface.tscn");
     public static PackedScene battleInterface = (PackedScene)ResourceLoader.Load("res://UI/Combat/battle_interface.tscn");
 
-
+    public static HubScreen hub;
 
     [ExportCategory("Settings")] 
     public static int maxPartyMembers = 4;
@@ -28,6 +29,11 @@ public partial class Game : Node
     {
         state.LoadAvaibleParty();
         state.LoadItems();
+    }
+
+    public static void ResetHub()
+    {
+        if (IsInstanceValid(hub) && IsInstanceValid(hub.currInterface)) hub.currInterface.QueueFree();
     }
 
     //Dialogue

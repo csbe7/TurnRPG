@@ -13,18 +13,17 @@ public partial class StatusEffect : Node
 
     [Export] public int duration; //0 = infinite
 
-    private int durationLeft;
+    public int durationLeft;
 
     [Signal] public delegate void EffectEndedEventHandler(StatusEffect self);
+    [Signal] public delegate void DurationChangedEventHandler(StatusEffect self);
 
     public override void _Ready()
     {
         durationLeft = duration;
-        if (!countRounds) receiver.TurnEnded += Countdown;
-        else
-        {
-            CombatManager cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
-        }
+    
+        CombatManager cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
+        cm.TurnEnded += Countdown;
     }
 
     public virtual void Countdown()
@@ -32,7 +31,7 @@ public partial class StatusEffect : Node
         GD.Print("Countdown");
         ApplyEffect();
         durationLeft--;
-        
+        EmitSignal(SignalName.DurationChanged, this);
 
         if (durationLeft <= 0 && duration != 0) EndEffect();
     }
@@ -49,6 +48,12 @@ public partial class StatusEffect : Node
 
         EmitSignal(SignalName.EffectEnded, this);
         //QueueFree();
+    }
+
+    new public void Free()
+    {
+        CombatManager cm = GetTree().Root.GetNode<CombatManager>("CombatManager");
+        cm.TurnEnded -= Countdown;
     }
 
 

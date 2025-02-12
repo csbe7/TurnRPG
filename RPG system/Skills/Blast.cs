@@ -10,7 +10,7 @@ public partial class Blast : Skill
     {
         base.UseSkill();
         user.sheet.Attack(attack, target.sheet, true);
-        GD.Print(GetDescription());
+        //GD.Print(GetDescription());
     }
 
     public override string GetDescription()

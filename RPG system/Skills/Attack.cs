@@ -9,7 +9,7 @@ public partial class Attack : Skill
         base.UseSkill();
         AttackInfo attack = user.sheet.statBlock.baseAttack;
         user.sheet.Attack(attack, target.sheet, true);
-        GD.Print(GetDescription());
+        //GD.Print(GetDescription());
     }
 
     public override string GetDescription()

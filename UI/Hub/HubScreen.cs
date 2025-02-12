@@ -3,10 +3,11 @@ using System;
 
 public partial class HubScreen : Control
 {
-    Control currInterface;
+    public Control currInterface;
     
     public override void _Ready()
     {
+        Game.hub = this;
         HubButton hb = GetNode<HubButton>("%Shop Button");
         hb.b.ButtonDown += OnShopButtonDown;
 
@@ -39,6 +40,7 @@ public partial class HubScreen : Control
         if (IsInstanceValid(currInterface)) currInterface.QueueFree();
         PreparationInterface pi = Game.preparationInterface.Instantiate<PreparationInterface>();
         GetParent().AddChild(pi);
+        currInterface = pi;
 
         /*ExplorationManager em = Game.explorationInterface.Instantiate<ExplorationManager>();
         GetParent().AddChild(em);*/

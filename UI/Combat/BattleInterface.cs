@@ -11,6 +11,7 @@ public partial class BattleInterface : Control
     public SelectedSkillDisplay selectedSkillDisplay;
     public AiSkillDisplay aiSkillDisplay;
     public Label roundCounter;
+    public Control battleEndScreen;
 
     [Export] PackedScene characterIcon;
     [Export] PackedScene turnDisplay;
@@ -43,6 +44,7 @@ public partial class BattleInterface : Control
         character_selection,
         skill_selection,
         target_selection,
+        waiting,
     }
 
     ActionStage currStage;
@@ -64,19 +66,24 @@ public partial class BattleInterface : Control
         aiSkillDisplay = GetNode<AiSkillDisplay>("%AI Skill Display");
         aiSkillDisplay.Hide();
 
+        battleEndScreen = GetNode<Control>("Battle End Screen");
+        battleEndScreen.Hide();
+
         PCSelected += OnCharacterSelected;
         TargetSelected += OnTargetSelected;
 
         foreach (Node child in partyGrid.GetChildren() + enemyGrid.GetChildren()) child.QueueFree();
 
-        foreach (Sheet s in Game.state.current_party) 
+        SetStageWaiting();
+
+        /*foreach (Sheet s in Game.state.current_party) 
         {
             AddCharacterIcon(s, false);
             AddCharacterIcon(s, false);   
-        }
+        }*/
 
         //DEBUG LOAD ENEMIES
-        var dir = DirAccess.Open("res://Sheets/Enemies");
+        /*var dir = DirAccess.Open("res://Sheets/Enemies");
         if (dir == null) 
         {
             GD.Print("dir not found");
@@ -97,8 +104,8 @@ public partial class BattleInterface : Control
 
         currStage = ActionStage.character_selection;
         
+        cm.LoadBattle(this);*/
         await Task.Delay(10);
-        cm.LoadBattle(this);
     }
 
     void SetStageCharacterSelection()
@@ -107,6 +114,7 @@ public partial class BattleInterface : Control
         actionDrawer.Hide();
         selectedSkillDisplay.Hide();
         DisableOccupied();
+        //GD.Print(currStage);
         //SetSelectable(Skill.TargetState.alive, Skill.Targeting.ally);
     }
 
@@ -115,6 +123,7 @@ public partial class BattleInterface : Control
         currStage = ActionStage.skill_selection;
         actionDrawer.Show();
         selectedSkillDisplay.Hide();
+        //GD.Print(currStage);
     }
     
     void SetStageTargetSelection()
@@ -122,6 +131,17 @@ public partial class BattleInterface : Control
         currStage = ActionStage.target_selection;
         actionDrawer.Hide();
         selectedSkillDisplay.Show();
+        //GD.Print(currStage);
+    }
+
+    async void SetStageWaiting()
+    {
+        currStage = ActionStage.waiting;
+        actionDrawer.Hide();
+        selectedSkillDisplay.Hide();
+        //GD.Print(currStage);
+        await ToSignal(cm, CombatManager.SignalName.PlayerTurnStarted);
+        SetStageCharacterSelection();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -216,7 +236,7 @@ public partial class BattleInterface : Control
         selectedSkillDisplay.SetText(s.name);
         if (s.playerTargeting == Skill.Targeting.self)
         {
-            cm.useSkill(selectedChar, selectedChar, selectedSkill);
+            cm.UseSkill(selectedChar, selectedChar, selectedSkill);
             SetStageCharacterSelection();
             selectedChar.Deselect();
             selectedChar = null;
@@ -229,11 +249,12 @@ public partial class BattleInterface : Control
     public void OnTargetSelected(CharacterIcon ci)
     {
         selectedTarget = ci;
-        cm.useSkill(selectedChar, selectedTarget, selectedSkill);
+        cm.UseSkill(selectedChar, selectedTarget, selectedSkill);
         selectedChar.Deselect();
         selectedChar = null;
-        SetStageCharacterSelection();
+        SetStageWaiting();
     }
+
 
     public void SetSelectable(Skill s)
     {
